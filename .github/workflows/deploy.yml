@@ -1,0 +1,58 @@
+name: Build & Deploy to GitHub Pages
+
+on:
+    push:
+        branches:
+            - main
+            - master
+    workflow_dispatch:
+
+# 设置 GITHUB_TOKEN 权限以允许推送到 page 分支
+permissions:
+    contents: write
+
+jobs:
+    build-and-deploy:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Setup pnpm
+              uses: pnpm/action-setup@v4
+              with:
+                  run_install: false
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 22
+                  cache: "pnpm"
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
+
+            - name: Type check
+              run: pnpm exec tsc -b
+
+            - name: Build
+              run: pnpm exec vite build
+
+            - name: Copy CDN configuration files
+              run: |
+                  # 复制 Netlify 配置到 dist
+                  cp public/_headers dist/_headers
+                  # 复制 Apache 配置到 dist
+                  cp public/.htaccess dist/.htaccess
+
+            - name: Deploy to page branch
+              uses: peaceiris/actions-gh-pages@v4
+              with:
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  publish_dir: ./dist
+                  publish_branch: page
+                  # 强制推送以保持 page 分支干净
+                  force_orphan: true
+                  # 提交信息
+                  commit_message: "deploy: ${{ github.sha }}"

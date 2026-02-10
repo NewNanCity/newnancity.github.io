@@ -1,0 +1,185 @@
+/* ═══ Gallery – Full-bleed Background ═══ */
+.gallery-section {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+  min-height: calc(100vh - var(--navbar-height));
+}
+
+/* Background layer — full bleed slides */
+.gallery-bg {
+  position: absolute; inset: 0; z-index: -1;
+}
+.gallery-bg-slide {
+  position: absolute; inset: 0;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+.gallery-bg-slide--active { opacity: 1; }
+.gallery-bg-slide img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+.gallery-bg-placeholder {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, #1e1812 0%, #151110 100%);
+}
+
+/* Dark overlay so text is readable */
+.gallery-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(21,17,16,0.45) 0%,
+    rgba(21,17,16,0.2) 40%,
+    rgba(21,17,16,0.2) 60%,
+    rgba(21,17,16,0.7) 100%
+  );
+  z-index: 1;
+}
+
+/* Header box at top */
+.gallery-header-box {
+  position: relative; z-index: 2;
+  text-align: center;
+  padding: 0 24px 10px 24px;
+  max-width: 600px;
+  background: rgba(30, 24, 18, 0.6);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border-radius: 2px;
+  border: 1px solid rgba(255, 200, 130, 0.15);
+}
+.gallery-header-box .section-header {
+  margin: 0;
+}
+.gallery-header-box .section-title {
+  text-shadow: 0 2px 20px rgba(0,0,0,0.6);
+}
+.gallery-header-box .section-desc {
+  text-shadow: 0 1px 12px rgba(0,0,0,0.5);
+}
+
+/* Info box at bottom - full width */
+.gallery-info-box {
+  position: relative; z-index: 2;
+  text-align: center;
+  width: 100%;
+  padding: 0;
+  background: rgba(30, 24, 18, 0.65);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border-top: 1px solid rgba(255, 200, 130, 0.15);
+  border-bottom: 1px solid rgba(255, 200, 130, 0.15);
+}
+
+/* Progress bar container */
+.gallery-progress-container {
+  width: 100%;
+  height: 2px;
+  background: rgba(255, 200, 130, 0.1);
+  overflow: hidden;
+}
+
+.gallery-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-primary), rgba(246, 166, 35, 0.6));
+  box-shadow: 0 0 8px rgba(246, 166, 35, 0.4);
+  animation: gallery-progress-fill 5s linear forwards;
+}
+
+@keyframes gallery-progress-fill {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+/* Gallery info content */
+.gallery-info {
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 0;
+}
+
+/* Navigation buttons */
+.gallery-btn {
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  transition: all 0.3s var(--transition-base);
+  opacity: 0;
+  visibility: hidden;
+}
+
+.gallery-btn--visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.gallery-btn:hover {
+  transform: scale(1.3);
+  text-shadow: 0 0 12px rgba(246, 166, 35, 0.6);
+}
+
+.gallery-btn:active {
+  transform: scale(0.95);
+}
+
+.gallery-caption {
+  font-size: 1.15rem;
+  color: var(--color-text-bright);
+  text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+  font-weight: 600;
+}
+.gallery-year {
+  font-size: 1.2rem;
+  color: var(--color-primary);
+  text-shadow: 0 0 8px rgba(246,166,35,0.4);
+}
+
+/* Dot indicators */
+.gallery-dots {
+  display: flex;
+  justify-content: center; gap: 8px;
+  margin-bottom: 10px;
+}
+.gallery-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: rgba(240,230,216,0.3);
+  transition: all 0.3s;
+}
+.gallery-dot--active {
+  background: var(--color-primary);
+  box-shadow: 0 0 8px rgba(246,166,35,0.5);
+  transform: scale(1.3);
+}
+
+.gallery-note {
+  color: rgba(240,230,216,0.6);
+  font-size: 0.85rem; font-style: italic;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.4);
+  padding: 0 24px 16px;
+}
+
+@media (max-width: 768px) {
+  .gallery-section { min-height: 60vh; }
+  .gallery-header-box {
+    padding: 32px 20px;
+    max-width: 100%;
+    margin-bottom: 32px;
+  }
+  .gallery-info {
+    padding: 16px 20px;
+  }
+  .gallery-caption { font-size: 1rem; }
+  .gallery-note {
+    padding: 0 20px 12px;
+  }
+}

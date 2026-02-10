@@ -1,0 +1,75 @@
+.join-section {
+  background: linear-gradient(180deg, var(--color-bg-deep) 0%, var(--color-bg) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Vertical step list */
+.join-steps {
+  max-width: 600px; margin: 0 auto 48px;
+}
+.join-step {
+  display: flex; align-items: center; gap: 20px;
+  position: relative;
+}
+.join-step-num {
+  flex-shrink: 0;
+  width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem;
+  background: rgba(246,166,35,0.08);
+  border: 2px solid; border-color: #3a3020 #1a1510 #1a1510 #3a3020;
+  border-radius: 4px;
+  transition: all var(--transition-base);
+}
+.join-step:hover .join-step-num {
+  background: rgba(246,166,35,0.15);
+  box-shadow: 0 0 20px var(--color-primary-glow);
+}
+.join-step-body { flex: 1; padding-bottom: 8px; }
+.join-step h3 {
+  font-size: 1rem; font-weight: 700;
+  color: var(--color-text-bright); margin-bottom: 4px;
+}
+.join-step-desc-row {
+  display: flex; align-items: center; gap: 12px;
+  flex-wrap: wrap;
+}
+.join-step-desc-row p {
+  color: var(--color-text-dim); font-size: 0.88rem; line-height: 1.6;
+  margin: 0; flex: 1;
+}
+.join-step-link {
+  display: inline-block;
+  font-size: 0.82rem; color: var(--color-secondary);
+  text-decoration: none; transition: color var(--transition-base);
+}
+.join-step-link:hover { color: var(--color-primary); }
+
+.join-step-line {
+  width: 2px; height: 20px;
+  background: var(--color-border);
+  margin: 6px 0 6px 21px;
+}
+
+/* Security notice */
+.join-notice {
+  display: flex; align-items: center; gap: 12px;
+  max-width: 600px; margin: 0 auto 40px;
+  background: rgba(246,166,35,0.05);
+  border: 1px solid rgba(246,166,35,0.15);
+  border-radius: 8px; padding: 16px 20px;
+}
+.join-notice-icon { font-size: 1.4rem; flex-shrink: 0; }
+.join-notice p { color: var(--color-text-dim); font-size: 0.85rem; margin: 0; }
+
+/* CTA */
+.join-cta {
+  display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .join-steps { max-width: 100%; }
+}

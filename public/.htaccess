@@ -1,0 +1,88 @@
+<IfModule mod_rewrite.c>
+  # 启用 rewrite 引擎
+  RewriteEngine On
+  RewriteBase /
+
+  # 移除 .gz 扩展名但保持 gzip 编码
+  <IfModule mod_headers.c>
+    # JS 文件
+    <FilesMatch "\.js\.gz$">
+      Header set Content-Encoding gzip
+      Header set Content-Type "application/javascript"
+      Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+
+    # CSS 文件
+    <FilesMatch "\.css\.gz$">
+      Header set Content-Encoding gzip
+      Header set Content-Type "text/css"
+      Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+
+    # 数据文件（site-data.json）- 短期缓存，内容频繁更新
+    <FilesMatch "^site-data\.json(\.gz)?$">
+      Header set Cache-Control "public, max-age=3600, must-revalidate"
+    </FilesMatch>
+
+    # 其他 JSON 文件 - 长期缓存
+    <FilesMatch "\.json\.gz$">
+      Header set Content-Encoding gzip
+      Header set Content-Type "application/json"
+      Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+
+    # 所有 assets 中的文件 - 长期缓存
+    <FilesMatch "^assets/.*\.(js|css|webp|svg|png|jpeg|jpg|gif|woff2|otf|ttf)$">
+      Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+
+    # favicon - 长期缓存
+    <FilesMatch "^favicon\.ico$">
+      Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+
+    # HTML - 短期缓存
+    <FilesMatch "\.html?$">
+      Header set Cache-Control "public, max-age=3600, must-revalidate"
+      Header set X-Content-Type-Options "nosniff"
+      Header set X-Frame-Options "SAMEORIGIN"
+    </FilesMatch>
+  </IfModule>
+
+  # gzip 压缩传输
+  <IfModule mod_deflate.c>
+    # 启用 mod_deflate 压缩（备用，.gz 文件优先）
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE text/javascript
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+    AddOutputFilterByType DEFLATE application/json
+  </IfModule>
+
+  # 基于路径提供 gzip 文件
+  <IfModule mod_rewrite.c>
+    # 如果客户端支持 gzip，优先提供 .gz 文件
+    RewriteCond %{HTTP:Accept-Encoding} gzip
+    RewriteCond %{REQUEST_FILENAME}\.gz -s
+    RewriteRule ^(.*)$ $1\.gz [QSA]
+  </IfModule>
+
+  # SPA 路由支持
+  <IfModule mod_rewrite.c>
+    # 如果请求的文件不存在
+    RewriteCond %{REQUEST_FILENAME} !-f
+    # 如果请求的目录不存在
+    RewriteCond %{REQUEST_FILENAME} !-d
+    # 如果不是 assets 或其他静态文件
+    RewriteCond %{REQUEST_URI} !^/assets
+    RewriteCond %{REQUEST_URI} !^/.*\.(js|css|gz)$
+    # 重定向到 index.html
+    RewriteRule ^ /index.html [QSA,L]
+  </IfModule>
+</IfModule>

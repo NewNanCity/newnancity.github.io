@@ -1,0 +1,86 @@
+# Nginx CDN 缓存配置示例
+
+server {
+    listen 80;
+    # listen [::]:80;
+    server_name example.com;  # 替换为你的域名
+    root /data/dist;
+    index index.html index.htm;
+
+    # Gzip 压缩传输（备用，.gz 文件优先）
+    gzip on;
+    gzip_vary on;
+    gzip_min_length 1024;
+    gzip_types text/plain text/css text/xml text/javascript
+               application/x-javascript application/xml application/json;
+
+    # 动态数据文件 - 短期缓存（1小时），内容会频繁更新
+    location ~ ^/site-data\.json(\.gz)?$ {
+        expires 1h;
+        add_header Cache-Control "public, max-age=3600, must-revalidate";
+        add_header Vary "Accept-Encoding";
+    }
+
+    # 带 hash 的资源文件 - 长期缓存（1年）
+    location /assets/ {
+        expires 1y;
+        add_header Cache-Control "public, max-age=31536000, immutable";
+        add_header Vary "Accept-Encoding";
+
+        # 如果客户端支持 gzip，优先提供 .gz 文件
+        if ($http_accept_encoding ~ gzip) {
+            rewrite ^(.*)$ $1.gz break;
+        }
+    }
+
+    # Favicon 长期缓存
+    location = /favicon.ico {
+        expires 1y;
+        add_header Cache-Control "public, max-age=31536000, immutable";
+    }
+
+    # .gz 文件特殊处理
+    location ~ \.gz$ {
+        add_header Content-Encoding gzip;
+        add_header Vary "Accept-Encoding";
+        add_header Cache-Control "public, max-age=31536000, immutable";
+
+        # 根据文件扩展名设置正确的 Content-Type
+        if ($request_uri ~ \.js\.gz$) {
+            add_header Content-Type "application/javascript";
+        }
+        if ($request_uri ~ \.css\.gz$) {
+            add_header Content-Type "text/css";
+        }
+        if ($request_uri ~ \.json\.gz$) {
+            add_header Content-Type "application/json";
+        }
+    }
+
+    # HTML 文件 - 短期缓存（1小时）+ 必须重新验证
+    location = /index.html {
+        expires 1h;
+        add_header Cache-Control "public, max-age=3600, must-revalidate";
+        add_header X-Content-Type-Options "nosniff";
+        add_header X-Frame-Options "SAMEORIGIN";
+    }
+
+    # SPA 路由支持 - 所有非文件请求重定向到 index.html
+    location / {
+        try_files $uri $uri/ /index.html;
+        # 针对 HTML 文件的缓存策略
+        if ($request_filename ~ \.html$) {
+            add_header Cache-Control "public, max-age=3600, must-revalidate";
+            add_header X-Content-Type-Options "nosniff";
+        }
+    }
+
+    # 禁止访问隐藏文件
+    location ~ /\. {
+        deny all;
+    }
+
+    # 性能优化 - 日志配置
+    access_log /var/log/nginx/access.log;
+    error_log /var/log/nginx/error.log;
+}

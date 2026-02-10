@@ -1,0 +1,56 @@
+/* ─── Confetti explosion ─── */
+.egg-confetti {
+  position: fixed; inset: 0; z-index: 99999;
+  pointer-events: none; overflow: hidden;
+}
+.egg-confetti-piece {
+  position: absolute; top: -10px;
+  border-radius: 2px;
+  animation: confettiFall linear forwards;
+}
+@keyframes confettiFall {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+.egg-confetti-text {
+  position: absolute; top: 35%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.8rem; color: var(--color-primary);
+  text-shadow: 0 0 20px var(--color-primary-glow);
+  animation: eggTextPop 0.5s var(--ease-out-expo) both;
+  pointer-events: none;
+  white-space: nowrap;
+}
+@keyframes eggTextPop {
+  0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+/* ─── Idle chat bubble ─── */
+.egg-bubble {
+  position: fixed; bottom: 24px; right: 24px;
+  z-index: 9990; cursor: pointer;
+  animation: bubbleSlideIn 0.5s var(--ease-out-expo) both;
+}
+@keyframes bubbleSlideIn {
+  from { transform: translateY(20px) scale(0.9); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+.egg-bubble-inner {
+  background: var(--color-surface);
+  border: 2px solid; border-color: #3a3020 #1a1510 #1a1510 #3a3020;
+  border-radius: 4px;
+  padding: 14px 20px;
+  color: var(--color-text);
+  font-size: 0.85rem;
+  max-width: 280px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  position: relative;
+}
+.egg-bubble-inner::after {
+  content: '';
+  position: absolute; bottom: -8px; right: 20px;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid var(--color-surface);
+}

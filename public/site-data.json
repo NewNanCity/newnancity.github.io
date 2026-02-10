@@ -1,0 +1,171 @@
+{
+  "nav": {
+    "brand": "牛腩小镇",
+    "links": [
+      { "label": "牛腩百科", "icon": "📖", "url": "https://wiki.newnan.city" },
+      { "label": "皮肤站",   "icon": "🎨", "url": "https://skin.newnan.city" },
+      { "label": "实时地图", "icon": "🗺️", "url": "https://map.newnan.city" },
+      { "label": "牛腩时报", "icon": "📺", "url": "https://space.bilibili.com/1704080503" },
+      { "label": "牛腩法典", "icon": "📜", "url": "https://www.wolai.com/newnan/777czodMK18Zv6hdy2b8jm" },
+      { "label": "牛腩史书", "icon": "📚", "url": "https://docs.qq.com/doc/DUGFObHVabWFNSFNM" },
+      { "label": "GitHub",   "icon": "🛠️", "url": "https://github.com/NewNanCity" },
+      { "label": "赞助我们", "icon": "❤️", "url": "https://www.wolai.com/newnan/jjrRipUsK76KDaAe4uRwBS" }
+    ]
+  },
+  "hero": {
+    "badge": "公益 · 自由 · 友善 · 有序",
+    "titleWelcome": "欢迎来到",
+    "titleName": "牛腩小镇",
+    "subtitle": "自 2020 年起，与数千名玩家共同书写的 Minecraft 公益服务器传奇",
+    "stats": [
+      { "id": "years", "unit": "年", "description": "稳定运营" },
+      { "value": 2882, "unit": "名", "description": "注册玩家" },
+      { "id": "days", "unit": "天", "description": "持续建设" }
+    ],
+    "slides": []
+  },
+
+  "showcase": {
+    "intro": "牛腩小镇是一个始于 2020 年的 Minecraft 公益服务器。六年来从未更换存档，积累了完整的城镇体系、交通网络与社区文化。",
+    "badges": [
+      { "icon": "🌱", "label": "公益" },
+      { "icon": "🕊️", "label": "自由" },
+      { "icon": "💛", "label": "友善" },
+      { "icon": "⚖️", "label": "有序" }
+    ],
+    "cards": [
+      { "icon": "🎮", "title": "自由的玩法", "desc": "生存、建筑、红石、经营，玩你所想" },
+      { "icon": "🗳️", "title": "民主的决策", "desc": "热心玩家、匿名投诉、大群大伙的畅所欲言" },
+      { "icon": "📜", "title": "恰当的法规", "desc": "牛腩法典，秩序与自由的平衡" },
+      { "icon": "🧩", "title": "有趣的插件", "desc": "CS老博腐竹+NS/冰火/佐助技术大拿自研团队" },
+      { "icon": "💖", "title": "友善的氛围", "desc": "老玩家帮助新玩家，温暖如家" },
+      { "icon": "🛡️", "title": "敬业的管理", "desc": "准入审核与行业SOTA集群运维，安全稳定" },
+      { "icon": "⛏️", "title": "原版生存", "desc": "纯净生存体验，从一无所有到万家灯火" },
+      { "icon": "🎨", "title": "自由创造", "desc": "创造区、小木斧、创造模式应有尽有" },
+      { "icon": "🏘️", "title": "城镇经营", "desc": "建立城镇、发展经济、构建你的理想城" },
+      { "icon": "🗺️", "title": "世界探索", "desc": "广袤世界，多元地形等你发现" }
+    ]
+  },
+
+  "tv": {
+    "channels": {
+      "2020": [
+        { "type": "event", "title": "牛腩开服", "date": "02-02", "desc": "牛腩小镇正式开服，首批玩家从南糖世界迁移而来，开启新纪元" },
+        { "type": "event", "title": "首批城镇建立", "date": "02", "desc": "出生点大厅落成，第一批城镇在服务器中建立" },
+        { "type": "event", "title": "法典初版", "date": "03", "desc": "《牛腩法典》第一版颁布，奠定社区秩序基石" },
+        { "type": "event", "title": "双轨货币诞生", "date": "04", "desc": "游戏币与现实赞助构成的双轨经济系统建立" },
+        { "type": "event", "title": "城镇系统建立", "date": "05", "desc": "Towny城镇系统正式启用，城镇经营玩法成型" },
+        { "type": "person", "title": "Sttot", "desc": "牛腩元老之一，浙大计算机博士(当时还是本科)，全栈技术担当" },
+        { "type": "place", "title": "出生点大厅", "desc": "服务器的第一个公共建筑，所有新玩家的起点" },
+        { "type": "meme", "title": "为什么叫牛腩", "desc": "初代玩家来自南糖世界的南都(NanCity)，NewNanCity就此命名，因谐音梗后干脆就叫牛腩" },
+        { "type": "meme", "title": "来自南糖的遗产", "desc": "南糖世界是牛腩的前身，一个美好的起点，创造世界有其完整复刻" }
+      ],
+      "2021": [
+        { "type": "event", "title": "地铁系统开通", "date": "03", "desc": "第一条地铁线路通车，城际交通网络开始编织" },
+        { "type": "event", "title": "城镇系统完善", "date": "06", "desc": "税收、地块、国籍等机制逐步完善" },
+        { "type": "event", "title": "民主决策确立", "date": "09", "desc": "公投机制和议会制度正式建立，社区共治开始" },
+        { "type": "person", "title": "建筑师们", "desc": "一批才华横溢的建筑师加入，城镇面貌焕然一新" },
+        { "type": "person", "title": "地铁工程师", "desc": "规划并建设了纵横交错的轨道交通网络" },
+        { "type": "place", "title": "第一条地铁", "desc": "连接主城与外围城镇的生命线" },
+        { "type": "meme", "title": "地铁到底通到哪", "desc": "地铁线路越修越长，目的地越来越远" }
+      ],
+      "2022": [
+        { "type": "event", "title": "首届知识竞赛", "date": "01", "desc": "第一届牛腩知识竞赛举办，考验玩家对服务器的了解" },
+        { "type": "event", "title": "轨道网络扩展", "date": "06", "desc": "地铁和铁路线路大规模扩建" },
+        { "type": "event", "title": "史书编纂开始", "date": "10", "desc": "牛腩史书项目启动，记录社区的每一个重要瞬间" },
+        { "type": "person", "title": "法典制定者", "desc": "为社区撰写和修订法律法规的幕后英雄" },
+        { "type": "place", "title": "知识竞赛场馆", "desc": "专门为竞赛搭建的红石场地" },
+        { "type": "meme", "title": "史书第一页", "desc": "有人说第一页写的是：从前有座山..." }
+      ],
+      "2023": [
+        { "type": "event", "title": "基础设施升级", "date": "02", "desc": "服务器硬件迁移升级，TPS持续满分" },
+        { "type": "event", "title": "自研插件成熟", "date": "06", "desc": "自研插件生态日趋完善，独特玩法不断涌现" },
+        { "type": "event", "title": "法典重大修订", "date": "08", "desc": "法典迎来大规模修订，适应社区发展新阶段" },
+        { "type": "meme", "title": "腐竹亲自出马", "desc": "服务器出问题？不用怕，腐竹直接改源码" },
+        { "type": "meme", "title": "六年一张图", "desc": "牛腩从未更换存档，每一块地都有历史" }
+      ],
+      "2024": [
+        { "type": "event", "title": "认证体系革新", "date": "07", "desc": "新一代入服认证和皮肤站系统全面上线" },
+        { "type": "event", "title": "GitHub 开源", "date": "07", "desc": "部分项目在 GitHub 上开源，拥抱开源社区" },
+        { "type": "event", "title": "管理系统上线", "date": "07", "desc": "全新后台管理系统部署，运维效率大幅提升" },
+        { "type": "person", "title": "开源贡献者", "desc": "来自社区的开发者开始参与技术建设" }
+      ],
+      "2025": [
+        { "type": "event", "title": "五周年庆典", "date": "02-02", "desc": "2600+ 玩家共同庆祝牛腩五周岁生日" },
+        { "type": "event", "title": "经济生态成熟", "date": "06", "desc": "双轨货币制度运行稳定，市场经济繁荣" },
+        { "type": "event", "title": "跨年烟花大会", "date": "12-31", "desc": "盛大的跨年烟花表演，点亮牛腩的夜空" },
+        { "type": "place", "title": "烟花广场", "desc": "跨年夜最热闹的地方" },
+        { "type": "meme", "title": "五年了还在挖", "desc": "有些玩家的矿道，挖了五年还没尽头" }
+      ],
+      "2026": [
+        { "type": "event", "title": "六周年 · 全新官网", "date": "02", "desc": "牛腩六周年，全新官网上线，焕然一新" },
+        { "type": "event", "title": "新时代开启", "date": "02", "desc": "站在六年的积淀上，继续书写新的篇章" },
+        { "type": "meme", "title": "有你，才叫牛腩", "desc": "新官网的slogan，也是我们的心声" }
+      ]
+    }
+  },
+
+  "gallery.note": "注意：每张图最好都别超过200K，然后统一使用webp格式，既保证质量又节省加载时间。",
+  "gallery": [
+    { "src": "/pic/sttot_8old2020.3.webp", "caption": "开服一个月合影", "year": "2020.3" },
+    { "src": "/pic/sttot_hy2020.4.webp", "caption": "开服两个月合影(招了一批人)", "year": "2020.4" },
+    { "src": "/pic/sttot_newyear2022.webp", "caption": "2022年春节合影", "year": "2022.2" },
+    { "src": "/pic/zh_mc_zq2025.webp", "caption": "2025年中秋节合影", "year": "2025.9" },
+    { "src": "/pic/zh_mc_xsyhzy2025.webp", "caption": "星沙樱花庄园", "year": "2025" }
+  ],
+
+  "tips": [
+    "牛腩从未更换存档，每一块方块都见证了六年岁月。",
+    "有超过 2800 名玩家在这里留下过回忆。",
+    "第一条地铁线路用了整整一个月的时间来修建。",
+    "法典一共经历过多次修订，最后一版有数十条详细规定。",
+    "有人的矿道挖了五年都还没到头，有的人进群一小时被ban。",
+    "牛腩的管理员们亲自参与编写和维护服务器插件。",
+    "跨年烟花大会是牛腩最盛大的活动之一。",
+    "新官网是牛腩六周年的献礼，承载了六年的回忆。",
+    "小雪(南宫寻雪)是腐竹几把猫的女儿。",
+    "为什么腐竹叫几把猫？因为之前用过一张很有格调的奶牛猫头像。"
+  ],
+
+  "spirit": {
+    "quote": "是节日里绽放的烟花，是深夜赶路时亮起的灯塔，是争论过后依然选择留下的信任，是每一块被放置的方块中沉默的热爱。",
+    "values": [
+      { "icon": "🤝", "title": "玩家是主体", "desc": "每位玩家都是社区的主人公，你们的声音决定小镇的方向。" },
+      { "icon": "💎", "title": "情谊是财富", "desc": "数据可以重置，但在这里建立的友谊，是带不走的珍贵回忆。" },
+      { "icon": "🌱", "title": "担当与培育", "desc": "老玩家引导新玩家，管理组服务社区，薪火相传，生生不息。" }
+    ]
+  },
+
+  "join": {
+    "title": "加入我们",
+    "subtitle": "七步入服，开启你的牛腩之旅",
+    "steps": [
+      { "num": "①", "title": "查看入服指南", "desc": "了解牛腩小镇的规则与入服流程", "link": "https://www.wolai.com/newnan/26gvpMzTrsoyjtb6L6cQW6" },
+      { "num": "②", "title": "加入审核群", "desc": "添加 QQ 审核群，联系管理员开始审核", "link": null },
+      { "num": "③", "title": "注册皮肤站", "desc": "前往皮肤站注册账号并设置角色皮肤", "link": "https://skin.newnan.city" },
+      { "num": "④", "title": "通过入服测试", "desc": "完成入服测试，证明你了解服务器规则", "link": null },
+      { "num": "⑤", "title": "下载客户端", "desc": "参照百科文档配置对应版本的客户端", "link": "https://wiki.newnan.city" },
+      { "num": "⑥", "title": "加入大群", "desc": "通过测试后加入玩家大群，认识小伙伴", "link": null },
+      { "num": "⑦", "title": "开始冒险！", "desc": "连接服务器，踏上属于你的牛腩之旅✨", "link": null }
+    ],
+    "notice": "服务器地址将在你通过入服测试后由管理员提供，以保障服务器安全。",
+    "ctaPrimary": { "label": "▶ 查看入服指南", "url": "https://www.wolai.com/newnan/26gvpMzTrsoyjtb6L6cQW6" },
+    "ctaSecondary": { "label": "加入 QQ 频道", "url": "https://pd.qq.com/s/haenk7dq2" }
+  },
+
+  "footer": {
+    "tagline": "有你，才叫牛腩",
+    "quickLinks": [
+      { "label": "牛腩百科", "url": "https://wiki.newnan.city" },
+      { "label": "皮肤站", "url": "https://skin.newnan.city" },
+      { "label": "实时地图", "url": "https://map.newnan.city" }
+    ],
+    "socialLinks": [
+      { "label": "GitHub", "url": "https://github.com/NewNanCity" },
+      { "label": "牛腩时报 (B站)", "url": "https://space.bilibili.com/1704080503" },
+      { "label": "QQ 频道", "url": "https://pd.qq.com/s/haenk7dq2" }
+    ],
+    "follow": { "label": "📺 牛腩时报 B站主页", "url": "https://space.bilibili.com/1704080503" },
+    "icp": "浙ICP备2026008234号-1"
+  }
+}

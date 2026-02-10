@@ -1,0 +1,321 @@
+/* ═══════════════════════════════════════════
+   牛腩小镇 NewNanCity — Official Website
+   Warm Minecraft × Community × Tech Polish
+   ═══════════════════════════════════════════ */
+
+/* ─── Font Faces ─── */
+@font-face {
+  font-family: 'Minecraft Regular';
+  src: url('/MinecraftRegular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* ─── CSS Custom Properties ─── */
+:root {
+  /* Warm dark palette – cozy like oak planks by torchlight */
+  --color-bg-deep:    #1a1512;
+  --color-bg:         #221c18;
+  --color-bg-alt:     #28211c;
+  --color-bg-card:    rgba(255, 220, 170, 0.05);
+  --color-bg-glass:   rgba(255, 220, 170, 0.08);
+  --color-surface:    #332a21;
+
+  /* Brand colors */
+  --color-primary:    #f6a623;
+  --color-primary-glow: rgba(246, 166, 35, 0.35);
+  --color-secondary:  #5dba4f;   /* MC creeper green – tech/action accent */
+  --color-accent:     #5b9aff;   /* subtle tech-blue sparkle */
+  --color-pixel-green:#5dba4f;
+  --color-warm:       #ff7b54;   /* warm coral for energy */
+  --color-warm-soft:  #e8c49a;   /* soft parchment */
+  --color-redstone:   #e04040;
+
+  /* Text – warm whites instead of cool blue-whites */
+  --color-text:       #f2e9dc;
+  --color-text-dim:   #b8a894;
+  --color-text-bright:#fffaf2;
+
+  --color-border:     rgba(255, 200, 130, 0.13);
+  --color-glow:       rgba(246, 166, 35, 0.22);
+
+  --font-pixel: 'Minecraft Regular', monospace;
+  --font-body:  'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  --navbar-height: 64px;
+  --section-padding: 64px 0;
+  --container-width: 1200px;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-base: 0.3s var(--ease-out-expo);
+}
+
+/* ─── Reset ─── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-padding-top: 80px;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--color-bg-deep);
+  color: var(--color-text);
+  line-height: 1.7;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--color-primary); text-decoration: none; transition: color var(--transition-base); }
+a:hover { color: var(--color-secondary); }
+img { max-width: 100%; display: block; }
+::selection { background: var(--color-primary); color: var(--color-bg-deep); }
+
+/* ─── Utilities ─── */
+.container { max-width: var(--container-width); margin: 0 auto; padding: 0 24px; }
+.pixel-text { font-family: var(--font-pixel); }
+
+/* Minecraft-style beveled pixel border */
+.pixel-border { position: relative; }
+.pixel-border::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  z-index: -1;
+  clip-path: polygon(
+    0 4px, 4px 4px, 4px 0,
+    calc(100% - 4px) 0, calc(100% - 4px) 4px, 100% 4px,
+    100% calc(100% - 4px), calc(100% - 4px) calc(100% - 4px), calc(100% - 4px) 100%,
+    4px 100%, 4px calc(100% - 4px), 0 calc(100% - 4px)
+  );
+}
+
+/* MC-style button (stone-beveled look) */
+.mc-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 28px;
+  font-family: var(--font-body); font-size: 1rem; font-weight: 700;
+  cursor: pointer; position: relative;
+  background: linear-gradient(180deg, #5a5a5a 0%, #3a3a3a 100%);
+  color: var(--color-text-bright);
+  border: 3px solid; border-color: #7a7a7a #2a2a2a #2a2a2a #7a7a7a;
+  image-rendering: pixelated;
+  transition: all 0.15s ease;
+  text-decoration: none;
+}
+.mc-btn:hover {
+  background: linear-gradient(180deg, #6a6a6a 0%, #4a4a4a 100%);
+  border-color: #9a9a9a #3a3a3a #3a3a3a #9a9a9a;
+  color: var(--color-primary);
+  transform: scale(1.02);
+}
+.mc-btn:active {
+  border-color: #2a2a2a #7a7a7a #7a7a7a #2a2a2a;
+  transform: scale(0.98);
+}
+.mc-btn-primary {
+  background: linear-gradient(180deg, #5dba4f 0%, #3d8a30 100%);
+  border-color: #7ada6a #2a6a20 #2a6a20 #7ada6a;
+}
+.mc-btn-primary:hover {
+  background: linear-gradient(180deg, #6dca5f 0%, #4d9a40 100%);
+  border-color: #8aea7a #3a7a30 #3a7a30 #8aea7a;
+  color: var(--color-text-bright);
+}
+.mc-btn-gold {
+  background: linear-gradient(180deg, #d4941a 0%, #a06e10 100%);
+  border-color: #f6b43a #7a5000 #7a5000 #f6b43a;
+}
+.mc-btn-gold:hover {
+  background: linear-gradient(180deg, #e4a42a 0%, #b07e20 100%);
+  border-color: #ffcc55 #8a6010 #8a6010 #ffcc55;
+  color: var(--color-text-bright);
+}
+
+/* ─── Scroll Animations ─── */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s var(--ease-out-expo), transform 0.8s var(--ease-out-expo);
+}
+.animate-on-scroll.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Particle Canvas ─── */
+#particle-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ─── Section Common ─── */
+.section { position: relative; z-index: 1; padding: var(--section-padding); min-height: calc(100vh - var(--navbar-height)); }
+.section-alt { background: var(--color-bg-alt); }
+
+.section-header { text-align: center; margin-bottom: 64px; }
+.section-tag {
+  display: inline-block;
+  font-size: 1.2rem;
+  color: var(--color-secondary);
+  letter-spacing: 0.3em;
+  margin-bottom: 12px;
+}
+.section-title {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 900;
+  color: var(--color-text-bright);
+  margin-bottom: 16px;
+}
+.section-line {
+  width: 60px; height: 3px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+  margin: 0 auto 16px;
+  border-radius: 2px;
+}
+.section-desc {
+  color: var(--color-text-dim);
+  font-size: 1.05rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+.section-subtitle {
+  color: var(--color-text-dim);
+  font-size: 1.05rem;
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+/* ─── Buttons (Modern) ─── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  font-family: var(--font-body);
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-primary), #e8951a);
+  color: var(--color-bg-deep);
+}
+.btn-primary:hover {
+  color: var(--color-bg-deep);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px var(--color-primary-glow);
+}
+.btn-outline {
+  background: transparent;
+  color: var(--color-text);
+  border: 2px solid var(--color-border);
+}
+.btn-outline:hover {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+  background: rgba(246, 166, 35, 0.06);
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+.btn-ghost:hover {
+  color: var(--color-text-bright);
+  border-color: var(--color-text-dim);
+  background: var(--color-bg-glass);
+}
+.btn-large { padding: 18px 40px; font-size: 1.05rem; }
+.btn-icon { font-size: 0.9em; }
+
+/* ─── MC Inventory Slot Style ─── */
+.mc-slot {
+  background: #1f1f1f;
+  border: 4px solid; border-color: #373737 #5f5f5f #5f5f5f #373737;
+  padding: 16px;
+  image-rendering: pixelated;
+}
+
+/* ─── Glow keyframes ─── */
+@keyframes torch-flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.85; }
+  25% { opacity: 0.92; }
+  75% { opacity: 0.88; }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px var(--color-primary-glow); }
+  50% { box-shadow: 0 0 40px var(--color-primary-glow), 0 0 60px rgba(246,166,35,0.1); }
+}
+
+/* ─── Site Loading ─── */
+.site-loading {
+  position: fixed; inset: 0; z-index: 99999;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--color-bg-deep);
+}
+.site-loading-inner {
+  animation: pulse-glow 2s ease-in-out infinite;
+  padding: 24px 40px;
+  border: 2px solid; border-color: #3a3020 #1a1510 #1a1510 #3a3020;
+  background: var(--color-surface);
+}
+
+/* ─── CRT / RetroTV ─── */
+@keyframes danmaku-fly {
+  from { transform: translateX(0); }
+  to   { transform: translateX(calc(-100% - var(--screen-w, 800px))); }
+}
+@keyframes tv-noise {
+  0%   { background-position: 0 0; }
+  10%  { background-position: -5% -10%; }
+  20%  { background-position: -15% 5%; }
+  30%  { background-position: 7% -25%; }
+  40%  { background-position: -5% 25%; }
+  50%  { background-position: -15% 10%; }
+  60%  { background-position: 15% 0%; }
+  70%  { background-position: 0% 15%; }
+  80%  { background-position: 3% 35%; }
+  90%  { background-position: -10% 10%; }
+  100% { background-position: 0 0; }
+}
+@keyframes scanline {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+@keyframes hero-gradient-shift {
+  0%, 100% { opacity: 1; }
+  33%      { opacity: 0; }
+  66%      { opacity: 0; }
+}
+@keyframes hero-gradient-shift-2 {
+  0%, 100% { opacity: 0; }
+  33%      { opacity: 1; }
+  66%      { opacity: 0; }
+}
+@keyframes hero-gradient-shift-3 {
+  0%, 100% { opacity: 0; }
+  33%      { opacity: 0; }
+  66%      { opacity: 1; }
+}
+
+/* ─── Responsive breakpoints ─── */
+@media (max-width: 768px) {
+  :root { --section-padding: 48px 0; }
+}

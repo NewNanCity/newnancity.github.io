@@ -1,0 +1,56 @@
+.spirit-section {
+  background: var(--color-bg-alt);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 80px 24px;
+}
+
+.spirit-quote {
+  position: relative; max-width: 700px; margin: 0 auto 36px;
+  font-size: 1.05rem; line-height: 1.9; color: var(--color-text-dim);
+  text-align: center; font-style: italic;
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+.spirit-quote--visible { opacity: 1; transform: translateY(0); }
+.spirit-quote-mark {
+  font-family: var(--font-pixel); font-size: 1.6rem; color: var(--color-primary);
+  vertical-align: middle; margin: 0 4px;
+}
+
+.spirit-values {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+  max-width: 860px; margin: 0 auto;
+}
+
+.spirit-card {
+  background: linear-gradient(180deg, #3b5c2c 0%, #214410 100%);
+  border: 3px solid; border-color: #6daa50 #1a4a00 #1a4a00 #6daa50;
+  border-radius: 0; padding: 24px 20px;
+  text-align: center;
+  transition: all 0.15s ease;
+  image-rendering: pixelated;
+  position: relative;
+}
+.spirit-card:hover {
+  background: linear-gradient(180deg, #5d9a40 0%, #3d7a20 100%);
+  border-color: #7dba60 #2a5a10 #2a5a10 #7dba60;
+  transform: scale(1.02);
+}
+.spirit-card:active {
+  border-color: #2a2a2a #7a7a7a #7a7a7a #2a2a2a;
+  transform: scale(0.98);
+}
+.spirit-card-icon { font-size: 2rem; display: block; margin-bottom: 10px; }
+.spirit-card h3 {
+  font-size: 1rem; font-weight: 700;
+  color: var(--color-text-bright); margin-bottom: 8px;
+}
+.spirit-card p { color: #b8a894; font-size: 0.85rem; line-height: 1.6; }
+
+@media (max-width: 768px) {
+  .spirit-values { grid-template-columns: 1fr; max-width: 380px; }
+  .spirit-card { padding: 20px 16px; }
+}
