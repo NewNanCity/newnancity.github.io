@@ -1,0 +1,263 @@
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--color-bg-deep);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fade-out 0.6s ease-out forwards 2.4s;
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  to {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.loading-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  animation: scale-in 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Minecraft 风格的方块加载动画 */
+.loading-logo {
+  width: 80px;
+  height: 80px;
+  position: relative;
+  perspective: 1000px;
+}
+
+.pixel-brick {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-warm) 100%);
+  box-shadow:
+    0 0 40px rgba(246, 166, 35, 0.5),
+    inset -4px -4px 12px rgba(0, 0, 0, 0.4),
+    inset 4px 4px 12px rgba(255, 255, 255, 0.1);
+  animation:
+    rotate-x 2s ease-in-out infinite,
+    float 3s ease-in-out infinite;
+}
+
+@keyframes rotate-x {
+  0%, 100% {
+    transform: rotateX(0deg) rotateY(0deg);
+  }
+  50% {
+    transform: rotateX(-20deg) rotateY(20deg);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+/* 文字 */
+.loading-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.loading-title {
+  font-size: 2rem;
+  font-weight: 600;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-warm) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 0.1em;
+  animation: fade-in-up 0.8s ease-out 0.2s both;
+}
+
+.loading-subtitle {
+  font-size: 0.95rem;
+  color: var(--color-text-dim);
+  letter-spacing: 0.15em;
+  animation: fade-in-up 0.8s ease-out 0.4s both;
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 加载进度条 */
+.loading-progress {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 240px;
+  animation: fade-in-up 0.8s ease-out 0.6s both;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background: var(--color-bg-alt);
+  border-radius: 100px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(246, 166, 35, 0.2);
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-warm), var(--color-secondary), var(--color-primary));
+  background-size: 200% 100%;
+  border-radius: 100px;
+  animation:
+    progress-move 2s ease-in-out infinite,
+    progress-width 1.8s ease-in-out 0s;
+}
+
+@keyframes progress-width {
+  0% {
+    width: 10%;
+  }
+  40% {
+    width: 60%;
+  }
+  100% {
+    width: 95%;
+  }
+}
+
+@keyframes progress-move {
+  0% {
+    background-position: 0% center;
+  }
+  50% {
+    background-position: 100% center;
+  }
+  100% {
+    background-position: 0% center;
+  }
+}
+
+.progress-text {
+  font-size: 0.8rem;
+  color: var(--color-text-dim);
+  letter-spacing: 0.1em;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* 装饰粒子 */
+.loading-particles {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  inset: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--color-primary);
+  border-radius: 50%;
+  opacity: 0;
+  animation: particle-float 3s ease-out forwards;
+  animation-delay: var(--delay);
+}
+
+@keyframes particle-float {
+  0% {
+    opacity: 0.8;
+    transform: translate(0, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--tx, 80px), var(--ty, -120px));
+  }
+}
+
+/* 为每个粒子设置不同的轨迹 */
+.particle:nth-child(1) { left: 50%; top: 30%; --tx: -60px; --ty: -100px; }
+.particle:nth-child(2) { left: 50%; top: 30%; --tx: 80px; --ty: -80px; }
+.particle:nth-child(3) { left: 50%; top: 50%; --tx: -100px; --ty: 0; }
+.particle:nth-child(4) { left: 50%; top: 50%; --tx: 100px; --ty: 0; }
+.particle:nth-child(5) { left: 50%; top: 70%; --tx: -70px; --ty: 80px; }
+.particle:nth-child(6) { left: 50%; top: 70%; --tx: 70px; --ty: 100px; }
+.particle:nth-child(7) { left: 30%; top: 40%; --tx: -80px; --ty: -60px; }
+.particle:nth-child(8) { left: 70%; top: 40%; --tx: 80px; --ty: -60px; }
+.particle:nth-child(9) { left: 20%; top: 60%; --tx: -60px; --ty: 60px; }
+.particle:nth-child(10) { left: 80%; top: 60%; --tx: 60px; --ty: 60px; }
+.particle:nth-child(11) { left: 40%; top: 20%; --tx: 0; --ty: -120px; }
+.particle:nth-child(12) { left: 60%; top: 80%; --tx: 0; --ty: 120px; }
+
+/* 响应式设计 */
+@media (max-width: 640px) {
+  .loading-container {
+    gap: 24px;
+  }
+
+  .loading-logo {
+    width: 64px;
+    height: 64px;
+  }
+
+  .loading-title {
+    font-size: 1.5rem;
+  }
+
+  .loading-subtitle {
+    font-size: 0.85rem;
+  }
+
+  .loading-progress {
+    max-width: 200px;
+  }
+
+  .loading-particles {
+    width: 200px;
+    height: 200px;
+  }
+}

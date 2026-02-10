@@ -8,13 +8,9 @@
     <meta name="keywords" content="牛腩小镇,NewNanCity,Minecraft,我的世界,服务器,公益服,MC服务器" />
     <title>牛腩小镇 | NewNanCity - 公益Minecraft服务器</title>
 
-    <!-- CDN 性能优化：DNS 预查询 -->
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
-
-    <!-- 字体预连接 -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- 预加载关键资源 -->
+    <link rel="preload" as="font" href="/MinecraftRegular.otf" type="font/otf" crossorigin />
+    <link rel="preload" as="script" href="/src/main.tsx" />
   </head>
   <body>
     <div id="root"></div>
