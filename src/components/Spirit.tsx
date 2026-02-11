@@ -29,7 +29,7 @@ export default function Spirit() {
 
         <blockquote
           ref={quoteRef}
-          className={`spirit-quote animate-on-scroll${visible ? ' spirit-quote--visible' : ''}`}
+          className={`spirit-quote${visible ? ' spirit-quote--visible' : ''}`}
         >
           <span className="spirit-quote-mark">"</span>
           {spirit.quote}
