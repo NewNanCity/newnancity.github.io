@@ -169,11 +169,10 @@
 }
 
 @media (max-width: 768px) {
-  .gallery-section { min-height: 60vh; }
+  .gallery-section { min-height: calc(100vh - var(--navbar-height)); }
   .gallery-header-box {
-    padding: 32px 20px;
+    padding: 8px 16px;
     max-width: 100%;
-    margin-bottom: 32px;
   }
   .gallery-info {
     padding: 16px 20px;

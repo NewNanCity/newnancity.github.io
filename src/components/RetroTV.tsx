@@ -173,7 +173,7 @@ export default function RetroTV() {
 
             {/* Channel dial on the right */}
             <div className="tv-channels">
-              <div className="tv-channels-label pixel-text">CH</div>
+              <div className="tv-channels-label pixel-text">YEAR</div>
               {years.map((year) => (
                 <button
                   key={year}
