@@ -1,4 +1,5 @@
 import { SiteDataProvider } from './context/SiteDataContext'
+import SEO from './components/SEO'
 import LoadingScreen from './components/LoadingScreen'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
@@ -17,6 +18,7 @@ function AppContent() {
 
   return (
     <>
+      <SEO />
       <LoadingScreen />
       <ParticleCanvas />
       <Navbar />
