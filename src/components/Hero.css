@@ -111,7 +111,7 @@
   flex-wrap: wrap; margin-bottom: 48px;
 }
 .hero-server-status { margin-top: 16px; }
-.server-widget { margin: 0 auto; border-radius: 0; }
+.server-widget { margin: 0 auto; border-radius: 0; width: 100%; max-width: 500px !important; }
 
 /* Scroll hint */
 .hero-scroll-hint {
