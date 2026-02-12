@@ -30,6 +30,7 @@ export default function EasterEggs() {
   const konamiIndex = useRef(0)
   const idleTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const resetDebounce = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const tipHideTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   // Stable reference — only recompute when tips data actually changes
   const allMessages = useMemo(
@@ -59,8 +60,14 @@ export default function EasterEggs() {
     const msg = msgs[Math.floor(Math.random() * msgs.length)]
     setChatBubble(msg)
 
+    // Clear any previous tip hide timer
+    if (tipHideTimer.current) clearTimeout(tipHideTimer.current)
+
     // Auto-hide tip after 6s
-    setTimeout(() => setChatBubble(null), 6000)
+    tipHideTimer.current = setTimeout(() => {
+      setChatBubble(null)
+      tipHideTimer.current = null
+    }, 6000)
 
     // Immediately restart idle timer for next tip (only one timer at a time)
     if (idleTimer.current) clearTimeout(idleTimer.current)
@@ -71,8 +78,9 @@ export default function EasterEggs() {
 
   // Reset idle timer (called from debounced mousemove/click)
   const resetIdleTimer = useCallback(() => {
-    // Clear any pending idle timer and tip
+    // Clear any pending idle timer, tip, and tip hide timer
     if (idleTimer.current) clearTimeout(idleTimer.current)
+    if (tipHideTimer.current) clearTimeout(tipHideTimer.current)
     setChatBubble(null)
 
     // Start new idle timer
@@ -100,6 +108,7 @@ export default function EasterEggs() {
       window.removeEventListener('mousemove', handleActivity)
       window.removeEventListener('click', handleActivity)
       if (idleTimer.current) clearTimeout(idleTimer.current)
+      if (tipHideTimer.current) clearTimeout(tipHideTimer.current)
       if (resetDebounce.current) clearTimeout(resetDebounce.current)
     }
   }, [handleKey, handleActivity, resetIdleTimer])
