@@ -237,7 +237,10 @@
     { "src": "/pic/sttot_8old2020.3.webp", "caption": "开服一个月合影", "year": "2020.3" },
     { "src": "/pic/sttot_hy2020.4.webp", "caption": "开服两个月合影(招了一批人)", "year": "2020.4" },
     { "src": "/pic/sttot_newyear2022.webp", "caption": "2022年春节合影", "year": "2022.2" },
-    { "src": "/pic/zh_mc_zq2025.webp", "caption": "2025年中秋节合影", "year": "2025.9" }
+    { "src": "/pic/zh_mc_zq2025.webp", "caption": "2025年中秋节合影", "year": "2025.9" },
+    { "src": "/pic/NSrank_Helios.webp", "caption": "莫斯科银行总部 | 赫利俄斯大楼", "year": "2025.3" }，
+    { "src": "/pic/NSrank_Motherland.webp", "caption": "莫斯科 | 祖国母亲在召唤", "year": "2025.7" }，
+    { "src": "/pic/NSrank_Erid_Eden.webp", "caption": "莫斯科机场 | 伊瑞德.伊甸", "year": "2025.10" }
   ],
 
   "tips": [
@@ -327,4 +330,5 @@
     "icp": "浙ICP备2026008234号-1"
   }
 }
+
 
