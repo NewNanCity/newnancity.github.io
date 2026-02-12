@@ -310,7 +310,7 @@
       { "num": "②", "title": "加入审核群", "desc": "添加 QQ 审核群，联系管理员开始审核", "link": null },
       { "num": "③", "title": "注册皮肤站", "desc": "前往皮肤站注册账号并设置角色皮肤", "link": "https://skin.newnan.city" },
       { "num": "④", "title": "通过入服测试", "desc": "完成入服测试，证明你了解服务器规则", "link": null },
-      { "num": "⑤", "title": "下载客户端", "desc": "参照百科文档配置对应版本的客户端", "link": "https://wiki.newnan.city" },
+      { "num": "⑤", "title": "下载客户端", "desc": "参照百科文档配置对应版本的客户端", "link": "https://www.wolai.com/newnan/mLB6aqsvwTLxu3DCboQt7b" },
       { "num": "⑥", "title": "加入大群", "desc": "通过测试后加入玩家大群，认识小伙伴", "link": null },
       { "num": "⑦", "title": "开始冒险！", "desc": "连接服务器，踏上属于你的牛腩之旅✨", "link": null }
     ],
@@ -335,6 +335,7 @@
     "icp": "浙ICP备2026008234号-1"
   }
 }
+
 
 
 
