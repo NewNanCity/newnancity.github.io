@@ -28,8 +28,8 @@ export default function EasterEggs() {
   const [confetti, setConfetti] = useState(false)
   const [chatBubble, setChatBubble] = useState<string | null>(null)
   const konamiIndex = useRef(0)
-  const lastMoveTime = useRef(Date.now())
-  const checkInterval = useRef<ReturnType<typeof setInterval> | null>(null)
+  const idleTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const resetDebounce = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   // Stable reference — only recompute when tips data actually changes
   const allMessages = useMemo(
@@ -58,32 +58,51 @@ export default function EasterEggs() {
     const msgs = messagesRef.current
     const msg = msgs[Math.floor(Math.random() * msgs.length)]
     setChatBubble(msg)
+
+    // Auto-hide tip after 6s
     setTimeout(() => setChatBubble(null), 6000)
+
+    // Immediately restart idle timer for next tip (only one timer at a time)
+    if (idleTimer.current) clearTimeout(idleTimer.current)
+    idleTimer.current = setTimeout(() => {
+      showTip()
+    }, IDLE_TIMEOUT)
   }, [])
 
-  // Update mouse move time
-  const handleMouseMove = useCallback(() => {
-    lastMoveTime.current = Date.now()
-  }, [])
+  // Reset idle timer (called from debounced mousemove/click)
+  const resetIdleTimer = useCallback(() => {
+    // Clear any pending idle timer and tip
+    if (idleTimer.current) clearTimeout(idleTimer.current)
+    setChatBubble(null)
+
+    // Start new idle timer
+    idleTimer.current = setTimeout(() => {
+      showTip()
+    }, IDLE_TIMEOUT)
+  }, [showTip])
+
+  // Debounced handler for mousemove and click
+  const handleActivity = useCallback(() => {
+    if (resetDebounce.current) clearTimeout(resetDebounce.current)
+    resetDebounce.current = setTimeout(resetIdleTimer, 3000)
+  }, [resetIdleTimer])
 
   useEffect(() => {
     window.addEventListener('keydown', handleKey)
-    window.addEventListener('mousemove', handleMouseMove)
+    window.addEventListener('mousemove', handleActivity)
+    window.addEventListener('click', handleActivity)
 
-    // Check every 1s if mouse has been idle for 5s
-    checkInterval.current = setInterval(() => {
-      if (Date.now() - lastMoveTime.current > IDLE_TIMEOUT) {
-        showTip()
-        lastMoveTime.current = Date.now() // Reset for next idle period
-      }
-    }, 1000)
+    // Initialize first idle timer
+    resetIdleTimer()
 
     return () => {
       window.removeEventListener('keydown', handleKey)
-      window.removeEventListener('mousemove', handleMouseMove)
-      if (checkInterval.current) clearInterval(checkInterval.current)
+      window.removeEventListener('mousemove', handleActivity)
+      window.removeEventListener('click', handleActivity)
+      if (idleTimer.current) clearTimeout(idleTimer.current)
+      if (resetDebounce.current) clearTimeout(resetDebounce.current)
     }
-  }, [handleKey, handleMouseMove, showTip])
+  }, [handleKey, handleActivity, resetIdleTimer])
 
   return (
     <>
