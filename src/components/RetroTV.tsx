@@ -13,7 +13,7 @@ const TYPE_CONFIG: Record<string, { color: string; label: string }> = {
 interface DanmakuItem {
   id: number;
   card: TVCard;
-  lane: number;
+  top: number;
   duration: number;
   createdAt: number;
 }
@@ -29,6 +29,7 @@ export default function RetroTV() {
   const idRef = useRef(0);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const screenRef = useRef<HTMLDivElement>(null);
+  const segmentQueueRef = useRef<number[]>([]);
 
   // Track screen width for danmaku travel distance
   useEffect(() => {
@@ -41,21 +42,45 @@ export default function RetroTV() {
     return () => ro.disconnect();
   }, []);
 
-  const LANES = 5;
+  // Number of vertical segments for stratified sampling
+  const SEGMENTS = 6;
+  // Usable vertical range: 3% ~ 85% to keep danmaku within visible bounds
+  const Y_MIN = 3;
+  const Y_RANGE = 82;
+
+  // Shuffle segment indices to cycle through before repeating
+  const shuffleSegments = useCallback(() => {
+    const arr = Array.from({ length: SEGMENTS }, (_, i) => i);
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }, []);
+
+  // Get a continuous Y% using stratified sampling: pick a segment, then random within it
+  const getNextTop = useCallback(() => {
+    if (segmentQueueRef.current.length === 0) {
+      segmentQueueRef.current = shuffleSegments();
+    }
+    const seg = segmentQueueRef.current.pop()!;
+    const segSize = Y_RANGE / SEGMENTS;
+    return Y_MIN + seg * segSize + Math.random() * segSize;
+  }, [shuffleSegments]);
 
   const spawnDanmaku = useCallback((cards: TVCard[]) => {
     if (cards.length === 0) return;
     const card = cards[Math.floor(Math.random() * cards.length)];
-    const lane = Math.floor(Math.random() * LANES);
+    const top = getNextTop();
     const duration = 10 + Math.random() * 6; // 10-16s
     const id = ++idRef.current;
     const createdAt = Date.now();
     setDanmakuItems((prev) => {
       // Keep max 15 items to prevent memory bloat
       const trimmed = prev.length > 14 ? prev.slice(-10) : prev;
-      return [...trimmed, { id, card, lane, duration, createdAt }];
+      return [...trimmed, { id, card, top, duration, createdAt }];
     });
-  }, []);
+  }, [getNextTop]);
 
   // Switch channel — guard against same-year clicks
   const switchChannel = useCallback((year: string) => {
@@ -133,7 +158,7 @@ export default function RetroTV() {
               <div className="tv-danmaku-layer">
                 {danmakuItems.map((item) => {
                   const cfg = TYPE_CONFIG[item.card.type] || TYPE_CONFIG.event;
-                  const top = (item.lane / LANES) * 80 + 5;
+                  const top = item.top;
                   return (
                     <div
                       key={item.id}

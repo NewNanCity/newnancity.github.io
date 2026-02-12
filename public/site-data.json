@@ -237,8 +237,10 @@
 
   "gallery.note": "注意：每张图最好都别超过200K，然后统一使用webp格式，既保证质量又节省加载时间。",
   "gallery": [
+    { "src": "/pic/sttot_shelter2020.webp", "caption": "最初的开荒避难所", "year": "2020.2" },
     { "src": "/pic/sttot_8old2020.3.webp", "caption": "开服一个月合影", "year": "2020.3" },
     { "src": "/pic/sttot_hy2020.4.webp", "caption": "开服两个月合影(招了一批人)", "year": "2020.4" },
+    { "src": "/pic/sttot_hmclbg2020.webp", "caption": "第一个牛腩启动器(HMCL)的背景", "year": "2020.8" },
     { "src": "/pic/sttot_newyear2022.webp", "caption": "2022年春节合影", "year": "2022.2" },
     { "src": "/pic/NSrank_SmileTwins.webp", "caption": "难绷 | 微笑双子星", "year": "2023" },
     { "src": "/pic/NSrank_KXChengqu.webp", "caption": "凯夏 | 24年城区", "year": "2024" },
@@ -338,6 +340,3 @@
     "icp": "浙ICP备2026008234号-1"
   }
 }
-
-
-
