@@ -2,7 +2,7 @@
   "nav": {
     "brand": "牛腩小镇",
     "links": [
-      { "label": "牛腩百科", "icon": "📖", "url": "https://wiki.newnan.city" },
+      { "label": "牛腩百科", "icon": "📖", "url": "https://www.wolai.com/newnan/mLB6aqsvwTLxu3DCboQt7b" },
       { "label": "皮肤站",   "icon": "🎨", "url": "https://skin.newnan.city" },
       { "label": "实时地图", "icon": "🗺️", "url": "https://map.newnan.city" },
       { "label": "牛腩时报", "icon": "📺", "url": "https://space.bilibili.com/1704080503" },
@@ -237,8 +237,7 @@
     { "src": "/pic/sttot_8old2020.3.webp", "caption": "开服一个月合影", "year": "2020.3" },
     { "src": "/pic/sttot_hy2020.4.webp", "caption": "开服两个月合影(招了一批人)", "year": "2020.4" },
     { "src": "/pic/sttot_newyear2022.webp", "caption": "2022年春节合影", "year": "2022.2" },
-    { "src": "/pic/zh_mc_zq2025.webp", "caption": "2025年中秋节合影", "year": "2025.9" },
-    { "src": "/pic/zh_mc_xsyhzy2025.webp", "caption": "星沙樱花庄园", "year": "2025" }
+    { "src": "/pic/zh_mc_zq2025.webp", "caption": "2025年中秋节合影", "year": "2025.9" }
   ],
 
   "tips": [
@@ -315,7 +314,7 @@
   "footer": {
     "tagline": "有你，才叫牛腩",
     "quickLinks": [
-      { "label": "牛腩百科", "url": "https://wiki.newnan.city" },
+      { "label": "牛腩百科", "url": "https://www.wolai.com/newnan/mLB6aqsvwTLxu3DCboQt7b" },
       { "label": "皮肤站", "url": "https://skin.newnan.city" },
       { "label": "实时地图", "url": "https://map.newnan.city" }
     ],
@@ -328,3 +327,4 @@
     "icp": "浙ICP备2026008234号-1"
   }
 }
+
