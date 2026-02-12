@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useRef } from 'react'
+import { useEffect, useState, useCallback, useRef, useMemo } from 'react'
 import { useSiteData } from '../context/SiteDataContext'
 import './EasterEggs.css'
 
@@ -7,7 +7,7 @@ import './EasterEggs.css'
  * 1. Konami Code → pixel confetti explosion
  * 2. Click logo 5 times → secret message
  * 3. Hover on certain area → hidden creeper face
- * 4. Idle for 30s → floating chat bubble with tips
+ * 4. Idle for 20s → floating chat bubble with tips
  */
 
 const KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a']
@@ -20,15 +20,24 @@ const defaultIdleMessages = [
   'SSSsssss…… 🟩 (别怕，这不是苦力怕)',
 ]
 
+// Idle timeout before showing a tip when mouse doesn't move (ms)
+const IDLE_TIMEOUT = 5_000
+
 export default function EasterEggs() {
   const { tips } = useSiteData()
   const [confetti, setConfetti] = useState(false)
   const [chatBubble, setChatBubble] = useState<string | null>(null)
   const konamiIndex = useRef(0)
-  const idleTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const lastMoveTime = useRef(Date.now())
+  const checkInterval = useRef<ReturnType<typeof setInterval> | null>(null)
 
-  // Combine tips with default messages
-  const allMessages = [...(tips || []), ...defaultIdleMessages]
+  // Stable reference — only recompute when tips data actually changes
+  const allMessages = useMemo(
+    () => [...(tips || []), ...defaultIdleMessages],
+    [tips],
+  )
+  const messagesRef = useRef(allMessages)
+  messagesRef.current = allMessages
 
   // Konami code listener
   const handleKey = useCallback((e: KeyboardEvent) => {
@@ -44,30 +53,37 @@ export default function EasterEggs() {
     }
   }, [])
 
-  // Idle message
-  const resetIdle = useCallback(() => {
-    if (idleTimer.current) clearTimeout(idleTimer.current)
-    setChatBubble(null)
-    idleTimer.current = setTimeout(() => {
-      const msg = allMessages[Math.floor(Math.random() * allMessages.length)]
-      setChatBubble(msg)
-      // Auto hide after 6s
-      setTimeout(() => setChatBubble(null), 6000)
-    }, 45000) // 45s idle
-  }, [allMessages])
+  // Show a random idle tip
+  const showTip = useCallback(() => {
+    const msgs = messagesRef.current
+    const msg = msgs[Math.floor(Math.random() * msgs.length)]
+    setChatBubble(msg)
+    setTimeout(() => setChatBubble(null), 6000)
+  }, [])
+
+  // Update mouse move time
+  const handleMouseMove = useCallback(() => {
+    lastMoveTime.current = Date.now()
+  }, [])
 
   useEffect(() => {
     window.addEventListener('keydown', handleKey)
-    window.addEventListener('mousemove', resetIdle)
-    window.addEventListener('scroll', resetIdle)
-    resetIdle()
+    window.addEventListener('mousemove', handleMouseMove)
+
+    // Check every 1s if mouse has been idle for 5s
+    checkInterval.current = setInterval(() => {
+      if (Date.now() - lastMoveTime.current > IDLE_TIMEOUT) {
+        showTip()
+        lastMoveTime.current = Date.now() // Reset for next idle period
+      }
+    }, 1000)
+
     return () => {
       window.removeEventListener('keydown', handleKey)
-      window.removeEventListener('mousemove', resetIdle)
-      window.removeEventListener('scroll', resetIdle)
-      if (idleTimer.current) clearTimeout(idleTimer.current)
+      window.removeEventListener('mousemove', handleMouseMove)
+      if (checkInterval.current) clearInterval(checkInterval.current)
     }
-  }, [handleKey, resetIdle])
+  }, [handleKey, handleMouseMove, showTip])
 
   return (
     <>
