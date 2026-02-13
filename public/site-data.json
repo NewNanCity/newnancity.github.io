@@ -4,7 +4,7 @@
     "links": [
       { "label": "牛腩百科", "icon": "📖", "url": "https://www.wolai.com/newnan/mLB6aqsvwTLxu3DCboQt7b" },
       { "label": "皮肤站",   "icon": "🎨", "url": "https://skin.newnan.city" },
-      { "label": "实时地图", "icon": "🗺️", "url": "https://map.newnan.city" },
+      { "label": "牛腩地图", "icon": "🧭", "url": "#map" },
       { "label": "牛腩时报", "icon": "📺", "url": "https://space.bilibili.com/1704080503" },
       { "label": "牛腩法典", "icon": "📜", "url": "https://www.wolai.com/newnan/777czodMK18Zv6hdy2b8jm" },
       { "label": "牛腩史书", "icon": "📚", "url": "https://docs.qq.com/doc/DUGFObHVabWFNSFNM" },
@@ -347,4 +347,3 @@
     "icp": "浙ICP备2026008234号-1"
   }
 }
-

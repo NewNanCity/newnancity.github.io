@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { SiteDataProvider } from './context/SiteDataContext'
 import SEO from './components/SEO'
 import LoadingScreen from './components/LoadingScreen'
@@ -11,11 +12,34 @@ import Join from './components/Join'
 import Footer from './components/Footer'
 import ParticleCanvas from './components/ParticleCanvas'
 import EasterEggs from './components/EasterEggs'
+import Map from './components/Map'
 import { useScrollAnimations } from './hooks/useScrollAnimations'
 
 function AppContent() {
+  const [page, setPage] = useState<string>(window.location.hash.slice(1) || 'home')
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      setPage(window.location.hash.slice(1) || 'home')
+    }
+    window.addEventListener('hashchange', handleHashChange)
+    return () => window.removeEventListener('hashchange', handleHashChange)
+  }, [])
+
   useScrollAnimations()
 
+  // Show Map page for map route
+  if (page === 'map') {
+    return (
+      <>
+        <SEO />
+        <Navbar />
+        <Map />
+      </>
+    )
+  }
+
+  // Show home page for all other routes
   return (
     <>
       <SEO />

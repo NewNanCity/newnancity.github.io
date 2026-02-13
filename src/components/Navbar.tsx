@@ -38,20 +38,23 @@ export default function Navbar() {
 
         <div className={`nav-links${open ? ' open' : ''}`} onClick={(e) => e.stopPropagation()}>
           <div className="nav-quick-grid">
-            {nav.links.map((l) => (
-              <a
-                key={l.label}
-                href={l.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="nav-quick-item"
-                title={l.label}
-                onClick={() => setOpen(false)}
-              >
-                <span className="nav-quick-icon">{l.icon}</span>
-                <span className="nav-quick-label">{l.label}</span>
-              </a>
-            ))}
+            {nav.links.map((l) => {
+              const isInternal = l.url.startsWith('#');
+              return (
+                <a
+                  key={l.label}
+                  href={l.url}
+                  target={isInternal ? "_self" : "_blank"}
+                  rel={isInternal ? undefined : "noopener noreferrer"}
+                  className="nav-quick-item"
+                  title={l.label}
+                  onClick={() => setOpen(false)}
+                >
+                  <span className="nav-quick-icon">{l.icon}</span>
+                  <span className="nav-quick-label">{l.label}</span>
+                </a>
+              );
+            })}
           </div>
           {/* <a href="#join" className="nav-cta" onClick={() => setOpen(false)}>
             加入我们
