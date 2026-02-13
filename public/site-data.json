@@ -243,7 +243,6 @@
     { "src": "/pic/sttot_hmclbg2020.webp", "caption": "第一个牛腩启动器(HMCL)的背景", "year": "2020.8" },
     { "src": "/pic/stwuzhou_anniv1.webp", "caption": "牛腩小镇一周年合影", "year": "2021.2" },
     { "src": "/pic/sttot_newyear2022.webp", "caption": "2022年春节合影", "year": "2022.2" },
-    { "src": "/pic/NSrank_SmileTwins.webp", "caption": "难绷 | 微笑双子星", "year": "2023" },
     { "src": "/pic/stwuzhou_anniv3.webp", "caption": "牛腩小镇三周年合影", "year": "2023.2" },
     { "src": "/pic/NSrank_KXChengqu.webp", "caption": "凯夏 | 城区", "year": "2024" },
     { "src": "/pic/stwuzhou_jiangqiu.webp", "caption": "江秋 | 城区", "year": "2024" },
@@ -251,7 +250,6 @@
     { "src": "/pic/NSrank_24-25NewYear.webp", "caption": "2024年春节合影", "year": "2025.2" },
     { "src": "/pic/stwuzhou_newyear2025.webp", "caption": "2024-2025新年合影", "year": "2025" },
     { "src": "/pic/NSrank_Helios.webp", "caption": "莫斯科银行总部 | 赫利俄斯大楼", "year": "2025.3" },
-    { "src": "/pic/NSrank_chengfengawa.webp", "caption": "NS与他的两位“爱妃”在泡温泉", "year": "2025.3" },
     { "src": "/pic/NSrank_Motherland.webp", "caption": "莫斯科 | 祖国母亲在召唤", "year": "2025.7" },
     { "src": "/pic/stwuzhou_2000day.webp", "caption": "牛腩小镇2000天合影", "year": "2025.7" },
     { "src": "/pic/zh_mc_zq2025.webp", "caption": "2025年中秋节合影", "year": "2025.9" },
@@ -349,3 +347,4 @@
     "icp": "浙ICP备2026008234号-1"
   }
 }
+
