@@ -235,7 +235,6 @@
     }
   },
 
-  "gallery.note": "注意：每张图最好都别超过200K，然后统一使用webp格式，既保证质量又节省加载时间。",
   "gallery": [
     { "src": "/pic/sttot_shelter2020.webp", "caption": "最初的开荒避难所", "year": "2020.2" },
     { "src": "/pic/sttot_8old2020.3.webp", "caption": "开服一个月合影", "year": "2020.3" },
@@ -348,4 +347,3 @@
     "icp": "浙ICP备2026008234号-1"
   }
 }
-
