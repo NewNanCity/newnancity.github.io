@@ -24,8 +24,41 @@ export default function Gallery() {
   const [positionInShuffle, setPositionInShuffle] = useState(0)
   const [progressKey, setProgressKey] = useState(0)
   const [showControls] = useState(true)
+  const [isVisible, setIsVisible] = useState(false)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const sectionRef = useRef<HTMLElement>(null)
   const total = gallery.length
+
+  // 监听 Gallery 是否在视口内
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting)
+      },
+      { threshold: 0 } // 元素任何部分进入视口时触发
+    )
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current)
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current)
+      }
+    }
+  }, [])
+
+  // 计算需要渲染的图片指标（当前、前一张、后一张）
+  const getIndexesToRender = (idx: number): Set<number> => {
+    const toRender = new Set<number>()
+    toRender.add(idx) // 当前
+    toRender.add((idx - 1 + total) % total) // 前一张
+    toRender.add((idx + 1) % total) // 后一张
+    return toRender
+  }
+
+  const indicesToRender = getIndexesToRender(current)
 
   // Initialize shuffled order on mount
   useEffect(() => {
@@ -83,33 +116,58 @@ export default function Gallery() {
     setTimeout(() => setIsTransitioning(false), TRANSITION)
   }, [positionInShuffle, shuffledIndices, isTransitioning, total])
 
-  /* auto-rotate with shuffled order */
+  /* auto-rotate with shuffled order - 仅当 Gallery 可见时运行 */
   useEffect(() => {
-    if (shuffledIndices.length === 0) return
+    if (shuffledIndices.length === 0 || !isVisible) {
+      // 如果不可见，清除定时器
+      if (timerRef.current) {
+        clearInterval(timerRef.current)
+        timerRef.current = null
+      }
+      return
+    }
+
+    // Gallery 可见时启动定时器
     timerRef.current = setInterval(goToNext, INTERVAL)
-    return () => { if (timerRef.current) clearInterval(timerRef.current) }
-  }, [goToNext, shuffledIndices])
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current)
+        timerRef.current = null
+      }
+    }
+  }, [goToNext, shuffledIndices, isVisible])
 
   const handleLoad = (i: number) => setLoadedSet(prev => { const s = new Set(prev); s.add(i); return s })
 
   return (
-    <section className="gallery-section" id="gallery">
+    <section className="gallery-section" id="gallery" ref={sectionRef}>
       {/* Full-bleed background slides */}
       <div className="gallery-bg">
-        {gallery.map((img, i) => (
-          <div
-            key={img.src}
-            className={`gallery-bg-slide${i === current ? ' gallery-bg-slide--active' : ''}`}
-          >
-            <img
-              src={img.src}
-              alt={img.caption}
-              loading={i < 2 ? 'eager' : 'lazy'}
-              onLoad={() => handleLoad(i)}
-            />
-            {!loadedSet.has(i) && <div className="gallery-bg-placeholder" />}
-          </div>
-        ))}
+        {gallery.map((img, i) => {
+          // 只渲染当前、前一张、后一张的图片，其他用占位符
+          const shouldRender = indicesToRender.has(i)
+          return (
+            <div
+              key={img.src}
+              className={`gallery-bg-slide${i === current ? ' gallery-bg-slide--active' : ''}`}
+            >
+              {shouldRender ? (
+                <img
+                  src={img.src}
+                  alt={img.caption}
+                  loading="eager"
+                  onLoad={() => handleLoad(i)}
+                />
+              ) : (
+                // 未渲染的图片不加载 src，只用占位符
+                <div className="gallery-bg-placeholder" />
+              )}
+              {!loadedSet.has(i) && shouldRender && (
+                <div className="gallery-bg-placeholder" />
+              )}
+            </div>
+          )
+        })}
         <div className="gallery-overlay" />
       </div>
 

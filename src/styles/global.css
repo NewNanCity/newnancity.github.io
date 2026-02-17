@@ -284,6 +284,10 @@ img { max-width: 100%; display: block; }
   border: 2px solid; border-color: #3a3020 #1a1510 #1a1510 #3a3020;
   background: var(--color-surface);
 }
+.site-loading-text {
+  color: var(--color-primary);
+  font-size: 0.7rem;
+}
 
 /* ─── CRT / RetroTV ─── */
 @keyframes danmaku-fly {

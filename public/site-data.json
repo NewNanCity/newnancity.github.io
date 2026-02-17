@@ -19,7 +19,7 @@
     "subtitle": "自 2020 年起，与数千名玩家共同书写的 Minecraft 公益服务器传奇",
     "stats": [
       { "id": "years", "unit": "年", "description": "稳定运营" },
-      { "value": 2882, "unit": "名", "description": "注册玩家" },
+      { "value": 2894, "unit": "名", "description": "注册玩家" },
       { "id": "days", "unit": "天", "description": "持续建设" }
     ],
     "slides": []

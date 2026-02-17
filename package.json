@@ -6,7 +6,7 @@
   "packageManager": "pnpm@10.4.1",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && node scripts/process-images.js && node scripts/compress-json.js",
     "preview": "vite preview"
   },
   "devDependencies": {
@@ -14,6 +14,7 @@
     "@types/react": "^19.2.13",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.4",
+    "sharp": "^0.34.5",
     "terser": "^5.46.0",
     "typescript": "~5.9.3",
     "vite": "^7.3.1",
