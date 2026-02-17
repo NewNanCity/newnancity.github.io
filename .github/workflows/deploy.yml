@@ -34,11 +34,8 @@ jobs:
             - name: Install dependencies
               run: pnpm install --frozen-lockfile
 
-            - name: Type check
-              run: pnpm exec tsc -b
-
-            - name: Build
-              run: pnpm exec vite build
+            - name: Build (with image processing)
+              run: pnpm run build
 
             - name: Copy CDN configuration files
               run: |
