@@ -27,6 +27,10 @@
   - 自动转换为WebP格式
   - 缩放至1080p最长边
   - 目标文件大小≤500KB
+  - **Cache Busting**: 添加内容哈希后缀解决CDN缓存问题
+    - 文件格式: `name-{md5:8}.webp` (例如: `photo-4f70ac8f.webp`)
+    - 自动删除未哈希的旧文件
+    - 更新site-data.json中的引用路径
 
 - **JavaScript压缩**: Terser (通过Vite)
 - **代码分割**: React vendor分离
