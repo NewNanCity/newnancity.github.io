@@ -57,12 +57,19 @@ function getScaledDimensions(width, height, maxDimension) {
 
 /**
  * 处理单个图片
+ * 动态压缩策略：
+ * - 小于400KB的图片：只转换格式，保持高质量
+ * - 大于400KB的图片：根据原始大小动态调整质量下限，避免过度压缩
+ *   - 400-600KB: MIN_QUALITY = 70
+ *   - 600-900KB: MIN_QUALITY = 75
+ *   - >900KB: MIN_QUALITY = 80
  */
 async function processImage(inputPath, outputPath) {
   try {
     const image = sharp(inputPath)
     const metadata = await image.metadata()
     const { width, height } = metadata
+    const originalSize = fs.statSync(inputPath).size
 
     // 计算缩放后的尺寸
     const scaled = getScaledDimensions(width, height, MAX_DIMENSION)
@@ -71,24 +78,52 @@ async function processImage(inputPath, outputPath) {
     let quality = MAX_QUALITY
     let buffer
     let fileSize
+    let compressionApplied = false
+    let adaptiveMinQuality = MIN_QUALITY
 
-    // 循环压缩直到文件大小符合要求
-    // 质量步长为2，保证更平缓的降低和更好的图片质量
-    for (quality = MAX_QUALITY; quality >= MIN_QUALITY; quality -= 2) {
+    // 动态压缩策略
+    if (originalSize < MAX_FILE_SIZE) {
+      // 小文件：只做格式转换，保持最高质量（WebP本身压缩效率高）
       const processor = sharp(inputPath)
         .resize(scaled.width, scaled.height, {
           fit: 'inside',
           withoutEnlargement: true,
         })
-        .webp({ quality })
+        .webp({ quality: MAX_QUALITY })
 
       buffer = await processor.toBuffer()
       fileSize = buffer.length
-
-      // 如果文件大小符合要求，或已降到最低质量，则停止
-      if (fileSize <= MAX_FILE_SIZE) {
-        break
+      quality = MAX_QUALITY
+      compressionApplied = false
+    } else {
+      // 大文件：根据原始大小动态调整质量下限
+      // 越大的文件，使用越高的质量下限，避免过度压缩
+      if (originalSize < 600 * 1024) {
+        adaptiveMinQuality = 70
+      } else if (originalSize < 900 * 1024) {
+        adaptiveMinQuality = 75
+      } else {
+        adaptiveMinQuality = 80
       }
+
+      // 循环压缩直到符合要求或达到自适应质量下限
+      for (quality = MAX_QUALITY; quality >= adaptiveMinQuality; quality -= 2) {
+        const processor = sharp(inputPath)
+          .resize(scaled.width, scaled.height, {
+            fit: 'inside',
+            withoutEnlargement: true,
+          })
+          .webp({ quality })
+
+        buffer = await processor.toBuffer()
+        fileSize = buffer.length
+
+        // 如果文件大小符合要求，则停止
+        if (fileSize <= MAX_FILE_SIZE) {
+          break
+        }
+      }
+      compressionApplied = true
     }
 
     // 生成文件哈希用于cache busting
@@ -111,11 +146,12 @@ async function processImage(inputPath, outputPath) {
       originalFileName,
       hashedFileName,
       hashedPath: `/pic/${hashedFileName}`,
-      originalSize: fs.statSync(inputPath).size,
+      originalSize,
       processedSize: fileSize,
       wasResized,
       dimensions: { original: { width, height }, scaled },
       quality,
+      compressionApplied,
     }
   } catch (error) {
     return {
@@ -213,13 +249,10 @@ async function main() {
     const outputFileName = path.parse(file).name + '.webp'
     const outputPath = path.join(picDistDir, outputFileName)
 
-    // 跳过已经是 webp 的文件，除非需要重新压缩
+    // WebP文件直接复制，不重新编码（保持原始质量）
     const stats = fs.statSync(inputPath)
-    if (
-      path.extname(file).toLowerCase() === '.webp' &&
-      stats.size <= MAX_FILE_SIZE
-    ) {
-      // 直接复制 webp 文件，但仍然需要添加哈希后缀
+    if (path.extname(file).toLowerCase() === '.webp') {
+      // 直接复制 WebP 文件（无论大小），但添加哈希后缀用于cache busting
       const buffer = fs.readFileSync(inputPath)
       const fileHash = generateFileHash(buffer)
       const originalFileName = path.parse(file).name
@@ -232,7 +265,7 @@ async function main() {
       successCount++
       totalOriginalSize += stats.size
       totalProcessedSize += stats.size
-      console.log(`✅ ${file} (已是 WebP，已添加哈希后缀)`)
+      console.log(`✅ ${file} (WebP原生格式，保持质量)`)
       continue
     }
 
@@ -251,9 +284,10 @@ async function main() {
       const resizeInfo = result.wasResized
         ? `(缩放至 ${result.dimensions.scaled.width}×${result.dimensions.scaled.height}, 质量 ${result.quality})`
         : `(保持原尺寸 ${result.dimensions.original.width}×${result.dimensions.original.height}, 质量 ${result.quality})`
+      const compressionLabel = result.compressionApplied ? '🔧 已压缩' : '✨ 仅转换'
 
       console.log(`✅ ${file}`)
-      console.log(`   ${sizeInfo} ${resizeInfo}`)
+      console.log(`   ${sizeInfo} ${resizeInfo} [${compressionLabel}]`)
       console.log(`   → ${result.hashedFileName} (cache busting)`)
     } else {
       failCount++
