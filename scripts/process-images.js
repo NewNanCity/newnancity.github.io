@@ -3,11 +3,13 @@
  * - 将图片转换为 WebP 格式
  * - 智能压缩到最多 1080P（等比缩放，最长边）
  * - 保持文件大小在 500KB 以下
+ * - 生成文件哈希后缀以解决CDN缓存问题
  * - 更新 site-data.json 中的图片路径
  */
 
 import fs from 'fs'
 import path from 'path'
+import crypto from 'crypto'
 import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 
@@ -22,6 +24,14 @@ const MAX_DIMENSION = 1080 // 最长边
 const MAX_FILE_SIZE = 500 * 1024 // 500KB
 const MIN_QUALITY = 40 // 最低质量
 const MAX_QUALITY = 90 // 最高质量
+
+/**
+ * 生成文件哈希（用于cache busting，避免CDN缓存旧版本）
+ */
+function generateFileHash(buffer) {
+  const hash = crypto.createHash('md5').update(buffer).digest('hex')
+  return hash.substring(0, 8) // 取前8位
+}
 
 /**
  * 获取等比缩放的宽高
@@ -80,17 +90,26 @@ async function processImage(inputPath, outputPath) {
       }
     }
 
+    // 生成文件哈希用于cache busting
+    const fileHash = generateFileHash(buffer)
+    const originalFileName = path.parse(outputPath).name
+    const hashedFileName = `${originalFileName}-${fileHash}.webp`
+    const hashedOutputPath = path.join(path.dirname(outputPath), hashedFileName)
+
     // 确保目录存在
     const outputDir = path.dirname(outputPath)
     if (!fs.existsSync(outputDir)) {
       fs.mkdirSync(outputDir, { recursive: true })
     }
 
-    // 写入文件
-    fs.writeFileSync(outputPath, buffer)
+    // 写入文件（使用哈希后的文件名）
+    fs.writeFileSync(hashedOutputPath, buffer)
 
     return {
       success: true,
+      originalFileName,
+      hashedFileName,
+      hashedPath: `/pic/${hashedFileName}`,
       originalSize: fs.statSync(inputPath).size,
       processedSize: fileSize,
       wasResized,
@@ -107,21 +126,31 @@ async function processImage(inputPath, outputPath) {
 
 /**
  * 更新 site-data.json 中的图片路径
+ * @param {string} siteDataPath - site-data.json 的路径
+ * @param {Map<string, string>} fileMapping - 原始文件名 -> 哈希后文件名的映射
  */
-function updateSiteData(siteDataPath) {
+function updateSiteData(siteDataPath, fileMapping) {
   try {
     const rawData = fs.readFileSync(siteDataPath, 'utf8')
     const data = JSON.parse(rawData)
 
-    // 遍历 gallery 中的所有图片
+    // 遍历 gallery 中的所有图片，替换为哈希后的文件名
     if (data.gallery && Array.isArray(data.gallery)) {
       data.gallery = data.gallery.map((item) => {
         if (item.src && item.src.includes('/pic/')) {
-          // 确保文件名以 .webp 结尾
-          const basePath = item.src.replace(/\.[^.]+$/, '')
-          return {
-            ...item,
-            src: basePath.endsWith('.webp') ? basePath : `${basePath}.webp`,
+          // 提取文件名（不含后缀）
+          const fileName = path.parse(item.src).name
+          
+          // 检查是否在映射中
+          if (fileMapping.has(fileName)) {
+            return {
+              ...item,
+              src: fileMapping.get(fileName),
+            }
+          } else {
+            // 如果不在映射中，说明这是一个未处理的文件或已跳过的文件
+            console.warn(`⚠️  未找到图片的哈希映射: ${fileName}`)
+            return item
           }
         }
         return item
@@ -171,6 +200,9 @@ async function main() {
   let failCount = 0
   let totalOriginalSize = 0
   let totalProcessedSize = 0
+  
+  // 文件名映射：originalName -> hashedPath（用于更新site-data.json）
+  const fileMapping = new Map()
 
   console.log(`📊 找到 ${imageFiles.length} 个图片文件\n`)
 
@@ -186,12 +218,20 @@ async function main() {
       path.extname(file).toLowerCase() === '.webp' &&
       stats.size <= MAX_FILE_SIZE
     ) {
-      // 直接复制 webp 文件
-      fs.copyFileSync(inputPath, outputPath)
+      // 直接复制 webp 文件，但仍然需要添加哈希后缀
+      const buffer = fs.readFileSync(inputPath)
+      const fileHash = generateFileHash(buffer)
+      const originalFileName = path.parse(file).name
+      const hashedFileName = `${originalFileName}-${fileHash}.webp`
+      const hashedOutputPath = path.join(picDistDir, hashedFileName)
+      
+      fs.copyFileSync(inputPath, hashedOutputPath)
+      fileMapping.set(originalFileName, `/pic/${hashedFileName}`)
+      
       successCount++
       totalOriginalSize += stats.size
       totalProcessedSize += stats.size
-      console.log(`✅ ${file} (已是 WebP，无需处理)`)
+      console.log(`✅ ${file} (已是 WebP，已添加哈希后缀)`)
       continue
     }
 
@@ -201,6 +241,9 @@ async function main() {
       successCount++
       totalOriginalSize += result.originalSize
       totalProcessedSize += result.processedSize
+      
+      // 保存文件名映射
+      fileMapping.set(result.originalFileName, result.hashedPath)
 
       const ratio = ((1 - result.processedSize / result.originalSize) * 100).toFixed(1)
       const sizeInfo = `${(result.originalSize / 1024).toFixed(1)}KB → ${(result.processedSize / 1024).toFixed(1)}KB (-${ratio}%)`
@@ -210,6 +253,7 @@ async function main() {
 
       console.log(`✅ ${file}`)
       console.log(`   ${sizeInfo} ${resizeInfo}`)
+      console.log(`   → ${result.hashedFileName} (cache busting)`)
     } else {
       failCount++
       console.error(`❌ ${file} - ${result.error}`)
@@ -218,8 +262,8 @@ async function main() {
 
   // 更新 site-data.json
   if (fs.existsSync(siteDataPath)) {
-    console.log('\n📝 更新 site-data.json...')
-    if (updateSiteData(siteDataPath)) {
+    console.log('\n📝 更新 site-data.json（替换为哈希后的文件名）...')
+    if (updateSiteData(siteDataPath, fileMapping)) {
       console.log('✅ site-data.json 更新完成')
     }
   }
@@ -239,6 +283,42 @@ async function main() {
     `   总体压缩率: ${((1 - totalProcessedSize / totalOriginalSize) * 100).toFixed(1)}%`
   )
   console.log('='.repeat(50))
+  console.log('💡 所有图片均已添加哈希后缀用于CDN cache busting')
+
+  // 清理未哈希的文件（保留新的cache-busted版本）
+  console.log('\n🧹 清理未哈希的旧文件...')
+  const allFiles = fs.readdirSync(picDistDir)
+  const hashedFileNames = new Set()
+  
+  // 首先收集所有已哈希的文件名（去掉哈希后缀获得原始名）
+  for (const file of allFiles) {
+    if (file.match(/-[a-f0-9]{8}\.webp$/)) {
+      const originalName = file.replace(/-[a-f0-9]{8}\.webp$/, '')
+      hashedFileNames.add(originalName)
+    }
+  }
+  
+  // 然后删除所有未哈希且有对应哈希版本的文件
+  let cleanedCount = 0
+  for (const file of allFiles) {
+    if (file.endsWith('.webp') && !file.match(/-[a-f0-9]{8}\.webp$/)) {
+      const baseName = file.replace(/\.webp$/, '')
+      // 只删除有对应哈希版本的文件
+      if (hashedFileNames.has(baseName)) {
+        const filePath = path.join(picDistDir, file)
+        try {
+          fs.unlinkSync(filePath)
+          cleanedCount++
+        } catch (err) {
+          console.warn(`   ⚠️  删除失败: ${file} - ${err.message}`)
+        }
+      }
+    }
+  }
+  
+  if (cleanedCount > 0) {
+    console.log(`✅ 共清理 ${cleanedCount} 个未哈希的旧文件`)
+  }
 
   if (failCount > 0) {
     console.warn(`⚠️  有 ${failCount} 个图片处理失败，但继续部署`)
