@@ -1,6 +1,5 @@
 name: Build & Deploy to GitHub Pages
 
-# 图片压缩优化：确保每次构建都正确处理和压缩图片
 on:
     push:
         branches:

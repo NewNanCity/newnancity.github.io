@@ -25,6 +25,7 @@ export default function Gallery() {
   const [progressKey, setProgressKey] = useState(0)
   const [showControls] = useState(true)
   const [isVisible, setIsVisible] = useState(false)
+  const [isInitialized, setIsInitialized] = useState(false)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const sectionRef = useRef<HTMLElement>(null)
   const total = gallery.length
@@ -60,15 +61,16 @@ export default function Gallery() {
 
   const indicesToRender = getIndexesToRender(current)
 
-  // Initialize shuffled order on mount
+  // 只有当 Gallery 进入视口时，才初始化图片加载
   useEffect(() => {
-    if (total > 0) {
+    if (isVisible && !isInitialized && total > 0) {
       const indices = Array.from({ length: total }, (_, i) => i)
       const shuffled = shuffleArray(indices)
       setShuffledIndices(shuffled)
       setCurrent(shuffled[0])
+      setIsInitialized(true)
     }
-  }, [total])
+  }, [isVisible, isInitialized, total])
 
   const goToNext = useCallback(() => {
     if (isTransitioning || total < 2 || shuffledIndices.length === 0) return
@@ -144,8 +146,8 @@ export default function Gallery() {
       {/* Full-bleed background slides */}
       <div className="gallery-bg">
         {gallery.map((img, i) => {
-          // 只渲染当前、前一张、后一张的图片，其他用占位符
-          const shouldRender = indicesToRender.has(i)
+          // 只有初始化后才渲染图片；只渲染当前、前一张、后一张的图片，其他用占位符
+          const shouldRender = isInitialized && indicesToRender.has(i)
           return (
             <div
               key={img.src}
@@ -155,7 +157,7 @@ export default function Gallery() {
                 <img
                   src={img.src}
                   alt={img.caption}
-                  loading="eager"
+                  loading={i === current ? 'eager' : 'lazy'}
                   onLoad={() => handleLoad(i)}
                 />
               ) : (
