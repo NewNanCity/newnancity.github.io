@@ -141,7 +141,7 @@ function updateSiteData(siteDataPath, fileMapping) {
         if (item.src && item.src.includes('/pic/')) {
           // 提取文件名（不含后缀）
           const fileName = path.parse(item.src).name
-          
+
           // 检查是否在映射中
           if (fileMapping.has(fileName)) {
             return {
@@ -201,7 +201,7 @@ async function main() {
   let failCount = 0
   let totalOriginalSize = 0
   let totalProcessedSize = 0
-  
+
   // 文件名映射：originalName -> hashedPath（用于更新site-data.json）
   const fileMapping = new Map()
 
@@ -225,10 +225,10 @@ async function main() {
       const originalFileName = path.parse(file).name
       const hashedFileName = `${originalFileName}-${fileHash}.webp`
       const hashedOutputPath = path.join(picDistDir, hashedFileName)
-      
+
       fs.copyFileSync(inputPath, hashedOutputPath)
       fileMapping.set(originalFileName, `/pic/${hashedFileName}`)
-      
+
       successCount++
       totalOriginalSize += stats.size
       totalProcessedSize += stats.size
@@ -242,7 +242,7 @@ async function main() {
       successCount++
       totalOriginalSize += result.originalSize
       totalProcessedSize += result.processedSize
-      
+
       // 保存文件名映射
       fileMapping.set(result.originalFileName, result.hashedPath)
 
@@ -290,7 +290,7 @@ async function main() {
   console.log('\n🧹 清理未哈希的旧文件...')
   const allFiles = fs.readdirSync(picDistDir)
   const hashedFileNames = new Set()
-  
+
   // 首先收集所有已哈希的文件名（去掉哈希后缀获得原始名）
   for (const file of allFiles) {
     if (file.match(/-[a-f0-9]{8}\.webp$/)) {
@@ -298,7 +298,7 @@ async function main() {
       hashedFileNames.add(originalName)
     }
   }
-  
+
   // 然后删除所有未哈希且有对应哈希版本的文件
   let cleanedCount = 0
   for (const file of allFiles) {
@@ -316,7 +316,7 @@ async function main() {
       }
     }
   }
-  
+
   if (cleanedCount > 0) {
     console.log(`✅ 共清理 ${cleanedCount} 个未哈希的旧文件`)
   }
