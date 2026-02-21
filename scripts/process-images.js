@@ -2,7 +2,7 @@
  * 构建时图片处理脚本
  * - 将图片转换为 WebP 格式
  * - 智能压缩到最多 1080P（等比缩放，最长边）
- * - 保持文件大小在 500KB 以下
+ * - 保持文件大小在 400KB 以下
  * - 生成文件哈希后缀以解决CDN缓存问题
  * - 更新 site-data.json 中的图片路径
  */
@@ -21,8 +21,8 @@ const picDistDir = path.join(distDir, 'pic')
 const siteDataPath = path.join(distDir, 'site-data.json')
 
 const MAX_DIMENSION = 1080 // 最长边
-const MAX_FILE_SIZE = 500 * 1024 // 500KB
-const MIN_QUALITY = 40 // 最低质量
+const MAX_FILE_SIZE = 400 * 1024 // 400KB（平衡压缩率和图片质量）
+const MIN_QUALITY = 50 // 最低质量（防止过度压缩导致模糊）
 const MAX_QUALITY = 90 // 最高质量
 
 /**
@@ -73,7 +73,8 @@ async function processImage(inputPath, outputPath) {
     let fileSize
 
     // 循环压缩直到文件大小符合要求
-    for (quality = MAX_QUALITY; quality >= MIN_QUALITY; quality -= 5) {
+    // 质量步长为2，保证更平缓的降低和更好的图片质量
+    for (quality = MAX_QUALITY; quality >= MIN_QUALITY; quality -= 2) {
       const processor = sharp(inputPath)
         .resize(scaled.width, scaled.height, {
           fit: 'inside',
