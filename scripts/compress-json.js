@@ -48,7 +48,6 @@ try {
   console.log(`   原始大小:    ${(originalSize / 1024).toFixed(2)} KB`)
   console.log(`   精简后:      ${(minifiedSize / 1024).toFixed(2)} KB (-${((1 - minifiedSize / originalSize) * 100).toFixed(1)}%)`)
   console.log(`   Gzip 后:     ${(gzipSize / 1024).toFixed(2)} KB (-${((1 - gzipSize / originalSize) * 100).toFixed(1)}%)`)
-  process.exit(0)
 } catch (error) {
   console.error('❌ JSON 压缩失败:', error.message)
   process.exit(1)
