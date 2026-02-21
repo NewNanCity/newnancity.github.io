@@ -156,9 +156,10 @@ public/pic/xxx.jpg (原始)
 ```javascript
 // scripts/process-images.js 中的设置
 const MAX_DIMENSION = 1080      // 最长边像素数
-const MAX_FILE_SIZE = 500 * 1024 // 目标文件大小（字节）
-const MIN_QUALITY = 40          // WebP最低质量
+const MAX_FILE_SIZE = 400 * 1024 // 目标文件大小（400KB，平衡压缩率和质量）
+const MIN_QUALITY = 50          // WebP最低质量（防止过度压缩）
 const MAX_QUALITY = 90          // WebP最高质量
+// 压缩循环步长: 2（质量下降更平缓，确保到达400KB时质量较好）
 ```
 
 ### 示例压缩结果

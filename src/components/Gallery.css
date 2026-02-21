@@ -21,6 +21,8 @@
 .gallery-bg-slide--active { opacity: 1; }
 .gallery-bg-slide img {
   width: 100%; height: 100%; object-fit: cover;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: pixelated;
 }
 .gallery-bg-placeholder {
   position: absolute; inset: 0;
