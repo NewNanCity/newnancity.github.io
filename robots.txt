@@ -1,0 +1,9 @@
+# 牛腩小镇 - robots.txt
+# 搜索引擎爬虫规则
+
+# 允许所有爬虫
+User-agent: *
+Allow: /
+
+# 站点地图
+Sitemap: https://newnancity.com/sitemap.xml
