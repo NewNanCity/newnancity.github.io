@@ -43,6 +43,28 @@
 }
 .footer-icp:hover { opacity: 1; color: var(--color-secondary); }
 
+.footer-beian {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-text-dim);
+  font-size: 0.72rem;
+  text-decoration: none;
+  opacity: 0.7;
+  transition: opacity var(--transition-base);
+}
+
+.footer-beian:hover {
+  opacity: 1;
+  color: var(--color-secondary);
+}
+
+.footer-beian-icon {
+  width: 14px;
+  height: 14px;
+  display: block;
+}
+
 .footer-follow-btn {
   display: inline-block;
   padding: 10px 20px;

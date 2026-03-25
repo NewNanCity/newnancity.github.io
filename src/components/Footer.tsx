@@ -56,6 +56,15 @@ export default function Footer() {
         >
           {footer.icp}
         </a>
+        <a
+          href="https://beian.mps.gov.cn/#/query/webSearch?code=33010602014409"
+          rel="noopener noreferrer"
+          target="_blank"
+          className="footer-beian"
+        >
+          <img src="/beian.png" alt="公安备案图标" className="footer-beian-icon" />
+          浙公网安备33010602014409号
+        </a>
       </div>
     </footer>
   );
