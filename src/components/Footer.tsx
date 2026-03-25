@@ -10,7 +10,7 @@ export default function Footer() {
     <footer className="footer">
       <div className="container footer-inner">
         <div className="footer-brand">
-          <img src="/favicon.ico" alt="牛腩小镇" className="footer-logo" />
+          <img src="/favicon.ico" alt="牛腩小站" className="footer-logo" />
           <span className="footer-name">NewNanCity</span>
           <p className="footer-tagline">{footer.tagline}</p>
         </div>
@@ -47,7 +47,7 @@ export default function Footer() {
       </div>
 
       <div className="footer-bottom">
-        <p>© 2020–{year} 牛腩小镇 NewNanCity. All rights reserved.</p>
+        <p>© 2020–{year} 牛腩小站 NewNanCity. All rights reserved.</p>
         <a
           href="https://beian.miit.gov.cn/"
           target="_blank"

@@ -14,7 +14,7 @@ const KONAMI = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRi
 
 const defaultIdleMessages = [
   '嘘…… 你发现了一个彩蛋！🥚',
-  '牛腩小镇欢迎每一个善良的冒险家 💛',
+  '牛腩小站欢迎每一个善良的冒险家 💛',
   '据说连续点击logo五次会有惊喜……',
   '试试输入 ↑↑↓↓←→←→BA 看看？',
   'SSSsssss…… 🟩 (别怕，这不是苦力怕)',
