@@ -1,22 +1,22 @@
 /**
- * SEO配置文件 - 牛腩小站
+ * SEO配置文件 - 牛腩小镇
  * 适用于静态展示网站
  */
 
 export const seoConfig = {
   // ========== 基本信息 ==========
-  siteName: '牛腩小站',
+  siteName: '牛腩小镇',
   siteUrl: 'https://newnancity.com/',
   alternativeName: 'NewNanCity',
   foundingYear: 2020,
   language: 'zh-CN',
 
   // ========== SEO元数据 ==========
-  defaultTitle: '牛腩小站 | NewNanCity - 公益Minecraft服务器',
+  defaultTitle: '牛腩小镇 | NewNanCity - 公益Minecraft服务器',
   defaultDescription:
-    '牛腩小站，一个自2020年起持续运营的公益Minecraft服务器社区。公益、自由、友善、有序，做玩家温暖的家。',
+    '牛腩小镇，一个自2020年起持续运营的公益Minecraft服务器社区。公益、自由、友善、有序，做玩家温暖的家。',
   defaultKeywords: [
-    '牛腩小站',
+    '牛腩小镇',
     'NewNanCity',
     'Minecraft',
     '我的世界',
@@ -30,7 +30,7 @@ export const seoConfig = {
   organization: {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: '牛腩小站',
+    name: '牛腩小镇',
     alternateName: 'NewNanCity',
     url: 'https://newnancity.com/',
     logo: 'https://newnancity.com/favicon.ico',

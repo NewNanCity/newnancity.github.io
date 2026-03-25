@@ -12,12 +12,12 @@ interface SEOProps {
 }
 
 const defaultSEO = {
-  title: '牛腩小站 | NewNanCity - 公益Minecraft服务器',
-  description: '牛腩小站，一个自2020年起持续运营的公益Minecraft服务器社区。公益、自由、友善、有序，做玩家温暖的家。',
+  title: '牛腩小镇 | NewNanCity - 公益Minecraft服务器',
+  description: '牛腩小镇，一个自2020年起持续运营的公益Minecraft服务器社区。公益、自由、友善、有序，做玩家温暖的家。',
   image: 'https://newnancity.com/pic/zh_mc_zq2025.webp',
   url: 'https://newnancity.com/',
-  keywords: '牛腩小站,NewNanCity,Minecraft,我的世界,服务器,公益服,MC服务器',
-  author: '牛腩小站',
+  keywords: '牛腩小镇,NewNanCity,Minecraft,我的世界,服务器,公益服,MC服务器',
+  author: '牛腩小镇',
   type: 'website' as const,
 }
 
@@ -46,7 +46,7 @@ export default function SEO({
       <meta property="og:description" content={description} />
       <meta property="og:image" content={image} />
       <meta property="og:url" content={url} />
-      <meta property="og:site_name" content="牛腩小站" />
+      <meta property="og:site_name" content="牛腩小镇" />
       <meta property="og:locale" content="zh_CN" />
 
       {/* Twitter Card */}

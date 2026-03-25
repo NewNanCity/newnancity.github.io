@@ -37,7 +37,7 @@ export default function LoadingScreen() {
         </div>
 
         <div className="loading-text">
-          <span className="loading-title">牛腩小站</span>
+          <span className="loading-title">牛腩小镇</span>
           <span className="loading-subtitle">NewNanCity</span>
         </div>
 
