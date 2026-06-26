@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>牛腩小镇 · 城镇评级</title>
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: #f8f9fa;
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: hidden;
+    }
+
+    .header {
+      text-align: center;
+      padding: 40px 24px 8px;
+    }
+
+    .header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      color: #1a1a1a;
+      letter-spacing: 1px;
+    }
+
+    .header .sub {
+      font-size: 13px;
+      color: #999;
+      margin-top: 6px;
+    }
+
+    /* ── 介绍文字 ── */
+    .intro {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 0 28px 8px;
+      font-size: 13.5px;
+      line-height: 1.8;
+      color: #666;
+    }
+
+    .intro p {
+      margin-top: 8px;
+    }
+
+    .intro .highlight {
+      color: #ff8c00;
+      font-weight: 600;
+    }
+
+    /* ── 底部注释 ── */
+    .notes {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 24px 28px 8px;
+      font-size: 13px;
+      line-height: 1.8;
+      color: #999;
+    }
+
+    .notes .notes-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #666;
+      margin-bottom: 6px;
+    }
+
+    /* ── 快速导航（紧凑小药丸） ── */
+    .quick-nav {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      padding: 16px 24px;
+      flex-wrap: wrap;
+    }
+
+    .quick-nav button {
+      height: 32px;
+      min-width: 32px;
+      padding: 0 10px;
+      border-radius: 16px;
+      border: 1.5px solid #e0e0e0;
+      background: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      color: #666;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .quick-nav button:hover {
+      border-color: #ffb347;
+      color: #ff8c00;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(255, 140, 0, 0.12);
+    }
+
+    .quick-nav button.active {
+      background: linear-gradient(135deg, #ff8c00, #ffb347);
+      border-color: #ff8c00;
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(255, 140, 0, 0.28);
+    }
+
+    /* ── 外层容器：固定视口，卡片横排滑动 ── */
+    .cards-viewport {
+      position: relative;
+      width: 100%;
+      margin: 0 auto;
+      overflow: hidden;
+      padding: 0 24px;
+    }
+
+    /* 横向滚动轨道 */
+    .cards-scroll {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth;
+      padding: 12px 0 40px;
+      gap: 16px;
+      scroll-padding: 0 calc((100% - 60%) / 2);
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .cards-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* ── 每张卡片 ── */
+    .card {
+      flex: 0 0 60%;
+      scroll-snap-align: center;
+      background: #fff;
+      border-radius: 20px;
+      padding: 28px 24px 24px;
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
+      border: 1px solid #f0f0f0;
+      cursor: pointer;
+      transition: opacity 0.4s ease, transform 0.4s ease, filter 0.4s ease;
+      opacity: 1;
+      transform: scale(1);
+      filter: none;
+      user-select: none;
+    }
+
+    /* 非居中卡片：变灰、缩小 */
+    .card.dimmed {
+      opacity: 0.45;
+      transform: scale(0.88);
+      filter: grayscale(50%);
+      pointer-events: auto;
+    }
+
+    /* 首尾留白 spacer，让首/末卡片也能滑到中间 */
+    .spacer {
+      flex: 0 0 calc((100% - 60%) / 2 - 8px);
+      min-width: 0;
+    }
+
+    /* ── 徽章 ── */
+    .card-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: #fff;
+    }
+
+    .card-badge.tier0 {
+      background: linear-gradient(135deg, #9e9e9e, #bdbdbd);
+    }
+
+    .card-badge.tier1 {
+      background: linear-gradient(135deg, #8d6e63, #a1887f);
+    }
+
+    .card-badge.tier2 {
+      background: linear-gradient(135deg, #66bb6a, #81c784);
+    }
+
+    .card-badge.tier3 {
+      background: linear-gradient(135deg, #42a5f5, #64b5f6);
+    }
+
+    .card-badge.tier4 {
+      background: linear-gradient(135deg, #ab47bc, #ba68c8);
+    }
+
+    .card-badge.tier5 {
+      background: linear-gradient(135deg, #ef5350, #e57373);
+    }
+
+    .card-badge.tier6 {
+      background: linear-gradient(135deg, #ff7043, #ff8a65);
+    }
+
+    .card-badge.tier7 {
+      background: linear-gradient(135deg, #fdd835, #ffee58);
+      color: #5d4037;
+    }
+
+    .card-title {
+      font-size: 21px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 4px;
+    }
+
+    /* ── 内容区 ── */
+    .section {
+      margin-top: 18px;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #ff8c00;
+      margin-bottom: 8px;
+      padding-bottom: 5px;
+      border-bottom: 2px solid #fff3e0;
+    }
+
+    .section ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .section ul li {
+      position: relative;
+      padding-left: 15px;
+      font-size: 13.5px;
+      line-height: 1.75;
+      color: #555;
+    }
+
+    .section ul li::before {
+      content: "·";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: #ff8c00;
+      font-weight: 700;
+      font-size: 17px;
+      line-height: 1.35;
+    }
+
+    /* ── info 提示图标 ── */
+    .tip {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      line-height: 16px;
+      text-align: center;
+      border-radius: 50%;
+      background: #e8e8e8;
+      color: #888;
+      font-size: 10px;
+      font-weight: 700;
+      font-style: normal;
+      cursor: help;
+      margin: 0 2px;
+      vertical-align: middle;
+      position: relative;
+      top: -1px;
+      transition: all 0.2s;
+    }
+
+    .tip:hover {
+      background: #ff8c00;
+      color: #fff;
+    }
+
+    /* ── 自定义 tooltip 气泡 ── */
+    #customTip {
+      position: fixed;
+      z-index: 9999;
+      max-width: 300px;
+      padding: 10px 14px;
+      background: rgba(30, 30, 30, 0.92);
+      color: #fff;
+      font-size: 13px;
+      line-height: 1.6;
+      border-radius: 8px;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 0.18s ease, transform 0.18s ease;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.22);
+      letter-spacing: 0.3px;
+    }
+
+    #customTip.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .no-content {
+      font-size: 13px;
+      color: #bbb;
+      font-style: italic;
+      padding-left: 15px;
+    }
+
+    /* 累计总计行 */
+    .total-summary {
+      margin-top: 14px;
+      font-size: 12px;
+      color: #999;
+      letter-spacing: 0.5px;
+    }
+
+    .card-footer-line {
+      margin-top: 22px;
+      height: 3px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, #fff3e0, #ffb347, #fff3e0);
+      opacity: 0.4;
+    }
+
+    /* ── 滚动指示点 ── */
+    .dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 0 16px;
+    }
+
+    .dots span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ddd;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .dots span.active {
+      background: #ff8c00;
+      width: 24px;
+      border-radius: 4px;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 0 24px 36px;
+      font-size: 12px;
+      color: #bbb;
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 600px) {
+      .cards-viewport {
+        padding: 0 12px;
+      }
+
+      .card {
+        padding: 22px 16px 20px;
+        border-radius: 16px;
+        flex: 0 0 66%;
+      }
+
+      .cards-scroll {
+        scroll-padding: 0 calc((100% - 66%) / 2);
+        gap: 10px;
+      }
+
+      .spacer {
+        flex: 0 0 calc((100% - 66%) / 2 - 5px);
+      }
+
+      .header h1 {
+        font-size: 23px;
+      }
+
+      .intro {
+        padding: 0 16px 8px;
+        font-size: 13px;
+      }
+
+      .notes {
+        padding: 20px 16px 8px;
+        font-size: 12px;
+      }
+
+      .quick-nav button {
+        height: 28px;
+        min-width: 28px;
+        padding: 0 8px;
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="header">
+    <h1>🏘️ 牛腩小镇 · 城镇评级</h1>
+    <p class="sub">2026.2 修订 · 左右滑动或点击星标切换等级</p>
+  </div>
+
+  <!-- 介绍 -->
+  <div class="intro">
+    <p>城镇等级制度是基于玩家群体在"牛腩小镇"的建设贡献，由管理组（包含 OP、镇长及资深认可玩家组成的最高委员会）进行的综合评定。评级旨在鼓励原创与美学，核心维度包括：<span
+        class="highlight">建筑原创性、美观度、城镇规划、布局缜密性及资源产出</span>。</p>
+    <p><span class="highlight">审核机制 ——</span>
+      公平性：评级采用管理组全员独立评分制，结合"哈哈版"评分计算表进行最终推导，确保结果客观公平。独立性：建筑法与城镇法互不隶属，管理组在处理建筑事务时，严禁将个人主观感观带入城镇等级评定。</p>
+  </div>
+
+  <!-- 快速导航 -->
+  <div class="quick-nav" id="quickNav"></div>
+
+  <!-- 卡片横排滑动区域 -->
+  <div class="cards-viewport">
+    <div class="cards-scroll" id="cardsScroll"></div>
+  </div>
+
+  <!-- 滚动指示点 -->
+  <div class="dots" id="dots"></div>
+
+  <!-- 底部注释 -->
+  <div class="notes">
+    <div class="notes-title">💡 补充说明</div>
+    <p>· 不以工业为判断原则，避免大家产生工业竞赛</p>
+    <p>· 考虑到部分人员会社恐，但也有不错的能力，因此举办活动可以视为加分项而不是主动项</p>
+  </div>
+
+  <script>
+    var tiers = [
+      {
+        star: 0, name: "聚落", tierClass: "tier0",
+        desc: ["在大群，游戏公屏等渠道内发起聚落声明", "拥有一定规模的建筑群（只要不是单个建筑就行应该）"],
+        conditions: [], privileges: []
+      },
+      {
+        star: 1, name: "微型城镇", tierClass: "tier1",
+        desc: ["刚从聚落升级上的城镇", "有自己的仓库", "市政厅", "简单的城市道路网", "配合几个合适的建筑", "有简单的建筑规划"],
+        conditions: ["有1~3个活跃玩家，扩大规模的建筑，有长期规划，同时保证用多少地开多少地，不大规模平地且弃之不用。"],
+        privileges: ["城镇前缀，官网添加城镇", "刷怪区", "+1 城镇自制特殊物品"]
+      },
+      {
+        star: 2, name: "小镇", tierClass: "tier2",
+        desc: ["逐渐成规模的城镇单位", "有较大的建筑群以及配合的交通网", "已有建筑可结合地形进行建设", "加分项（可获得基金会建筑补贴以及快速升星）：在建筑上面减少非原创建筑的使用，可以自主设计建筑", "有完善的发展规划。"],
+        conditions: ["至少有1~3个活跃玩家，完善城镇的烂尾楼建筑，不美观区域。", "并且有足够的自给自足能力（指可以不通过基金会拨款），城镇旗帜。有自己的城镇法则"],
+        privileges: ["+1 空置域（空置域无特殊情况最大12x12区块，有需求请申请）", "可在主城开设大型商店/银行/，可建造大使馆"]
+      },
+      {
+        star: 3, name: "中型城镇", tierClass: "tier3",
+        desc: ["到此应该已经是一个在单独区域比较完善的城镇了，同时也是继续发展的分界线。", "有够大的城镇仓库并且有一定的仓储（建筑方块，材料等）", "城镇应在单独一个区域规划内完成完整建设", "保持整体风格和谐统一。", "加分项（可获得基金会建筑补贴以及快速升星）：城镇内自主建设的建筑多于非原创建筑。"],
+        conditions: ["至少有1~3个活跃玩家，发展新的建筑集群（举例：我建设了一个海滨城市，在这以后又准备去创建一个雪地城市建筑群。当然，也可以继续完善当前建筑群）。", "与其他城镇达成良好的外交关系（我们认为继续发展为大型城镇，将不可避免的与其他城镇产生接触，因此需要城镇负责人妥善处理这一块）。", "拥有继续发展的城镇规划图&文件。"],
+        privileges: ["+5 系统商店收购箱，+5 系统商店出售箱", "牛腩建筑基金会绿色审批通道（大型建筑群规划更容易通过）", "+1 空置域（空置域无特殊情况最大12x12区块，有需求请申请）", "+1 特殊物品制作"]
+      },
+      {
+        star: 4, name: "大型城镇·一阶段", tierClass: "tier4",
+        desc: ["拥有不少于一个完善以及一个相对完善的城镇建筑群（可自主分区）", "或者是一个大型&小型但极度美观的建筑群", "拥有独立自主设计建筑的能力/拥有将建筑群整合到和谐自然的能力", "拥有完善的仓储以及对应的后勤人员", "与其他城镇保持友好关系", "拥有完整的镇内道路，保障玩家自主寻路。"],
+        conditions: ["至少有1~3个活跃玩家，保持两个建筑群美观，规模，完成度。", "城镇资金充足，新人初入城镇的装备/材料保障。", "有独立自主设计建筑群的能力，完善旧的烂尾楼，不美观区域等。"],
+        privileges: ["+5 系统商店收购箱，+5 系统商店出售箱，+2 系统商店兑换村民", "轮换主城传送门", "城镇实际负责人可以参与管理组事务（并不是管理员，但是可以参与讨论以及作为管理候选，由实际人自主抉择）", "+1 空置域（空置域无特殊情况最大12x12区块，有需求请申请）"]
+      },
+      {
+        star: 5, name: "大型城镇·完全体", tierClass: "tier5",
+        desc: ["拥有两个完善的建筑群 or 一个大型 or 一个极度美观的小型建筑群", "拥有独立自主设计建筑群的能力", "拥有丰富的城镇资产", "拥有完整的后期团队/人员", "完善的城市道路网", "完善的城镇细节美化"],
+        conditions: ["至少有1~3个活跃玩家，牛腩是建筑服务器，因此最终目标还是建筑。", "继续发展新的建筑规划，提交管理组审核查看。有一个在建且相对完善的建筑群or继续扩大本建筑群。", "处理镇内各处不美观设施，完善道路交通网（如果城镇地块不够，且无法扩张，可以向管理组申请新的区域进行建造。）"],
+        privileges: ["+5 系统商店收购箱，+5 系统商店出售箱，+2 系统商店兑换村民", "主城传送门", "基金会定期拨款"]
+      },
+      {
+        star: 6, name: "特大城镇", tierClass: "tier6",
+        desc: ["天下无敌城镇，非常牛逼。", "城镇的一半以上建筑为原创且具备一定的美学水准，参考现实相关建筑的结构、比例创作，建筑师要能够灵活运用建筑手法建造完善且美观的结构（如中式建筑的斗拱、飞檐，欧式建筑的拱券结构等）；", "有基本的城乡规划意识，划分居住区、仓储区、观景区等分区。规划简明，自成系统。"],
+        conditions: ["至少有1~3个活跃玩家，至少三个建筑群 or 完善的大型建筑群，足够美观的中型建筑群。", "完整的建筑规划图。", "城镇内部的成员培训。"],
+        privileges: ["+5 系统商店收购箱，+5 系统商店出售箱，+2 系统商店兑换村民", "6星城镇按成员活跃程度，采用打卡制记录活跃时间，每星期从牛腩基金会领取建筑津贴", "+1 特殊物品制作"]
+      },
+      {
+        star: 7, name: "超级城镇", tierClass: "tier7",
+        desc: ["天外来敌城镇，牛得没边了。", "城镇的绝大多数建筑为原创且具备较高的美学水准。结构完备不繁杂，手法精妙，建筑、道路、河流、湖泊、树木等细节打磨上能到达到生存模式条件下的最高水平；", "城乡规划水平极高，各种建筑元素安排合理，逻辑自洽，有一定趣味性，适当安排小彩蛋、小巧思，让玩家能逛又能玩。", "完善的超大型建筑群", "完善的一切"],
+        conditions: [],
+        privileges: ["直接系统和村民商店搬你家", "7星城镇直接获得牛腩基金会账户的使用权，但不得滥用权利，随意丢弃、挥霍基金会物资", "仍然采用打卡制，活跃度达不到要求的权限会被暂时收回"]
+      }
+    ];
+
+    var currentIndex = 0;
+    var scrollContainer = null;
+    var allCards = [];
+
+    // ── 将中文括号内容替换为 info 图标 ──
+    function processText(text) {
+      return text.replace(/（(.+?)）/g, function (match, inner) {
+        return '<span class="tip" data-tip="' + inner.replace(/"/g, '&quot;') + '">i</span>';
+      });
+    }
+
+    // ── 构建单张卡片 HTML ──
+    function cardHTML(t, i) {
+      var starsHtml = '';
+      for (var s = 0; s < t.star; s++) starsHtml += '★';
+      if (t.star === 0) starsHtml = '○';
+
+      var sec = '';
+      sec += '<div class="section"><div class="section-label">📋 说明</div><ul>';
+      for (var a = 0; a < t.desc.length; a++) sec += '<li>' + processText(t.desc[a]) + '</li>';
+      sec += '</ul></div>';
+
+      sec += '<div class="section"><div class="section-label">⬆ 升星条件</div>';
+      if (t.conditions.length === 0) {
+        sec += '<p class="no-content">' + (t.star === 7 ? '已达最高等级' : '此为入门等级，无升星条件') + '</p>';
+      } else {
+        sec += '<ul>';
+        for (var b = 0; b < t.conditions.length; b++) sec += '<li>' + processText(t.conditions[b]) + '</li>';
+        sec += '</ul>';
+      }
+      sec += '</div>';
+
+      sec += '<div class="section"><div class="section-label">🎁 特权</div>';
+      if (t.privileges.length === 0) {
+        sec += '<p class="no-content">暂无特权</p>';
+      } else {
+        sec += '<ul>';
+        for (var c = 0; c < t.privileges.length; c++) sec += '<li>' + processText(t.privileges[c]) + '</li>';
+        sec += '</ul>';
+      }
+
+      // 累计总计提示（0星除外）
+      if (t.star > 0) {
+        var totalAcquire = 0, totalSell = 0, totalVillager = 0, totalVoid = 0, totalSpecial = 0;
+        for (var k = 0; k <= i; k++) {
+          var privs = tiers[k].privileges;
+          for (var p = 0; p < privs.length; p++) {
+            var txt = privs[p];
+            var m1 = txt.match(/\+(\d+)\s*系统商店收购箱/);
+            var m2 = txt.match(/\+(\d+)\s*系统商店出售箱/);
+            var m3 = txt.match(/\+(\d+)\s*系统商店兑换村民/);
+            var m4 = txt.match(/\+(\d+)\s*空置域/);
+            var m5 = txt.match(/\+(\d+)\s*(?:城镇自制特殊物品|特殊物品制作)/);
+            if (m1) totalAcquire += parseInt(m1[1]);
+            if (m2) totalSell += parseInt(m2[1]);
+            if (m3) totalVillager += parseInt(m3[1]);
+            if (m4) totalVoid += parseInt(m4[1]);
+            if (m5) totalSpecial += parseInt(m5[1]);
+          }
+        }
+        var parts = [];
+        if (totalAcquire > 0) parts.push(totalAcquire + ' 收购箱');
+        if (totalSell > 0) parts.push(totalSell + ' 出售箱');
+        if (totalVillager > 0) parts.push(totalVillager + ' 兑换村民');
+        if (totalVoid > 0) parts.push(totalVoid + ' 空置域');
+        if (totalSpecial > 0) parts.push(totalSpecial + ' 特殊物品');
+        if (parts.length > 0) {
+          sec += '<p class="total-summary">📊 累计：' + parts.join(' / ') + '</p>';
+        }
+      }
+
+      sec += '</div>';
+
+      return '<div class="card" data-index="' + i + '">' +
+        '<span class="card-badge ' + t.tierClass + '">' + starsHtml + ' ' + t.star + ' 星</span>' +
+        '<div class="card-title">' + t.name + '</div>' +
+        sec +
+        '<div class="card-footer-line"></div>' +
+        '</div>';
+    }
+
+    // ── 渲染所有卡片 ──
+    function renderAllCards() {
+      var html = '<div class="spacer"></div>';
+      for (var i = 0; i < tiers.length; i++) {
+        html += cardHTML(tiers[i], i);
+      }
+      html += '<div class="spacer"></div>';
+      scrollContainer.innerHTML = html;
+      allCards = scrollContainer.querySelectorAll('.card');
+
+      // 每张卡片点击：如果被点击的不是居中卡片，则滚动到它
+      for (var j = 0; j < allCards.length; j++) {
+        allCards[j].addEventListener('click', function () {
+          var idx = parseInt(this.getAttribute('data-index'));
+          if (idx !== currentIndex) {
+            scrollToIndex(idx);
+          }
+        });
+      }
+    }
+
+    // ── 渲染快速导航 ──
+    function renderQuickNav() {
+      var nav = document.getElementById('quickNav');
+      var h = '';
+      for (var i = 0; i < tiers.length; i++) {
+        var t = tiers[i];
+        var label = t.star === 0 ? '○' : (t.star + '★');
+        var cls = (i === currentIndex) ? ' active' : '';
+        h += '<button class="' + cls + '" data-index="' + i + '">' + label + '</button>';
+      }
+      nav.innerHTML = h;
+      var btns = nav.querySelectorAll('button');
+      for (var j = 0; j < btns.length; j++) {
+        btns[j].addEventListener('click', function () {
+          var idx = parseInt(this.getAttribute('data-index'));
+          scrollToIndex(idx);
+        });
+      }
+    }
+
+    // ── 渲染指示点 ──
+    function renderDots() {
+      var dots = document.getElementById('dots');
+      var h = '';
+      for (var i = 0; i < tiers.length; i++) {
+        h += '<span data-index="' + i + '" class="' + (i === currentIndex ? 'active' : '') + '"></span>';
+      }
+      dots.innerHTML = h;
+      var sps = dots.querySelectorAll('span');
+      for (var j = 0; j < sps.length; j++) {
+        sps[j].addEventListener('click', function () {
+          var idx = parseInt(this.getAttribute('data-index'));
+          scrollToIndex(idx);
+        });
+      }
+    }
+
+    // ── 更新 dimmed 类 ──
+    function updateDimmed() {
+      var containerWidth = scrollContainer.clientWidth;
+      var scrollLeft = scrollContainer.scrollLeft;
+      var viewCenter = scrollLeft + containerWidth / 2;
+      var bestIdx = 0;
+      var bestDist = Infinity;
+      for (var i = 0; i < allCards.length; i++) {
+        var card = allCards[i];
+        var cardCenter = card.offsetLeft + card.offsetWidth / 2;
+        var dist = Math.abs(cardCenter - viewCenter);
+        if (dist < bestDist) { bestDist = dist; bestIdx = i; }
+      }
+      // 更新 dimmed
+      for (var j = 0; j < allCards.length; j++) {
+        if (j === bestIdx) {
+          allCards[j].classList.remove('dimmed');
+        } else {
+          allCards[j].classList.add('dimmed');
+        }
+      }
+      if (bestIdx !== currentIndex) {
+        currentIndex = bestIdx;
+        renderQuickNav();
+        renderDots();
+      }
+    }
+
+    // ── 滚动到指定卡片 ──
+    function scrollToIndex(idx) {
+      if (idx < 0 || idx >= tiers.length) return;
+      currentIndex = idx;
+      if (allCards[idx]) {
+        allCards[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
+      // 立即更新 dimmed（scroll 事件会再次触发确认）
+      for (var j = 0; j < allCards.length; j++) {
+        allCards[j].classList.toggle('dimmed', j !== idx);
+      }
+      renderQuickNav();
+      renderDots();
+    }
+
+    // ── 键盘 ──
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); if (currentIndex > 0) scrollToIndex(currentIndex - 1); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); if (currentIndex < tiers.length - 1) scrollToIndex(currentIndex + 1); }
+    });
+
+    // ── 自定义 tooltip ──
+    var customTip = document.createElement('div');
+    customTip.id = 'customTip';
+    document.body.appendChild(customTip);
+
+    document.addEventListener('mouseover', function (e) {
+      var el = e.target;
+      while (el && el !== document) {
+        if (el.classList && el.classList.contains('tip')) {
+          var tipText = el.getAttribute('data-tip');
+          if (tipText) {
+            customTip.textContent = tipText;
+            customTip.classList.add('show');
+          }
+          return;
+        }
+        el = el.parentElement;
+      }
+      hideTip();
+    });
+
+    document.addEventListener('mouseout', function (e) {
+      var el = e.target;
+      while (el && el !== document) {
+        if (el.classList && el.classList.contains('tip')) {
+          hideTip();
+          return;
+        }
+        el = el.parentElement;
+      }
+    });
+
+    function hideTip() {
+      customTip.classList.remove('show');
+    }
+
+    document.addEventListener('mousemove', function (e) {
+      if (customTip.classList.contains('show')) {
+        var x = e.clientX + 16;
+        var y = e.clientY - 40;
+        // 防止超出右边界
+        if (x + customTip.offsetWidth > window.innerWidth - 8) {
+          x = e.clientX - customTip.offsetWidth - 16;
+        }
+        // 防止超出上边界
+        if (y < 8) {
+          y = e.clientY + 20;
+        }
+        customTip.style.left = x + 'px';
+        customTip.style.top = y + 'px';
+      }
+    }, { passive: true });
+
+    // ── 入口 ──
+    scrollContainer = document.getElementById('cardsScroll');
+    renderAllCards();
+    renderQuickNav();
+    renderDots();
+
+    // 滚动时更新 dimmed
+    var scrollTimer = null;
+    scrollContainer.addEventListener('scroll', function () {
+      if (scrollTimer) clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(updateDimmed, 50);
+    }, { passive: true });
+
+    // 触摸结束
+    scrollContainer.addEventListener('touchend', function () {
+      setTimeout(updateDimmed, 100);
+    });
+
+    // 初始状态
+    setTimeout(updateDimmed, 300);
+  </script>
+
+</body>
+
+</html>
