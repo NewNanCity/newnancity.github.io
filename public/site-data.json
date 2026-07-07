@@ -5,7 +5,7 @@
       { "label": "牛腩百科", "icon": "📖", "url": "https://www.wolai.com/newnan/mLB6aqsvwTLxu3DCboQt7b" },
       { "label": "皮肤站",   "icon": "🎨", "url": "https://skin.newnan.city" },
       { "label": "牛腩地图", "icon": "🧭", "url": "#map" },
-      { "label": "牛腩时报", "icon": "📺", "url": "https://space.bilibili.com/1704080503" },
+      { "label": "牛腩B站", "icon": "📺", "url": "https://space.bilibili.com/528956334" },
       { "label": "牛腩法典", "icon": "📜", "url": "https://www.wolai.com/newnan/777czodMK18Zv6hdy2b8jm" },
       { "label": "牛腩史书", "icon": "📚", "url": "https://docs.qq.com/doc/DUGFObHVabWFNSFNM" },
       { "label": "GitHub",   "icon": "🛠️", "url": "https://github.com/NewNanCity" },
@@ -339,10 +339,10 @@
     ],
     "socialLinks": [
       { "label": "GitHub", "url": "https://github.com/NewNanCity" },
-      { "label": "牛腩时报 (B站)", "url": "https://space.bilibili.com/1704080503" },
+      { "label": "牛腩B站", "url": "https://space.bilibili.com/528956334" },
       { "label": "QQ 频道", "url": "https://pd.qq.com/s/haenk7dq2" }
     ],
-    "follow": { "label": "📺 牛腩时报 B站主页", "url": "https://space.bilibili.com/1704080503" },
+    "follow": { "label": "📺 牛腩B站主页", "url": "https://space.bilibili.com/528956334" },
     "icp": "浙ICP备2026008234号-1"
   }
 }
