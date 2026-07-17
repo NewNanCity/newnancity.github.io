@@ -33,7 +33,7 @@ docs/releases/unreleased/ 未发布变更事实源
 ## 关键约定
 
 - 正式 URL 一律使用 `https://newnan.city/`。
-- 主站采用“首页聚合 → 一级入口 → 城镇名片 → 独立城镇站”的分层结构；动态播报、生态入口与首页内容预算见 [首页动态聚合 V2](docs/portal-v2-aggregation.md)。
+- 主站采用“首页聚合 → 一级入口 → 本地城镇目录 / 城镇名片 → 独立城镇站”的分层结构；动态播报与首页内容预算见 [首页动态聚合 V2](docs/portal-v2-aggregation.md)，首屏快捷入口、城镇目录和动效预算见 [玩家门户 V3](docs/portal-v3-navigation-motion.md)。
 - 主站内容从 `public/site-data.json` 读取，不在组件里复制业务文案。
 - `public/pic/` 是只读源目录；优化图片、哈希文件名与改写后的 JSON 只生成到 `dist/`。
 - 图片按页面用途和内容复杂度分层，已合规的真实 WebP 才会原样保留；具体策略见 [图片管线](docs/image-pipeline.md)。
@@ -44,7 +44,7 @@ docs/releases/unreleased/ 未发布变更事实源
 ## 页面
 
 - `/#/`：动态聚合首页
-- `/#/world`：世界、城镇与铁路入口
+- `/#/world`：世界、铁路、6 个本站城镇主页和 Wolai 完整名册入口
 - `/#/world/towns/kaysha`：凯夏镇城镇名片；桃花源与天元镇使用各自 slug
 - `/#/community`：社区新闻、玩家作品与公共平台
 - `/#/archive`：历史、风光与牛腩精神
@@ -56,6 +56,7 @@ docs/releases/unreleased/ 未发布变更事实源
 - `/towns/kayshatown/`：凯夏镇
 - `/towns/taohuayuan/`：桃花源
 - `/towns/tyansec/`：天元镇
+- `/towns/chenchun/`：晨春（页面筹备中）
 - `/towns/tyansec/news/`：天元新闻
 - `/towns/tyansec/shop/`：天元商品
 

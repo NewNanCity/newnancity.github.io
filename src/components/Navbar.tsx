@@ -69,7 +69,7 @@ export default function Navbar({ route }: NavbarProps) {
   }, [isMobile, open])
 
   const handlePanelKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
-    if (event.key !== 'Tab' || !panelRef.current) return
+    if (!isMobile || !open || event.key !== 'Tab' || !panelRef.current) return
 
     const links = Array.from(panelRef.current.querySelectorAll<HTMLAnchorElement>('a[href]'))
     if (links.length === 0) return

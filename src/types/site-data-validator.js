@@ -18,9 +18,20 @@ function expectString(value, path) {
   if (typeof value !== 'string') fail(path, 'string')
 }
 
+function expectNonEmptyString(value, path) {
+  expectString(value, path)
+  if (value.trim().length === 0) fail(path, 'non-empty string')
+}
+
 function expectStringFields(value, fields, path) {
   const object = expectObject(value, path)
   for (const field of fields) expectString(object[field], `${path}.${field}`)
+  return object
+}
+
+function expectNonEmptyStringFields(value, fields, path) {
+  const object = expectObject(value, path)
+  for (const field of fields) expectNonEmptyString(object[field], `${path}.${field}`)
   return object
 }
 
@@ -43,6 +54,44 @@ function expectEnum(value, allowed, path) {
 function expectSafeSlug(value, path) {
   expectString(value, path)
   if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value)) fail(path, 'safe lowercase slug')
+}
+
+function expectSafeHref(value, path) {
+  expectNonEmptyString(value, path)
+  if (/[\s\\]/.test(value)) fail(path, 'safe hash, root-relative, or HTTPS URL')
+
+  if (/^#\/[a-z0-9][a-z0-9/_-]*$/i.test(value)) return
+
+  if (value.startsWith('/') && !value.startsWith('//')) {
+    try {
+      const url = new URL(value, 'https://newnan.city')
+      if (url.origin === 'https://newnan.city') return
+    } catch {
+      fail(path, 'safe hash, root-relative, or HTTPS URL')
+    }
+  }
+
+  try {
+    const url = new URL(value)
+    if (url.protocol === 'https:' && url.username === '' && url.password === '') return
+  } catch {
+    fail(path, 'safe hash, root-relative, or HTTPS URL')
+  }
+
+  fail(path, 'safe hash, root-relative, or HTTPS URL')
+}
+
+function expectTownHref(value, path) {
+  expectSafeHref(value, path)
+  if (!/^\/towns\/[a-z0-9][a-z0-9._~-]*(?:\/[a-z0-9][a-z0-9._~-]*)*\/?$/i.test(value)) {
+    fail(path, 'root-relative /towns/... path')
+  }
+}
+
+const QUICK_ACTION_HREFS = {
+  map: '#/map',
+  skin: 'https://skin.newnan.city/',
+  towns: '#/world',
 }
 
 export function parseSiteData(value) {
@@ -73,6 +122,27 @@ export function parseSiteData(value) {
   expectStringArray(hero.slides, 'siteData.hero.slides')
 
   const portal = expectObject(root.portal, 'siteData.portal')
+  if (portal.quickActions !== undefined) {
+    const quickActionIds = new Set()
+    expectObjectArray(portal.quickActions, 'siteData.portal.quickActions', (item, path) => {
+      const action = expectNonEmptyStringFields(
+        item,
+        ['id', 'label', 'meta', 'href', 'icon'],
+        path,
+      )
+      expectEnum(action.id, ['map', 'skin', 'towns'], `${path}.id`)
+      if (quickActionIds.has(action.id)) fail(`${path}.id`, 'unique quick action id')
+      quickActionIds.add(action.id)
+      expectSafeHref(action.href, `${path}.href`)
+      if (action.href !== QUICK_ACTION_HREFS[action.id]) {
+        fail(`${path}.href`, `canonical destination for "${action.id}"`)
+      }
+    })
+    if (quickActionIds.size !== 3) {
+      fail('siteData.portal.quickActions', 'map, skin, and towns actions')
+    }
+  }
+
   const gatewayIds = new Set()
   expectObjectArray(portal.gateways, 'siteData.portal.gateways', (item, path) => {
     const gateway = expectStringFields(
@@ -136,6 +206,23 @@ export function parseSiteData(value) {
     }
   }
 
+  let townDirectory = null
+  if (portal.townDirectory !== undefined) {
+    townDirectory = new Map()
+    expectObjectArray(portal.townDirectory, 'siteData.portal.townDirectory', (item, path) => {
+      const town = expectNonEmptyStringFields(
+        item,
+        ['id', 'name', 'summary', 'meta', 'href', 'status'],
+        path,
+      )
+      expectSafeSlug(town.id, `${path}.id`)
+      if (townDirectory.has(town.id)) fail(`${path}.id`, 'unique directory id')
+      expectTownHref(town.href, `${path}.href`)
+      expectEnum(town.status, ['open', 'preparing'], `${path}.status`)
+      townDirectory.set(town.id, { ...town, path })
+    })
+  }
+
   const townSlugs = new Set()
   expectObjectArray(portal.towns, 'siteData.portal.towns', (item, path) => {
     const town = expectStringFields(
@@ -150,6 +237,19 @@ export function parseSiteData(value) {
     expectObjectArray(town.facts, `${path}.facts`, (fact, factPath) => {
       expectStringFields(fact, ['label', 'value'], factPath)
     })
+
+    if (townDirectory !== null) {
+      const directoryTown = townDirectory.get(town.slug)
+      if (!directoryTown) {
+        fail('siteData.portal.townDirectory', `entry for profile town "${town.slug}"`)
+      }
+      if (directoryTown.name !== town.name) {
+        fail(`${directoryTown.path}.name`, `name matching profile town "${town.slug}"`)
+      }
+      if (directoryTown.href !== town.siteUrl) {
+        fail(`${directoryTown.path}.href`, `site URL matching profile town "${town.slug}"`)
+      }
+    }
   })
 
   const community = expectStringFields(portal.community, ['intro'], 'siteData.portal.community')

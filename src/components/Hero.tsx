@@ -26,10 +26,12 @@ function getServerStats() {
 }
 
 export default function Hero() {
-  const { hero, join } = useSiteData();
+  const { hero, portal } = useSiteData();
+  const heroRef = useRef<HTMLElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
   const { years, days } = useMemo(() => getServerStats(), []);
   const backgroundImage = hero.slides[0];
+  const quickActions = portal.quickActions ?? [];
 
   const displayedStats = useMemo<ResolvedHeroStat[]>(
     () => hero.stats.map((stat) => {
@@ -64,9 +66,69 @@ export default function Hero() {
     return () => observer.disconnect();
   }, [displayedStats]);
 
+  useEffect(() => {
+    const heroElement = heroRef.current;
+    if (!heroElement) return;
+
+    const motionQuery = window.matchMedia(
+      '(pointer: fine) and (prefers-reduced-motion: no-preference)',
+    );
+    let bounds: DOMRect | null = null;
+    let frameId: number | null = null;
+
+    const resetCamera = () => {
+      if (frameId !== null) cancelAnimationFrame(frameId);
+      frameId = null;
+      bounds = null;
+      heroElement.style.setProperty('--hero-camera-x', '0px');
+      heroElement.style.setProperty('--hero-camera-y', '0px');
+    };
+
+    const handlePointerEnter = () => {
+      if (motionQuery.matches) bounds = heroElement.getBoundingClientRect();
+    };
+
+    const handlePointerMove = (event: PointerEvent) => {
+      if (!motionQuery.matches) return;
+      bounds ??= heroElement.getBoundingClientRect();
+      const x = (event.clientX - bounds.left) / bounds.width - 0.5;
+      const y = (event.clientY - bounds.top) / bounds.height - 0.5;
+
+      if (frameId !== null) cancelAnimationFrame(frameId);
+      frameId = requestAnimationFrame(() => {
+        heroElement.style.setProperty('--hero-camera-x', `${(-x * 10).toFixed(2)}px`);
+        heroElement.style.setProperty('--hero-camera-y', `${(-y * 7).toFixed(2)}px`);
+        frameId = null;
+      });
+    };
+
+    const invalidateBounds = () => {
+      bounds = null;
+    };
+
+    heroElement.addEventListener('pointerenter', handlePointerEnter);
+    heroElement.addEventListener('pointermove', handlePointerMove);
+    heroElement.addEventListener('pointerleave', resetCamera);
+    motionQuery.addEventListener('change', resetCamera);
+    window.addEventListener('blur', resetCamera);
+    window.addEventListener('resize', resetCamera);
+    window.addEventListener('scroll', invalidateBounds, { passive: true });
+
+    return () => {
+      resetCamera();
+      heroElement.removeEventListener('pointerenter', handlePointerEnter);
+      heroElement.removeEventListener('pointermove', handlePointerMove);
+      heroElement.removeEventListener('pointerleave', resetCamera);
+      motionQuery.removeEventListener('change', resetCamera);
+      window.removeEventListener('blur', resetCamera);
+      window.removeEventListener('resize', resetCamera);
+      window.removeEventListener('scroll', invalidateBounds);
+    };
+  }, []);
+
   return (
     <>
-      <section className="hero" id="hero">
+      <section className="hero" id="hero" ref={heroRef}>
         {backgroundImage && (
           <img
             className="hero-background"
@@ -110,20 +172,33 @@ export default function Hero() {
         </div>
       </section>
 
-      <aside className="hero-status-strip" aria-label="入服小提醒">
-        <div className="container hero-status-inner">
-          <div className="hero-status-copy">
-            <span className="hero-status-live pixel-text">HELLO</span>
-            <span>
-              <strong>开门之前，先认识一下彼此</strong>
-              <small>{join.notice}</small>
-            </span>
+      {quickActions.length > 0 && (
+        <nav className="hero-quick-travel" aria-label="玩家常用快捷入口">
+          <div className="container hero-quick-travel-inner">
+            {quickActions.map((action) => {
+              const external = action.href.startsWith('http');
+              return (
+                <a
+                  className={`hero-quick-action hero-quick-action--${action.id}`}
+                  href={action.href}
+                  key={action.id}
+                  target={external ? '_blank' : undefined}
+                  rel={external ? 'noopener noreferrer' : undefined}
+                >
+                  <span className="hero-quick-icon" aria-hidden="true">{action.icon}</span>
+                  <span className="hero-quick-copy">
+                    <strong>{action.label}</strong>
+                    <small>{action.meta}</small>
+                  </span>
+                  <span className="hero-quick-arrow" aria-hidden="true">
+                    {external ? '↗' : '→'}
+                  </span>
+                </a>
+              );
+            })}
           </div>
-          <a className="hero-status-link" href="#/join">
-            看看怎么加入 <span aria-hidden="true">↓</span>
-          </a>
-        </div>
-      </aside>
+        </nav>
+      )}
     </>
   );
 }

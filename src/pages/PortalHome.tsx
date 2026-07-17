@@ -48,10 +48,10 @@ export default function PortalHome() {
         <div className="container">
           <header className="portal-ecosystem-header">
             <div>
-              <span className="section-tag pixel-text">QUICK TRAVEL</span>
-              <h2 id="portal-ecosystem-title">牛腩常用传送点</h2>
+              <span className="section-tag pixel-text">NEWNAN NETWORK</span>
+              <h2 id="portal-ecosystem-title">牛腩生态，接着逛</h2>
             </div>
-            <p>找小镇、查资料、换皮肤，常走的路都放在手边。</p>
+            <p>完整名册、百科、皮肤和身份服务，都从这里继续相连。</p>
           </header>
           <nav className="portal-ecosystem-grid" aria-label="牛腩生态常用入口">
             {portal.ecosystem.map((item) => (

@@ -53,6 +53,27 @@ export interface PortalEcosystemLink {
   icon: string;
 }
 
+export type PortalQuickActionId = 'map' | 'skin' | 'towns';
+
+export interface PortalQuickAction {
+  id: PortalQuickActionId;
+  label: string;
+  meta: string;
+  href: string;
+  icon: string;
+}
+
+export type PortalTownDirectoryStatus = 'open' | 'preparing';
+
+export interface PortalTownDirectoryEntry {
+  id: string;
+  name: string;
+  summary: string;
+  meta: string;
+  href: string;
+  status: PortalTownDirectoryStatus;
+}
+
 export interface PortalTownFact {
   label: string;
   value: string;
@@ -128,6 +149,7 @@ export interface SiteData {
     slides: string[];
   };
   portal: {
+    quickActions?: PortalQuickAction[];
     gateways: PortalGateway[];
     feed: PortalFeedItem[];
     spotlight: {
@@ -140,6 +162,7 @@ export interface SiteData {
     };
     updates: PortalUpdate[];
     ecosystem: PortalEcosystemLink[];
+    townDirectory?: PortalTownDirectoryEntry[];
     towns: PortalTown[];
     community: {
       intro: string;

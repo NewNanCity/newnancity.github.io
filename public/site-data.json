@@ -6,7 +6,7 @@
       { "label": "小镇名册", "icon": "🏘️", "url": "https://www.wolai.com/newnan/j2R7FhzBbEfk8p9bRvnmwE" },
       { "label": "皮肤站",   "icon": "🎨", "url": "https://skin.newnan.city" },
       { "label": "NewNan ID", "icon": "🔑", "url": "https://id.newnan.city/" },
-      { "label": "牛腩地图", "icon": "🧭", "url": "#map" },
+      { "label": "牛腩地图", "icon": "🧭", "url": "#/map" },
       { "label": "牛腩B站", "icon": "📺", "url": "https://space.bilibili.com/528956334" },
       { "label": "牛腩法典", "icon": "📜", "url": "https://www.wolai.com/newnan/777czodMK18Zv6hdy2b8jm" },
       { "label": "牛腩史书", "icon": "📚", "url": "https://docs.qq.com/doc/DUGFObHVabWFNSFNM" },
@@ -30,6 +30,29 @@
   },
 
   "portal": {
+    "quickActions": [
+      {
+        "id": "map",
+        "label": "实时地图",
+        "meta": "世界现在的样子",
+        "href": "#/map",
+        "icon": "🧭"
+      },
+      {
+        "id": "skin",
+        "label": "皮肤站",
+        "meta": "角色与皮肤",
+        "href": "https://skin.newnan.city/",
+        "icon": "🎨"
+      },
+      {
+        "id": "towns",
+        "label": "小镇目录",
+        "meta": "6 个本站入口",
+        "href": "#/world",
+        "icon": "🏘️"
+      }
+    ],
     "gateways": [
       {
         "id": "world",
@@ -170,8 +193,8 @@
     "ecosystem": [
       {
         "id": "towns",
-        "title": "小镇名册",
-        "description": "城镇与聚落都在这里持续更新。",
+        "title": "完整小镇名册",
+        "description": "更广的城镇与聚落记录在这里持续更新。",
         "href": "https://www.wolai.com/newnan/j2R7FhzBbEfk8p9bRvnmwE",
         "icon": "🏘️"
       },
@@ -195,6 +218,56 @@
         "description": "带着同一个牛腩身份，走进更多社区应用。",
         "href": "https://id.newnan.city/",
         "icon": "🔑"
+      }
+    ],
+    "townDirectory": [
+      {
+        "id": "charming-spring",
+        "name": "云梦泽",
+        "summary": "位于主城东方、依山傍水的自由小镇，留下了自己的城镇生活、设施与人物故事。",
+        "meta": "主城东方 · 灰线可达",
+        "href": "/towns/CharmingSpring/",
+        "status": "open"
+      },
+      {
+        "id": "fctinue",
+        "name": "未央",
+        "summary": "从元央的故事继续向前。主页已经开放，规划、建设与更多栏目仍在一点点整理。",
+        "meta": "城镇主页 · 部分栏目建设中",
+        "href": "/towns/Fctinue/",
+        "status": "open"
+      },
+      {
+        "id": "kaysha",
+        "name": "凯夏镇",
+        "summary": "西北平原上历史悠久的中世纪城镇，道路、公共建筑与交通网络保存着早期记忆。",
+        "meta": "中世纪古镇 · 地铁可达",
+        "href": "/towns/kayshatown/",
+        "status": "open"
+      },
+      {
+        "id": "taohuayuan",
+        "name": "桃花源",
+        "summary": "主城以西的中式城镇，有自己的法典、街巷、发展历史和热闹日常。",
+        "meta": "中式城镇 · 地铁 4 号线",
+        "href": "/towns/taohuayuan/",
+        "status": "open"
+      },
+      {
+        "id": "tyansec",
+        "name": "天元镇",
+        "summary": "机器体系、工业区和成员建筑区一起生长，也延伸出了自己的新闻与商品页面。",
+        "meta": "工业城镇 · 新闻与商品站",
+        "href": "/towns/tyansec/",
+        "status": "open"
+      },
+      {
+        "id": "chenchun",
+        "name": "晨春",
+        "summary": "城镇页面已经留好入口，资料与故事仍在筹备，之后会从这里继续展开。",
+        "meta": "页面筹备中",
+        "href": "/towns/chenchun/",
+        "status": "preparing"
       }
     ],
     "towns": [
