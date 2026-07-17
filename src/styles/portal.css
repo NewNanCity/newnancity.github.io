@@ -312,10 +312,24 @@
   line-height: 1.16;
 }
 
-.portal-live-copy > small {
+.portal-live-provenance {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px 10px;
   color: var(--color-primary);
-  font-size: 0.76rem;
+  font-size: 0.72rem;
   font-weight: 800;
+}
+
+.portal-live-provenance > span,
+.portal-live-provenance > time {
+  color: var(--color-secondary);
+}
+
+.portal-live-provenance > small {
+  color: var(--color-primary);
+  font-size: inherit;
 }
 
 .portal-live-copy > p {

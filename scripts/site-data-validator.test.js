@@ -10,12 +10,31 @@ test('should accept the current site data contract', () => {
   assert.equal(parseSiteData(validSiteData), validSiteData)
 })
 
-test('should accept the deployed V2 contract during the cache transition', () => {
+test('should accept deployed V2 and V3 contracts during the cache transition', () => {
   const legacySiteData = structuredClone(validSiteData)
   delete legacySiteData.portal.quickActions
   delete legacySiteData.portal.townDirectory
+  delete legacySiteData.portal.contentSources
+  delete legacySiteData.portal.homeFeedIds
+  delete legacySiteData.portal.worldAtlas
+  legacySiteData.portal.feed.forEach((item) => {
+    delete item.sourceRef
+    delete item.publishedOn
+  })
+  legacySiteData.nav.links.find((item) => item.label === '牛腩地图').url = '#map'
 
   assert.equal(parseSiteData(legacySiteData), legacySiteData)
+
+  const v3SiteData = structuredClone(validSiteData)
+  delete v3SiteData.portal.contentSources
+  delete v3SiteData.portal.homeFeedIds
+  delete v3SiteData.portal.worldAtlas
+  v3SiteData.portal.feed.forEach((item) => {
+    delete item.sourceRef
+    delete item.publishedOn
+  })
+
+  assert.equal(parseSiteData(v3SiteData), v3SiteData)
 })
 
 test('should reject invalid nested story and link fields', () => {
@@ -84,6 +103,7 @@ test('should enforce dynamic feed and ecosystem contracts', () => {
     { ...feedItem, id: 'memory-one', category: 'memory' },
     { ...feedItem, id: 'scenery-one', category: 'scenery' },
   ]
+  delete extended.portal.homeFeedIds
   extended.portal.ecosystem = [
     ecosystemItem,
     { ...ecosystemItem, id: 'wiki' },
@@ -110,6 +130,120 @@ test('should enforce dynamic feed and ecosystem contracts', () => {
   assert.throws(
     () => parseSiteData(missingEcosystemEntry),
     /siteData\.portal\.ecosystem/,
+  )
+})
+
+test('should enforce the V4 content catalog and home selection contract', () => {
+  assert.deepEqual(validSiteData.portal.homeFeedIds, [
+    'tyansec-news',
+    'taohuayuan-town',
+    'newyear-group',
+    'first-shelter',
+    'kaysha-spring',
+    'rail-world',
+  ])
+  assert.ok(validSiteData.portal.feed.every((item) => item.sourceRef))
+
+  const duplicateHomeItem = structuredClone(validSiteData)
+  duplicateHomeItem.portal.homeFeedIds[1] = duplicateHomeItem.portal.homeFeedIds[0]
+  assert.throws(
+    () => parseSiteData(duplicateHomeItem),
+    /siteData\.portal\.homeFeedIds\[1\]/,
+  )
+
+  const missingHomeItem = structuredClone(validSiteData)
+  missingHomeItem.portal.homeFeedIds[0] = 'missing-feed-item'
+  assert.throws(
+    () => parseSiteData(missingHomeItem),
+    /siteData\.portal\.homeFeedIds\[0\]/,
+  )
+
+  for (const invalidLength of [4, 9]) {
+    const invalidHomeLength = structuredClone(validSiteData)
+    invalidHomeLength.portal.homeFeedIds = Array.from(
+      { length: invalidLength },
+      (_, index) => validSiteData.portal.feed[index % validSiteData.portal.feed.length].id,
+    )
+    assert.throws(
+      () => parseSiteData(invalidHomeLength),
+      /siteData\.portal\.homeFeedIds/,
+    )
+  }
+
+  const unknownSource = structuredClone(validSiteData)
+  unknownSource.portal.feed[0].sourceRef = 'page:missing-source'
+  assert.throws(
+    () => parseSiteData(unknownSource),
+    /siteData\.portal\.feed\[0\]\.sourceRef/,
+  )
+
+  const preparingSource = structuredClone(validSiteData)
+  preparingSource.portal.contentSources[0].status = 'preparing'
+  preparingSource.portal.feed[0].sourceRef = `page:${preparingSource.portal.contentSources[0].id}`
+  assert.throws(
+    () => parseSiteData(preparingSource),
+    /siteData\.portal\.feed\[0\]\.sourceRef/,
+  )
+
+  const invalidDate = structuredClone(validSiteData)
+  invalidDate.portal.feed[0].publishedOn = '2026-02-30'
+  assert.throws(
+    () => parseSiteData(invalidDate),
+    /siteData\.portal\.feed\[0\]\.publishedOn/,
+  )
+})
+
+test('should enforce V4 atlas references and safe global navigation', () => {
+  assert.deepEqual(
+    new Set(validSiteData.portal.worldAtlas.nodes.map((node) => node.targetRef)),
+    new Set(validSiteData.portal.townDirectory.map((town) => `town:${town.id}`)),
+  )
+
+  const unsafeNav = structuredClone(validSiteData)
+  unsafeNav.nav.links[0].url = '//evil.example/path'
+  assert.throws(() => parseSiteData(unsafeNav), /siteData\.nav\.links\[0\]\.url/)
+
+  const unsafeGateway = structuredClone(validSiteData)
+  unsafeGateway.portal.gateways[0].href = 'javascript:alert(1)'
+  assert.throws(
+    () => parseSiteData(unsafeGateway),
+    /siteData\.portal\.gateways\[0\]\.href/,
+  )
+
+  const unknownLegacyHash = structuredClone(validSiteData)
+  unknownLegacyHash.nav.links[0].url = '#unknown-route'
+  assert.throws(
+    () => parseSiteData(unknownLegacyHash),
+    /siteData\.nav\.links\[0\]\.url/,
+  )
+
+  const remoteBackground = structuredClone(validSiteData)
+  remoteBackground.portal.worldAtlas.backgroundImage = 'https://example.com/world.webp'
+  assert.throws(
+    () => parseSiteData(remoteBackground),
+    /siteData\.portal\.worldAtlas\.backgroundImage/,
+  )
+
+  const invalidCoordinate = structuredClone(validSiteData)
+  invalidCoordinate.portal.worldAtlas.nodes[0].x = 101
+  assert.throws(
+    () => parseSiteData(invalidCoordinate),
+    /siteData\.portal\.worldAtlas\.nodes\[0\]\.x/,
+  )
+
+  const duplicateNode = structuredClone(validSiteData)
+  duplicateNode.portal.worldAtlas.nodes[1].targetRef =
+    duplicateNode.portal.worldAtlas.nodes[0].targetRef
+  assert.throws(
+    () => parseSiteData(duplicateNode),
+    /siteData\.portal\.worldAtlas\.nodes\[1\]\.targetRef/,
+  )
+
+  const unknownNode = structuredClone(validSiteData)
+  unknownNode.portal.worldAtlas.nodes[0].targetRef = 'town:missing-town'
+  assert.throws(
+    () => parseSiteData(unknownNode),
+    /siteData\.portal\.worldAtlas\.nodes\[0\]\.targetRef/,
   )
 })
 
@@ -194,9 +328,14 @@ test('should enforce hero quick actions and the local town directory', () => {
   )
 
   const missingProfileTown = structuredClone(validSiteData)
+  const missingProfileRef = `town:${missingProfileTown.portal.towns[0].slug}`
   missingProfileTown.portal.townDirectory = missingProfileTown.portal.townDirectory.filter(
     (item) => item.id !== missingProfileTown.portal.towns[0].slug,
   )
+  missingProfileTown.portal.feed.forEach((item) => {
+    if (item.sourceRef === missingProfileRef) delete item.sourceRef
+  })
+  delete missingProfileTown.portal.worldAtlas
   assert.throws(
     () => parseSiteData(missingProfileTown),
     /siteData\.portal\.townDirectory/,

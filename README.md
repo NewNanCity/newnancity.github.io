@@ -33,8 +33,9 @@ docs/releases/unreleased/ 未发布变更事实源
 ## 关键约定
 
 - 正式 URL 一律使用 `https://newnan.city/`。
-- 主站采用“首页聚合 → 一级入口 → 本地城镇目录 / 城镇名片 → 独立城镇站”的分层结构；动态播报与首页内容预算见 [首页动态聚合 V2](docs/portal-v2-aggregation.md)，首屏快捷入口、城镇目录和动效预算见 [玩家门户 V3](docs/portal-v3-navigation-motion.md)。
+- 主站采用“首页聚合 → 一级入口 → 世界图鉴 / 城镇名片 → 独立城镇站”的分层结构；动态播报见 [首页动态聚合 V2](docs/portal-v2-aggregation.md)，首屏快捷入口见 [玩家门户 V3](docs/portal-v3-navigation-motion.md)，内容目录、全局旅行面板和 2.5D 图鉴见 [玩家门户 V4](docs/portal-v4-world-atlas-content.md)。
 - 主站内容从 `public/site-data.json` 读取，不在组件里复制业务文案。
+- `portal.feed` 是内容目录，`homeFeedIds` 只决定首页展示顺序；审核通过的城镇或玩家页面通过 `sourceRef` 接入，不允许任意同源脚本执行。
 - `public/pic/` 是只读源目录；优化图片、哈希文件名与改写后的 JSON 只生成到 `dist/`。
 - 图片按页面用途和内容复杂度分层，已合规的真实 WebP 才会原样保留；具体策略见 [图片管线](docs/image-pipeline.md)。
 - `towns/` 可以保留原图与旧模板作为源资料，但生产构建只发布 HTML 实际可达的依赖；缺失本地引用会直接让构建失败。
@@ -44,12 +45,12 @@ docs/releases/unreleased/ 未发布变更事实源
 ## 页面
 
 - `/#/`：动态聚合首页
-- `/#/world`：世界、铁路、6 个本站城镇主页和 Wolai 完整名册入口
+- `/#/world`：6 座城镇的编辑式 2.5D 图鉴、城镇故事、实时地图和 Wolai 完整名册入口
 - `/#/world/towns/kaysha`：凯夏镇城镇名片；桃花源与天元镇使用各自 slug
 - `/#/community`：社区新闻、玩家作品与公共平台
 - `/#/archive`：历史、风光与牛腩精神
 - `/#/join`：入服流程
-- `/#/map`：牛腩实时地图；旧地址 `/#map` 保持兼容，移动端提供外部地图入口
+- `/#/map`：主站内嵌的牛腩实时地图；桌面与移动端共用 iframe，旧地址 `/#map` 保持兼容
 - `/towns/town-rate.html`：城镇评级
 - `/towns/CharmingSpring/`：云梦泽
 - `/towns/Fctinue/`：未央
@@ -59,6 +60,8 @@ docs/releases/unreleased/ 未发布变更事实源
 - `/towns/chenchun/`：晨春（页面筹备中）
 - `/towns/tyansec/news/`：天元新闻
 - `/towns/tyansec/shop/`：天元商品
+
+顶栏指南针按钮会从门户、城镇、工具和已登记页面来源派生全局旅行入口；入口数据仍以 `site-data.json` 为事实源，不另建一份导航清单。
 
 ## 发布
 

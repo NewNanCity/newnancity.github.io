@@ -20,6 +20,7 @@ export function getSiteDataImagePaths(siteData) {
     ...(siteData.gallery ?? []).map((item) => item.src),
     ...(siteData.portal?.gateways ?? []).map((gateway) => gateway.image),
     ...(siteData.portal?.feed ?? []).map((item) => item.image),
+    siteData.portal?.worldAtlas?.backgroundImage,
     siteData.portal?.spotlight?.image,
     ...(siteData.portal?.towns ?? []).map((town) => town.cover),
   ].filter((imagePath) => typeof imagePath === 'string' && imagePath.length > 0)
@@ -54,6 +55,17 @@ export function rewriteSiteDataImagePaths(siteData, fileMapping) {
         ...item,
         image: mapImagePath(item.image, fileMapping),
       })),
+      ...(siteData.portal.worldAtlas
+        ? {
+            worldAtlas: {
+              ...siteData.portal.worldAtlas,
+              backgroundImage: mapImagePath(
+                siteData.portal.worldAtlas.backgroundImage,
+                fileMapping,
+              ),
+            },
+          }
+        : {}),
       spotlight: {
         ...siteData.portal.spotlight,
         image: mapImagePath(siteData.portal.spotlight.image, fileMapping),

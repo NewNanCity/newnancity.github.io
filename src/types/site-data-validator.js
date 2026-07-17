@@ -1,3 +1,5 @@
+import { parsePortalRoute } from '../routing/portal-route.js'
+
 function fail(path, expected) {
   throw new TypeError(`${path} 应为 ${expected}`)
 }
@@ -60,7 +62,10 @@ function expectSafeHref(value, path) {
   expectNonEmptyString(value, path)
   if (/[\s\\]/.test(value)) fail(path, 'safe hash, root-relative, or HTTPS URL')
 
-  if (/^#\/[a-z0-9][a-z0-9/_-]*$/i.test(value)) return
+  if (value.startsWith('#')) {
+    if (parsePortalRoute(value).page !== 'not-found') return
+    fail(path, 'known portal hash, root-relative, or HTTPS URL')
+  }
 
   if (value.startsWith('/') && !value.startsWith('//')) {
     try {
@@ -88,6 +93,34 @@ function expectTownHref(value, path) {
   }
 }
 
+function expectLocalImageHref(value, path) {
+  expectNonEmptyString(value, path)
+  if (!/^\/(?:pic|towns)\/[a-z0-9._~!$&'()+,;=@%/-]+\.(?:avif|webp|png|jpe?g)$/i.test(value)) {
+    fail(path, 'local /pic/ or /towns/ image path')
+  }
+}
+
+function expectFiniteNumberInRange(value, minimum, maximum, path) {
+  if (typeof value !== 'number' || !Number.isFinite(value)) fail(path, 'finite number')
+  if (value < minimum || value > maximum) fail(path, `number from ${minimum} to ${maximum}`)
+}
+
+function expectIsoDate(value, path) {
+  expectString(value, path)
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) fail(path, 'real YYYY-MM-DD date')
+  const date = new Date(`${value}T00:00:00Z`)
+  if (Number.isNaN(date.getTime()) || date.toISOString().slice(0, 10) !== value) {
+    fail(path, 'real YYYY-MM-DD date')
+  }
+}
+
+function parseSourceRef(value, path) {
+  expectString(value, path)
+  const match = /^(town|page):([a-z0-9]+(?:-[a-z0-9]+)*)$/.exec(value)
+  if (!match) fail(path, 'town:<id> or page:<id> source reference')
+  return { kind: match[1], id: match[2] }
+}
+
 const QUICK_ACTION_HREFS = {
   map: '#/map',
   skin: 'https://skin.newnan.city/',
@@ -99,7 +132,8 @@ export function parseSiteData(value) {
 
   const nav = expectStringFields(root.nav, ['brand'], 'siteData.nav')
   expectObjectArray(nav.links, 'siteData.nav.links', (item, path) => {
-    expectStringFields(item, ['label', 'icon', 'url'], path)
+    const link = expectNonEmptyStringFields(item, ['label', 'icon', 'url'], path)
+    expectSafeHref(link.url, `${path}.url`)
   })
 
   const hero = expectStringFields(
@@ -143,9 +177,26 @@ export function parseSiteData(value) {
     }
   }
 
+  const contentSources = new Map()
+  if (portal.contentSources !== undefined) {
+    expectObjectArray(portal.contentSources, 'siteData.portal.contentSources', (item, path) => {
+      const source = expectNonEmptyStringFields(
+        item,
+        ['id', 'kind', 'name', 'description', 'href', 'status'],
+        path,
+      )
+      expectSafeSlug(source.id, `${path}.id`)
+      if (contentSources.has(source.id)) fail(`${path}.id`, 'unique content source id')
+      expectEnum(source.kind, ['official', 'player'], `${path}.kind`)
+      expectSafeHref(source.href, `${path}.href`)
+      expectEnum(source.status, ['open', 'preparing'], `${path}.status`)
+      contentSources.set(source.id, { ...source, path })
+    })
+  }
+
   const gatewayIds = new Set()
   expectObjectArray(portal.gateways, 'siteData.portal.gateways', (item, path) => {
-    const gateway = expectStringFields(
+    const gateway = expectNonEmptyStringFields(
       item,
       ['id', 'eyebrow', 'label', 'description', 'href', 'icon', 'image'],
       path,
@@ -153,17 +204,20 @@ export function parseSiteData(value) {
     expectEnum(gateway.id, ['world', 'community', 'archive', 'join'], `${path}.id`)
     if (gatewayIds.has(gateway.id)) fail(`${path}.id`, 'unique gateway id')
     gatewayIds.add(gateway.id)
+    expectSafeHref(gateway.href, `${path}.href`)
   })
   if (gatewayIds.size !== 4) fail('siteData.portal.gateways', 'all four portal gateways')
 
   const feed = expectArray(portal.feed, 'siteData.portal.feed')
-  if (feed.length < 5 || feed.length > 8) {
-    fail('siteData.portal.feed', 'between five and eight feed items')
+  const feedMaximum = portal.homeFeedIds === undefined ? 8 : 40
+  if (feed.length < 5 || feed.length > feedMaximum) {
+    fail('siteData.portal.feed', `between five and ${feedMaximum} feed items`)
   }
   const feedIds = new Set()
+  const feedItems = []
   feed.forEach((item, index) => {
     const path = `siteData.portal.feed[${index}]`
-    const feedItem = expectStringFields(
+    const feedItem = expectNonEmptyStringFields(
       item,
       ['id', 'category', 'eyebrow', 'title', 'summary', 'image', 'href', 'meta', 'actionLabel'],
       path,
@@ -176,7 +230,27 @@ export function parseSiteData(value) {
       ['news', 'town', 'activity', 'memory', 'scenery'],
       `${path}.category`,
     )
+    expectLocalImageHref(feedItem.image, `${path}.image`)
+    expectSafeHref(feedItem.href, `${path}.href`)
+    if (feedItem.sourceRef !== undefined) parseSourceRef(feedItem.sourceRef, `${path}.sourceRef`)
+    if (feedItem.publishedOn !== undefined) expectIsoDate(feedItem.publishedOn, `${path}.publishedOn`)
+    feedItems.push({ ...feedItem, path })
   })
+
+  if (portal.homeFeedIds !== undefined) {
+    const homeFeedIds = expectArray(portal.homeFeedIds, 'siteData.portal.homeFeedIds')
+    if (homeFeedIds.length < 5 || homeFeedIds.length > 8) {
+      fail('siteData.portal.homeFeedIds', 'between five and eight feed references')
+    }
+    const selectedFeedIds = new Set()
+    homeFeedIds.forEach((id, index) => {
+      const path = `siteData.portal.homeFeedIds[${index}]`
+      expectNonEmptyString(id, path)
+      if (selectedFeedIds.has(id)) fail(path, 'unique feed reference')
+      selectedFeedIds.add(id)
+      if (!feedIds.has(id)) fail(path, `reference to feed item "${id}"`)
+    })
+  }
 
   expectStringFields(
     portal.spotlight,
@@ -220,6 +294,45 @@ export function parseSiteData(value) {
       expectTownHref(town.href, `${path}.href`)
       expectEnum(town.status, ['open', 'preparing'], `${path}.status`)
       townDirectory.set(town.id, { ...town, path })
+    })
+  }
+
+  feedItems.forEach((feedItem) => {
+    if (feedItem.sourceRef === undefined) return
+    const source = parseSourceRef(feedItem.sourceRef, `${feedItem.path}.sourceRef`)
+    const resolvedSource = source.kind === 'town'
+      ? townDirectory?.get(source.id)
+      : contentSources.get(source.id)
+    if (!resolvedSource || resolvedSource.status !== 'open') {
+      fail(`${feedItem.path}.sourceRef`, `reference to an open ${source.kind} source`)
+    }
+  })
+
+  if (portal.worldAtlas !== undefined) {
+    const atlas = expectNonEmptyStringFields(
+      portal.worldAtlas,
+      ['layout', 'backgroundImage'],
+      'siteData.portal.worldAtlas',
+    )
+    expectEnum(atlas.layout, ['editorial'], 'siteData.portal.worldAtlas.layout')
+    expectLocalImageHref(
+      atlas.backgroundImage,
+      'siteData.portal.worldAtlas.backgroundImage',
+    )
+    if (townDirectory === null) {
+      fail('siteData.portal.worldAtlas', 'atlas with townDirectory')
+    }
+    const atlasTargets = new Set()
+    expectObjectArray(atlas.nodes, 'siteData.portal.worldAtlas.nodes', (item, path) => {
+      const node = expectObject(item, path)
+      const target = parseSourceRef(node.targetRef, `${path}.targetRef`)
+      if (target.kind !== 'town') fail(`${path}.targetRef`, 'town:<id> atlas target')
+      if (atlasTargets.has(node.targetRef)) fail(`${path}.targetRef`, 'unique atlas target')
+      atlasTargets.add(node.targetRef)
+      if (!townDirectory.has(target.id)) fail(`${path}.targetRef`, 'existing town target')
+      expectFiniteNumberInRange(node.x, 0, 100, `${path}.x`)
+      expectFiniteNumberInRange(node.y, 0, 100, `${path}.y`)
+      expectFiniteNumberInRange(node.depth, 0, 1, `${path}.depth`)
     })
   }
 

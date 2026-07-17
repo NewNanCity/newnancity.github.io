@@ -98,69 +98,6 @@
   box-shadow: inset 0 -2px 0 var(--color-secondary);
 }
 
-.nav-tools {
-  position: relative;
-  flex: 0 0 auto;
-}
-
-.nav-tools summary {
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  color: var(--color-text-dim);
-  font-size: 1rem;
-  cursor: pointer;
-  list-style: none;
-}
-
-.nav-tools summary::-webkit-details-marker {
-  display: none;
-}
-
-.nav-tools summary:hover,
-.nav-tools[open] summary {
-  background: rgba(224, 235, 226, 0.07);
-  border-color: var(--color-border);
-  color: var(--color-text-bright);
-}
-
-.nav-tools-menu {
-  position: absolute;
-  top: calc(100% + 10px);
-  right: 0;
-  display: grid;
-  width: 270px;
-  padding: 12px;
-  background: rgba(16, 19, 18, 0.98);
-  border: 1px solid var(--color-border);
-  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.45);
-}
-
-.nav-tools-menu > p {
-  padding: 4px 8px 8px;
-  color: var(--color-primary);
-  font-size: 0.58rem;
-}
-
-.nav-tools-menu > a {
-  display: grid;
-  grid-template-columns: 28px minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 8px;
-  min-height: 42px;
-  padding: 6px 8px;
-  color: var(--color-text-dim);
-  font-size: 0.78rem;
-}
-
-.nav-tools-menu > a:hover {
-  color: var(--color-text-bright);
-  background: var(--color-bg-glass);
-}
-
 .nav-toggle {
   position: relative;
   z-index: 3;
@@ -171,7 +108,7 @@
   gap: 5px;
   width: 44px;
   height: 44px;
-  margin-left: auto;
+  margin-left: 0;
   padding: 8px;
   background: none;
   border: none;
@@ -271,39 +208,6 @@
     font-size: 1.2rem;
   }
 
-  .nav-mobile-utilities {
-    margin-top: 26px;
-  }
-
-  .nav-mobile-utilities > p {
-    margin-bottom: 10px;
-    color: var(--color-primary);
-    font-size: 0.6rem;
-  }
-
-  .nav-mobile-utilities > div {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1px;
-    background: var(--color-border);
-    border: 1px solid var(--color-border);
-  }
-
-  .nav-mobile-utilities a {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    min-width: 0;
-    min-height: 48px;
-    padding: 8px 10px;
-    background: var(--color-bg-deep);
-    color: var(--color-text-dim);
-    font-size: 0.72rem;
-  }
-
-  .nav-mobile-utilities a:hover {
-    color: var(--color-text-bright);
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

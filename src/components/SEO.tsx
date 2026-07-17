@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { seoConfig } from '../config/seo.config'
 
@@ -34,6 +35,10 @@ export default function SEO({
   canonicalUrl = url,
   noIndex = false,
 }: SEOProps) {
+  useEffect(() => {
+    document.title = title
+  }, [title])
+
   return (
     <Helmet>
       {/* Basic Meta Tags */}

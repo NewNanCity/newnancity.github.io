@@ -1,6 +1,10 @@
-import { useEffect, useState, type FocusEvent } from 'react'
+import { useEffect, useMemo, useState, type FocusEvent } from 'react'
 import { useSiteData } from '../context/SiteDataContext'
-import { nextHomeFeedIndex } from '../state/home-feed-state.js'
+import {
+  nextHomeFeedIndex,
+  resolveHomeFeedSource,
+  selectHomeFeedItems,
+} from '../state/home-feed-state.js'
 import type { PortalFeedCategory } from '../types/SiteData'
 
 const ROTATION_INTERVAL_MS = 6500
@@ -15,6 +19,10 @@ const CATEGORY_LABELS: Record<PortalFeedCategory, string> = {
 
 export default function HomeLiveFeed() {
   const { portal } = useSiteData()
+  const feedItems = useMemo(
+    () => selectHomeFeedItems(portal.feed, portal.homeFeedIds),
+    [portal.feed, portal.homeFeedIds],
+  )
   const [activeIndex, setActiveIndex] = useState(0)
   const [manualPaused, setManualPaused] = useState(false)
   const [interactionPaused, setInteractionPaused] = useState(false)
@@ -23,7 +31,12 @@ export default function HomeLiveFeed() {
     () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
   )
 
-  const currentItem = portal.feed[activeIndex]
+  const currentItem = feedItems[activeIndex]
+  const currentSource = resolveHomeFeedSource(
+    currentItem.sourceRef,
+    portal.townDirectory ?? [],
+    portal.contentSources ?? [],
+  )
   const autoPaused = manualPaused || interactionPaused || pageHidden || reduceMotion
   const playbackLabel = reduceMotion
     ? '已按减少动态效果设置暂停'
@@ -45,18 +58,22 @@ export default function HomeLiveFeed() {
   }, [])
 
   useEffect(() => {
-    if (autoPaused || portal.feed.length < 2) return
+    if (autoPaused || feedItems.length < 2) return
     const timer = window.setInterval(() => {
-      setActiveIndex((current) => nextHomeFeedIndex(current, portal.feed.length))
+      setActiveIndex((current) => nextHomeFeedIndex(current, feedItems.length))
     }, ROTATION_INTERVAL_MS)
     return () => window.clearInterval(timer)
-  }, [autoPaused, portal.feed.length])
+  }, [autoPaused, feedItems.length])
 
   useEffect(() => {
-    const nextIndex = nextHomeFeedIndex(activeIndex, portal.feed.length)
+    const nextIndex = nextHomeFeedIndex(activeIndex, feedItems.length)
     const preload = new Image()
-    preload.src = portal.feed[nextIndex].image
-  }, [activeIndex, portal.feed])
+    preload.src = feedItems[nextIndex].image
+  }, [activeIndex, feedItems])
+
+  useEffect(() => {
+    setActiveIndex((current) => Math.min(current, feedItems.length - 1))
+  }, [feedItems.length])
 
   const handleFeedFocusOut = (event: FocusEvent<HTMLElement>) => {
     const nextTarget = event.relatedTarget
@@ -116,7 +133,15 @@ export default function HomeLiveFeed() {
               <span className="portal-live-copy">
                 <span className="portal-live-eyebrow pixel-text">{currentItem.eyebrow}</span>
                 <strong>{currentItem.title}</strong>
-                <small>{currentItem.meta}</small>
+                <span className="portal-live-provenance">
+                  {currentSource && <span>{currentSource.name}</span>}
+                  {currentItem.publishedOn && (
+                    <time dateTime={currentItem.publishedOn}>
+                      {currentItem.publishedOn.replace(/-/g, '.')}
+                    </time>
+                  )}
+                  <small>{currentItem.meta}</small>
+                </span>
                 <p>{currentItem.summary}</p>
                 <span className="portal-live-action">
                   {currentItem.actionLabel} <span aria-hidden="true">{external ? '↗' : '→'}</span>
@@ -126,7 +151,7 @@ export default function HomeLiveFeed() {
           </article>
 
           <ol className="portal-live-queue" aria-label="更多小镇动态">
-            {portal.feed.map((item, index) => (
+            {feedItems.map((item, index) => (
               <li key={item.id}>
                 <button
                   type="button"

@@ -53,6 +53,32 @@
         "icon": "🏘️"
       }
     ],
+    "contentSources": [
+      {
+        "id": "newnan-official",
+        "kind": "official",
+        "name": "牛腩小镇",
+        "description": "社区公告、活动与共同生活的记录。",
+        "href": "#/community",
+        "status": "open"
+      },
+      {
+        "id": "newnan-archive",
+        "kind": "official",
+        "name": "牛腩史书",
+        "description": "由社区整理的历史事件与影像档案。",
+        "href": "#/archive",
+        "status": "open"
+      },
+      {
+        "id": "newnan-transport",
+        "kind": "official",
+        "name": "牛腩交通",
+        "description": "城镇、铁路与世界探索入口。",
+        "href": "#/world",
+        "status": "open"
+      }
+    ],
     "gateways": [
       {
         "id": "world",
@@ -91,6 +117,14 @@
         "image": "/pic/NSrank_KXChengqu.webp"
       }
     ],
+    "homeFeedIds": [
+      "tyansec-news",
+      "taohuayuan-town",
+      "newyear-group",
+      "first-shelter",
+      "kaysha-spring",
+      "rail-world"
+    ],
     "feed": [
       {
         "id": "tyansec-news",
@@ -101,7 +135,8 @@
         "image": "/towns/tyansec/news/images/one.webp",
         "href": "/towns/tyansec/news/",
         "meta": "天元镇 · 城镇自己写的新闻",
-        "actionLabel": "去读这期新闻"
+        "actionLabel": "去读这期新闻",
+        "sourceRef": "town:tyansec"
       },
       {
         "id": "taohuayuan-town",
@@ -112,7 +147,8 @@
         "image": "/towns/taohuayuan/images/bigpicture.webp",
         "href": "#/world/towns/taohuayuan",
         "meta": "桃花源 · 中式建筑 · 地铁可达",
-        "actionLabel": "去桃花源逛逛"
+        "actionLabel": "去桃花源逛逛",
+        "sourceRef": "town:taohuayuan"
       },
       {
         "id": "newyear-group",
@@ -123,7 +159,8 @@
         "image": "/pic/2025-2026_Lunar_GroupPhoto.webp",
         "href": "#/archive",
         "meta": "2026 农历新年 · 社区合影",
-        "actionLabel": "看看大家的合影"
+        "actionLabel": "看看大家的合影",
+        "sourceRef": "page:newnan-official"
       },
       {
         "id": "first-shelter",
@@ -134,7 +171,9 @@
         "image": "/pic/sttot_shelter2020.webp",
         "href": "#/archive",
         "meta": "2020.02 · 最初的开荒记忆",
-        "actionLabel": "翻开六年史书"
+        "actionLabel": "翻开六年史书",
+        "sourceRef": "page:newnan-archive",
+        "publishedOn": "2020-02-02"
       },
       {
         "id": "kaysha-spring",
@@ -145,7 +184,8 @@
         "image": "/pic/stwuzhou_kayshaspring.webp",
         "href": "#/archive",
         "meta": "凯夏镇 · 山顶温泉",
-        "actionLabel": "继续看小镇风光"
+        "actionLabel": "继续看小镇风光",
+        "sourceRef": "town:kaysha"
       },
       {
         "id": "rail-world",
@@ -156,7 +196,8 @@
         "image": "/pic/NSrank_KXChengqu.webp",
         "href": "#/world",
         "meta": "轨道交通 · 城镇 · 实时地图",
-        "actionLabel": "打开世界目录"
+        "actionLabel": "打开世界目录",
+        "sourceRef": "page:newnan-transport"
       }
     ],
     "spotlight": {
@@ -270,6 +311,18 @@
         "status": "preparing"
       }
     ],
+    "worldAtlas": {
+      "layout": "editorial",
+      "backgroundImage": "/pic/NSrank_KXChengqu.webp",
+      "nodes": [
+        { "targetRef": "town:kaysha", "x": 16, "y": 26, "depth": 0.3 },
+        { "targetRef": "town:taohuayuan", "x": 48, "y": 20, "depth": 0.2 },
+        { "targetRef": "town:charming-spring", "x": 82, "y": 28, "depth": 0.4 },
+        { "targetRef": "town:fctinue", "x": 20, "y": 70, "depth": 0.75 },
+        { "targetRef": "town:chenchun", "x": 52, "y": 72, "depth": 0.9 },
+        { "targetRef": "town:tyansec", "x": 82, "y": 66, "depth": 0.7 }
+      ]
+    },
     "towns": [
       {
         "slug": "kaysha",

@@ -33,6 +33,18 @@ export interface PortalUpdate {
 
 export type PortalFeedCategory = 'news' | 'town' | 'activity' | 'memory' | 'scenery';
 
+export type PortalContentSourceKind = 'official' | 'player';
+export type PortalContentSourceRef = `town:${string}` | `page:${string}`;
+
+export interface PortalContentSource {
+  id: string;
+  kind: PortalContentSourceKind;
+  name: string;
+  description: string;
+  href: string;
+  status: 'open' | 'preparing';
+}
+
 export interface PortalFeedItem {
   id: string;
   category: PortalFeedCategory;
@@ -43,6 +55,8 @@ export interface PortalFeedItem {
   href: string;
   meta: string;
   actionLabel: string;
+  sourceRef?: PortalContentSourceRef;
+  publishedOn?: string;
 }
 
 export interface PortalEcosystemLink {
@@ -72,6 +86,19 @@ export interface PortalTownDirectoryEntry {
   meta: string;
   href: string;
   status: PortalTownDirectoryStatus;
+}
+
+export interface PortalWorldAtlasNode {
+  targetRef: `town:${string}`;
+  x: number;
+  y: number;
+  depth: number;
+}
+
+export interface PortalWorldAtlas {
+  layout: 'editorial';
+  backgroundImage: string;
+  nodes: PortalWorldAtlasNode[];
 }
 
 export interface PortalTownFact {
@@ -150,7 +177,9 @@ export interface SiteData {
   };
   portal: {
     quickActions?: PortalQuickAction[];
+    contentSources?: PortalContentSource[];
     gateways: PortalGateway[];
+    homeFeedIds?: string[];
     feed: PortalFeedItem[];
     spotlight: {
       eyebrow: string;
@@ -163,6 +192,7 @@ export interface SiteData {
     updates: PortalUpdate[];
     ecosystem: PortalEcosystemLink[];
     townDirectory?: PortalTownDirectoryEntry[];
+    worldAtlas?: PortalWorldAtlas;
     towns: PortalTown[];
     community: {
       intro: string;

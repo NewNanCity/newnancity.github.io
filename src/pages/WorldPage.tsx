@@ -1,4 +1,5 @@
 import PortalPageHeader from '../components/PortalPageHeader'
+import WorldAtlas from '../components/WorldAtlas'
 import { useSiteData } from '../context/SiteDataContext'
 import { portalHref } from '../routing/portal-route.js'
 
@@ -8,25 +9,35 @@ export default function WorldPage() {
   const fullTownRoster = portal.ecosystem.find((item) => item.id === 'towns')!
   const localTownDirectory = portal.townDirectory ?? []
   const hasLocalTownDirectory = localTownDirectory.length > 0
+  const hasWorldAtlas = Boolean(portal.worldAtlas && hasLocalTownDirectory)
 
   return (
     <div className="portal-page portal-world-page">
-      <PortalPageHeader
-        eyebrow="WORLD DIRECTORY"
-        title="牛腩世界"
-        description="一座座城镇和一条条铁路，把大家的生活连成了同一个不断生长的世界。"
-        image={gateway.image}
-      >
-        <a className="mc-btn mc-btn-primary" href="#/map">打开实时地图</a>
-        <a className="mc-btn" href="/towns/town-rate.html">查看城镇评级</a>
-        <a className="mc-btn" href={fullTownRoster.href} target="_blank" rel="noopener noreferrer">
-          完整小镇名册 <span aria-hidden="true">↗</span>
-        </a>
-      </PortalPageHeader>
+      {hasWorldAtlas && portal.worldAtlas ? (
+        <WorldAtlas
+          atlas={portal.worldAtlas}
+          townDirectory={localTownDirectory}
+          featuredTowns={portal.towns}
+          fullTownRosterHref={fullTownRoster.href}
+        />
+      ) : (
+        <PortalPageHeader
+          eyebrow="WORLD DIRECTORY"
+          title="牛腩世界"
+          description="一座座城镇和一条条铁路，把大家的生活连成了同一个不断生长的世界。"
+          image={gateway.image}
+        >
+          <a className="mc-btn mc-btn-primary" href="#/map">打开实时地图</a>
+          <a className="mc-btn" href="/towns/town-rate.html">查看城镇评级</a>
+          <a className="mc-btn" href={fullTownRoster.href} target="_blank" rel="noopener noreferrer">
+            完整小镇名册 <span aria-hidden="true">↗</span>
+          </a>
+        </PortalPageHeader>
+      )}
 
       <div className="portal-content-section">
         <div className="container">
-          {hasLocalTownDirectory && (
+          {!hasWorldAtlas && hasLocalTownDirectory && (
             <section aria-labelledby="local-town-directory-title">
               <header className="portal-section-heading portal-section-heading--compact">
                 <div>
@@ -68,7 +79,7 @@ export default function WorldPage() {
           )}
 
           <section
-            className={hasLocalTownDirectory ? 'portal-featured-towns' : undefined}
+            className={!hasWorldAtlas && hasLocalTownDirectory ? 'portal-featured-towns' : undefined}
             aria-labelledby="town-stories-title"
           >
             <header className="portal-section-heading portal-section-heading--compact">
@@ -111,22 +122,24 @@ export default function WorldPage() {
         </div>
       </div>
 
-      <section className="portal-rail-band" aria-labelledby="rail-title">
-        <div className="container portal-rail-grid">
-          <div className="portal-rail-visual animate-on-scroll" aria-hidden="true">
-            <span /><span /><span /><span /><span />
-          </div>
-          <div className="portal-rail-copy">
-            <span className="section-tag pixel-text">RAIL & MAP</span>
-            <h2 id="rail-title">沿着交通网络探索世界</h2>
-            <p>铁路把主城、城镇和远方聚落串在一起。打开地图挑一座站，下一趟旅程就从那里开始。</p>
-            <div className="portal-inline-actions">
-              <a href="#/map">实时地图 <span aria-hidden="true">↗</span></a>
-              <a href="/towns/town-rate.html">城镇评级 <span aria-hidden="true">→</span></a>
+      {!hasWorldAtlas && (
+        <section className="portal-rail-band" aria-labelledby="rail-title">
+          <div className="container portal-rail-grid">
+            <div className="portal-rail-visual animate-on-scroll" aria-hidden="true">
+              <span /><span /><span /><span /><span />
+            </div>
+            <div className="portal-rail-copy">
+              <span className="section-tag pixel-text">RAIL & MAP</span>
+              <h2 id="rail-title">沿着交通网络探索世界</h2>
+              <p>铁路把主城、城镇和远方聚落串在一起。打开地图挑一座站，下一趟旅程就从那里开始。</p>
+              <div className="portal-inline-actions">
+                <a href="#/map">实时地图 <span aria-hidden="true">↗</span></a>
+                <a href="/towns/town-rate.html">城镇评级 <span aria-hidden="true">→</span></a>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
     </div>
   )
 }

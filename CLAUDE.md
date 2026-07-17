@@ -24,12 +24,12 @@ Node.js 22+，pnpm 10.4.1。完整构建顺序和线上核验见 `docs/CDN-DEPLO
 ## 核心决策
 
 - 正式域名统一为 `https://newnan.city/`。
-- 主站采用分级哈希路由：首页在固定预算内展示动态播报、一级入口与高频快捷入口；世界页承接本地城镇目录，详见 `docs/portal-v2-aggregation.md` 和 `docs/portal-v3-navigation-motion.md`。
+- 主站采用分级哈希路由：首页按 `homeFeedIds` 聚合内容，顶栏提供派生式旅行面板，世界页承接编辑式 2.5D 城镇图鉴；详见 `docs/portal-v2-aggregation.md`、`docs/portal-v3-navigation-motion.md` 和 `docs/portal-v4-world-atlas-content.md`。
 - 主站只从 `public/site-data.json` 取内容；保持字段向后兼容。
 - 图片按用途、复杂度、质量下限和软/硬预算处理；源文件只读，详见 `docs/image-pipeline.md`。
 - `towns/` 生产构建只复制 HTML 可达依赖；缺失本地引用直接失败。
 - Minecraft 场景保留 `image-rendering: pixelated`。
-- 地图桌面内嵌，移动端跳转外部地图；不修改外部地图服务。
+- 地图在桌面与移动端都通过主站 `#/map` 内嵌 iframe；不修改外部地图服务。
 
 ## 编码与验收
 

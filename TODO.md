@@ -9,4 +9,4 @@
 - [ ] 为筹备页 `towns/chenchun/index.html` 和通用 `towns/comingsoon.html` 增加 `noindex`，避免未完成内容进入搜索索引。
 - [ ] 修复 Windows 本地构建时 `vite-plugin-compression` 把预压缩文件写入 `dist/D:/...` 的路径问题；Linux GitHub Actions 的正式发布路径需保持不变。
 
-2026-07-17 至 2026-07-18 完成的官网质量改造、玩家门户 V1、首页动态聚合 V2 与玩家门户 V3 已归档到 `docs/releases/unreleased/`；发布状态以对应 GitHub Actions 运行和正式域名核验为准。
+2026-07-17 至 2026-07-18 完成的官网质量改造、玩家门户 V1、首页动态聚合 V2、玩家门户 V3 与 V4 已归档到 `docs/releases/unreleased/`；发布状态以对应 GitHub Actions 运行和正式域名核验为准。
