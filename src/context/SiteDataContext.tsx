@@ -1,59 +1,59 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import type { SiteData } from '../types/SiteData';
+import { parseSiteData } from '../types/site-data-validator.js';
 
 const SiteDataContext = createContext<SiteData | null>(null);
 
-/**
- * 智能加载 site-data，优先使用压缩版本
- */
-async function loadSiteData(): Promise<SiteData> {
-  // 尝试加载 .gz 版本（更小）
-  try {
-    const response = await fetch('/site-data.json.gz');
-    if (response.ok) {
-      // 如果浏览器支持 CompressionStream，自动解压
-      if ('CompressionStream' in globalThis) {
-        const buffer = await response.arrayBuffer();
-        const readable = new ReadableStream({
-          start(controller) {
-            controller.enqueue(new Uint8Array(buffer));
-            controller.close();
-          },
-        });
-        const decompressed = await new Response(
-          readable.pipeThrough(
-            new (CompressionStream as any)('gzip', 'decompress')
-          )
-        ).json();
-        return decompressed;
-      }
-      // 否则 CDN 已经自动解压（Content-Encoding: gzip）
-      return response.json();
-    }
-  } catch {
-    // .gz 版本不可用，继续使用原始版本
+async function loadSiteData(signal: AbortSignal): Promise<SiteData> {
+  const response = await fetch('/site-data.json', { signal });
+  if (!response.ok) {
+    throw new Error(`site-data 请求失败: ${response.status}`);
   }
-
-  // 回退到原始 JSON
-  const response = await fetch('/site-data.json');
-  return response.json();
+  const payload: unknown = await response.json();
+  return parseSiteData(payload);
 }
 
 export function SiteDataProvider({ children }: { children: ReactNode }) {
   const [data, setData] = useState<SiteData | null>(null);
+  const [error, setError] = useState(false);
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
-    loadSiteData()
+    const controller = new AbortController();
+    setError(false);
+
+    loadSiteData(controller.signal)
       .then(setData)
-      .catch(console.error);
-  }, []);
+      .catch((loadError: unknown) => {
+        if (loadError instanceof DOMException && loadError.name === 'AbortError') {
+          return;
+        }
+        console.error('站点数据加载失败', loadError);
+        setError(true);
+      });
+
+    return () => controller.abort();
+  }, [attempt]);
+
+  if (error) {
+    return (
+      <main className="site-error" role="alert">
+        <div className="site-error-inner">
+          <p className="pixel-text">连接小镇档案失败</p>
+          <button type="button" className="mc-btn mc-btn-primary" onClick={() => setAttempt((value) => value + 1)}>
+            重新加载
+          </button>
+        </div>
+      </main>
+    );
+  }
 
   if (!data) {
     return (
-      <div className="site-loading">
+      <div className="site-loading" role="status" aria-live="polite">
         <div className="site-loading-inner">
           <span className="pixel-text site-loading-text">
-            Loading...
+            正在读取小镇档案...
           </span>
         </div>
       </div>

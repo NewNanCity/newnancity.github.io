@@ -1,4 +1,5 @@
 import { Helmet } from 'react-helmet-async'
+import { seoConfig } from '../config/seo.config'
 
 interface SEOProps {
   title?: string
@@ -9,14 +10,15 @@ interface SEOProps {
   keywords?: string
   author?: string
   canonicalUrl?: string
+  noIndex?: boolean
 }
 
 const defaultSEO = {
-  title: '牛腩小镇 | NewNanCity - 公益Minecraft服务器',
-  description: '牛腩小镇，一个自2020年起持续运营的公益Minecraft服务器社区。公益、自由、友善、有序，做玩家温暖的家。',
-  image: 'https://newnancity.com/pic/zh_mc_zq2025.webp',
-  url: 'https://newnancity.com/',
-  keywords: '牛腩小镇,NewNanCity,Minecraft,我的世界,服务器,公益服,MC服务器',
+  title: seoConfig.defaultTitle,
+  description: seoConfig.defaultDescription,
+  image: seoConfig.defaultImage,
+  url: seoConfig.siteUrl,
+  keywords: seoConfig.defaultKeywords.join(','),
   author: '牛腩小镇',
   type: 'website' as const,
 }
@@ -30,6 +32,7 @@ export default function SEO({
   keywords = defaultSEO.keywords,
   author = defaultSEO.author,
   canonicalUrl = url,
+  noIndex = false,
 }: SEOProps) {
   return (
     <Helmet>
@@ -60,9 +63,9 @@ export default function SEO({
       <link rel="canonical" href={canonicalUrl} />
 
       {/* Additional SEO Meta Tags */}
-      <meta name="robots" content="index, follow" />
-      <meta name="googlebot" content="index, follow" />
-      <meta name="bingbot" content="index, follow" />
+      <meta name="robots" content={noIndex ? 'noindex, follow' : 'index, follow'} />
+      <meta name="googlebot" content={noIndex ? 'noindex, follow' : 'index, follow'} />
+      <meta name="bingbot" content={noIndex ? 'noindex, follow' : 'index, follow'} />
     </Helmet>
   )
 }

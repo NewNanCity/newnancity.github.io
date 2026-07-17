@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111514">
+  <meta name="description" content="牛腩小镇城镇页面正在建设中。">
+  <link rel="canonical" href="https://newnan.city/towns/comingsoon.html">
+  <title>页面建设中 | 牛腩小镇</title>
+  <style>
+    @font-face {
+      font-family: "Minecraft";
+      src: url("/MinecraftRegular.otf") format("opentype");
+      font-display: swap;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { min-height: 100%; }
+
+    body {
+      margin: 0;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      overflow-x: hidden;
+      background: #111514;
+      color: #f5f2ea;
+      font-family: "Noto Sans SC", "Microsoft YaHei", sans-serif;
+    }
+
+    .backdrop,
+    .overlay {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .backdrop {
+      object-fit: cover;
+      image-rendering: pixelated;
+    }
+
+    .overlay {
+      background: rgba(12, 15, 14, 0.76);
+    }
+
+    main {
+      position: relative;
+      width: min(680px, calc(100% - 40px));
+      padding: 72px 0;
+      text-align: center;
+    }
+
+    .eyebrow {
+      margin: 0 0 18px;
+      color: #6fd35f;
+      font-family: "Minecraft", monospace;
+      font-size: 0.72rem;
+    }
+
+    h1 {
+      margin: 0 0 16px;
+      font-size: 3rem;
+      line-height: 1.2;
+      letter-spacing: 0;
+      text-shadow: 4px 4px 0 #000;
+    }
+
+    p {
+      margin: 0 auto 30px;
+      color: #c8c5bc;
+      line-height: 1.8;
+    }
+
+    a {
+      display: inline-flex;
+      min-height: 48px;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 24px;
+      background: #4eae42;
+      border: 3px solid;
+      border-color: #79dc6c #286822 #286822 #79dc6c;
+      color: #fff;
+      font-weight: 800;
+      text-decoration: none;
+      box-shadow: inset -3px -3px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    a:hover { background: #61c454; }
+
+    a:focus-visible {
+      outline: 3px solid #f3b43d;
+      outline-offset: 4px;
+    }
+
+    @media (max-width: 520px) {
+      h1 { font-size: 2.25rem; }
+    }
+  </style>
+</head>
+<body>
+  <img class="backdrop" src="/social-preview.webp" alt="" aria-hidden="true">
+  <div class="overlay" aria-hidden="true"></div>
+  <main>
+    <p class="eyebrow">NEWNAN CITY</p>
+    <h1>城镇页面建设中</h1>
+    <p>这里的内容尚未公开。你仍可从牛腩小镇官网查看社区历史、风光与加入方式。</p>
+    <a href="https://newnan.city/">返回牛腩官网</a>
+  </main>
+</body>
+</html>

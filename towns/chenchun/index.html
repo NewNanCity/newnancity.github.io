@@ -1,11 +1,240 @@
-<html>
-
+<!doctype html>
+<html lang="zh-CN">
 <head>
-    <title>正在跳转</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="晨春页面正在筹备。">
+  <link rel="canonical" href="https://newnan.city/towns/chenchun/">
+  <title>晨春｜页面筹备中</title>
+  <link rel="preload" href="images/newnan-city-hero.webp" as="image" type="image/webp">
+  <style>
+    :root {
+      color-scheme: dark;
+      --night: #112729;
+      --paper: #f8f4e8;
+      --spring: #92c96f;
+      --sun: #f5bd4f;
+      --brick: #b64f43;
+      font-family: "Noto Sans SC", "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+      font-synthesis: none;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100svh;
+      margin: 0;
+      background: var(--night);
+      color: var(--paper);
+    }
+
+    a:focus-visible {
+      outline: 3px solid var(--sun);
+      outline-offset: 4px;
+    }
+
+    .page {
+      position: relative;
+      min-height: 100svh;
+      display: grid;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .city-image,
+    .city-image img,
+    .shade {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .city-image {
+      z-index: -3;
+      margin: 0;
+    }
+
+    .city-image img {
+      object-fit: cover;
+      object-position: center;
+      image-rendering: pixelated;
+    }
+
+    .shade {
+      z-index: -2;
+      background: rgba(9, 30, 31, 0.64);
+    }
+
+    .page::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 12px;
+      height: 58%;
+      background: var(--spring);
+    }
+
+    .page::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 112px;
+      height: 112px;
+      background: var(--brick);
+      box-shadow: -112px 0 0 var(--sun), 0 -112px 0 rgba(146, 201, 111, 0.7);
+      opacity: 0.92;
+    }
+
+    .topbar,
+    .content,
+    .footer {
+      width: min(1120px, calc(100% - 48px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      align-self: start;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      padding: 24px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.38);
+    }
+
+    .brand {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .domain {
+      margin: 0;
+      color: #dce6d6;
+      font-family: Georgia, serif;
+      font-size: 12px;
+    }
+
+    .content {
+      align-self: center;
+      padding: 56px 0 84px;
+    }
+
+    .status {
+      margin: 0;
+      color: var(--sun);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 14px 0 0;
+      font-family: "STSong", "Songti SC", serif;
+      font-size: 88px;
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .en {
+      margin: 12px 0 0;
+      color: var(--spring);
+      font-family: Georgia, serif;
+      font-size: 20px;
+      font-style: italic;
+    }
+
+    .message {
+      max-width: 520px;
+      margin: 32px 0 0;
+      padding-left: 18px;
+      border-left: 4px solid var(--brick);
+      color: #edf1e8;
+      font-size: 18px;
+      line-height: 1.8;
+    }
+
+    .back-link {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      margin-top: 30px;
+      padding: 8px 18px;
+      border: 1px solid var(--paper);
+      border-radius: 2px;
+      color: var(--paper);
+      font-size: 14px;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .back-link:hover {
+      background: var(--paper);
+      color: var(--night);
+    }
+
+    .footer {
+      align-self: end;
+      padding: 20px 0 24px;
+      color: rgba(255, 255, 255, 0.74);
+      font-size: 11px;
+    }
+
+    @media (max-width: 600px) {
+      .topbar,
+      .content,
+      .footer {
+        width: min(100% - 32px, 1120px);
+      }
+
+      .domain {
+        display: none;
+      }
+
+      h1 {
+        font-size: 58px;
+      }
+
+      .message {
+        max-width: 310px;
+        font-size: 16px;
+      }
+
+      .page::after {
+        width: 64px;
+        height: 64px;
+        box-shadow: -64px 0 0 var(--sun), 0 -64px 0 rgba(146, 201, 111, 0.7);
+      }
+    }
+  </style>
 </head>
-
 <body>
-    <script language='javascript'>document.location = '../comingsoon.html'</script>
-</body>
+  <main class="page">
+    <picture class="city-image">
+      <img src="images/newnan-city-hero.webp" alt="NewNan City 城区景观" width="1200" height="630" fetchpriority="high">
+    </picture>
+    <div class="shade" aria-hidden="true"></div>
 
+    <header class="topbar">
+      <p class="brand">NewNan City · 城镇站点</p>
+      <p class="domain">newnan.city</p>
+    </header>
+
+    <section class="content" aria-labelledby="page-title">
+      <p class="status">页面筹备中</p>
+      <h1 id="page-title">晨春</h1>
+      <p class="en">ChenChun</p>
+      <p class="message">当前页面正在筹备，稍后再来看看。</p>
+      <a class="back-link" href="https://newnan.city/">返回 NewNan City</a>
+    </section>
+
+    <footer class="footer">NewNan City Town Network</footer>
+  </main>
+</body>
 </html>

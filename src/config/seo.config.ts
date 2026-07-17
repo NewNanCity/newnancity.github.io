@@ -6,7 +6,7 @@
 export const seoConfig = {
   // ========== 基本信息 ==========
   siteName: '牛腩小镇',
-  siteUrl: 'https://newnancity.com/',
+  siteUrl: 'https://newnan.city/',
   alternativeName: 'NewNanCity',
   foundingYear: 2020,
   language: 'zh-CN',
@@ -24,7 +24,7 @@ export const seoConfig = {
     '公益服',
     'MC服务器',
   ],
-  defaultImage: 'https://newnancity.com/pic/zh_mc_zq2025.webp',
+  defaultImage: 'https://newnan.city/social-preview.webp',
 
   // ========== 组织信息 (JSON-LD) ==========
   organization: {
@@ -32,8 +32,8 @@ export const seoConfig = {
     '@type': 'Organization',
     name: '牛腩小镇',
     alternateName: 'NewNanCity',
-    url: 'https://newnancity.com/',
-    logo: 'https://newnancity.com/favicon.ico',
+    url: 'https://newnan.city/',
+    logo: 'https://newnan.city/favicon.ico',
     description: '自2020年起持续运营的公益Minecraft服务器社区',
     foundingDate: '2020-02-02',
     areaServed: 'CN',
@@ -46,7 +46,7 @@ export const seoConfig = {
 
   // ========== 社交媒体链接 ==========
   socialProfiles: {
-    bilibili: 'https://space.bilibili.com/1704080503',
+    bilibili: 'https://space.bilibili.com/528956334',
   },
 }
 

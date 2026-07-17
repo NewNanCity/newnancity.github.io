@@ -1,30 +1,15 @@
-Dimension by HTML5 UP
-html5up.net | @ajlkn
-Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+天元商品静态站
+==============
 
+index.html 直接展示商品目录、非卖品、合作伙伴与原材料提供信息，不再依赖模板模态框、jQuery 或外部字体。
 
-This is Dimension, a fun little one-pager with modal-ized (is that a word?) "pages"
-and a cool depth effect (click on a menu item to see what I mean). Simple, fully
-responsive, and kitted out with all the usual pre-styled elements you'd expect.
-Hope you dig it :)
+图片策略：
 
-Demo images* courtesy of Unsplash, a radtastic collection of CC0 (public domain) images
-you can use for pretty much whatever.
+- 工业区首屏复用天元镇高质量场景 WebP。
+- 带游戏文字的小型物品截图使用无损 WebP，不缩放，保护像素与 NBT 字样。
+- 大尺寸角色截图按实际展示密度缩到 960px，使用高质量有损 WebP。
+- 原始 JPG/PNG 全部保留。
 
-(* = not included)
+本地预览：在仓库根目录运行 `python -m http.server 4178 --bind 127.0.0.1`，打开 `/towns/tyansec/shop/`。
 
-AJ
-aj@lkn.io | @ajlkn
-
-
-Credits:
-
-	Demo Images:
-		Unsplash (unsplash.com)
-
-	Icons:
-		Font Awesome (fontawesome.io)
-
-	Other:
-		jQuery (jquery.com)
-		Responsive Tools (github.com/ajlkn/responsive-tools)
+Original template by HTML5 UP, licensed under CCA 3.0. See LICENSE.txt.

@@ -13,13 +13,13 @@
 
 /* ─── CSS Custom Properties ─── */
 :root {
-  /* Warm dark palette – cozy like oak planks by torchlight */
-  --color-bg-deep:    #1a1512;
-  --color-bg:         #221c18;
-  --color-bg-alt:     #28211c;
-  --color-bg-card:    rgba(255, 220, 170, 0.05);
-  --color-bg-glass:   rgba(255, 220, 170, 0.08);
-  --color-surface:    #332a21;
+  /* Neutral stone surfaces with warm Minecraft accents */
+  --color-bg-deep:    #101312;
+  --color-bg:         #171a18;
+  --color-bg-alt:     #1d211f;
+  --color-bg-card:    rgba(224, 235, 226, 0.05);
+  --color-bg-glass:   rgba(224, 235, 226, 0.08);
+  --color-surface:    #252a26;
 
   /* Brand colors */
   --color-primary:    #f6a623;
@@ -28,15 +28,15 @@
   --color-accent:     #5b9aff;   /* subtle tech-blue sparkle */
   --color-pixel-green:#5dba4f;
   --color-warm:       #ff7b54;   /* warm coral for energy */
-  --color-warm-soft:  #e8c49a;   /* soft parchment */
+  --color-warm-soft:  #e6d2ae;   /* soft parchment */
   --color-redstone:   #e04040;
 
   /* Text – warm whites instead of cool blue-whites */
-  --color-text:       #f2e9dc;
-  --color-text-dim:   #b8a894;
-  --color-text-bright:#fffaf2;
+  --color-text:       #e9eee9;
+  --color-text-dim:   #aab3aa;
+  --color-text-bright:#fffdf7;
 
-  --color-border:     rgba(255, 200, 130, 0.13);
+  --color-border:     rgba(204, 224, 208, 0.14);
   --color-glow:       rgba(246, 166, 35, 0.22);
 
   --font-pixel: 'Minecraft Regular', monospace;
@@ -55,14 +55,18 @@
 html {
   scroll-padding-top: 80px;
   font-size: 16px;
-  /* 隐藏滚动条 */
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE & Edge */
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary) var(--color-bg-deep);
 }
-
-/* 隐藏 Webkit 浏览器的滚动条（Chrome, Safari, Edge） */
 html::-webkit-scrollbar {
-  display: none;
+  width: 10px;
+}
+html::-webkit-scrollbar-track {
+  background: var(--color-bg-deep);
+}
+html::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border: 3px solid var(--color-bg-deep);
 }
 
 body {
@@ -78,6 +82,10 @@ a { color: var(--color-primary); text-decoration: none; transition: color var(--
 a:hover { color: var(--color-secondary); }
 img { max-width: 100%; display: block; }
 ::selection { background: var(--color-primary); color: var(--color-bg-deep); }
+:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 3px;
+}
 
 /* ─── Utilities ─── */
 .container { max-width: var(--container-width); margin: 0 auto; padding: 0 24px; }
@@ -162,7 +170,7 @@ img { max-width: 100%; display: block; }
 }
 
 /* ─── Section Common ─── */
-.section { position: relative; z-index: 1; padding: var(--section-padding); min-height: calc(100vh - var(--navbar-height)); }
+.section { position: relative; z-index: 1; padding: var(--section-padding); }
 .section-alt { background: var(--color-bg-alt); }
 
 .section-header { text-align: center; margin-bottom: 64px; }
@@ -170,11 +178,11 @@ img { max-width: 100%; display: block; }
   display: inline-block;
   font-size: 1.2rem;
   color: var(--color-secondary);
-  letter-spacing: 0.3em;
+  letter-spacing: 0;
   margin-bottom: 12px;
 }
 .section-title {
-  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-size: 2.5rem;
   font-weight: 900;
   color: var(--color-text-bright);
   margin-bottom: 16px;
@@ -206,7 +214,7 @@ img { max-width: 100%; display: block; }
   padding: 14px 32px;
   font-size: 1rem;
   font-weight: 600;
-  border-radius: 12px;
+  border-radius: 8px;
   border: none;
   cursor: pointer;
   transition: all var(--transition-base);
@@ -288,6 +296,20 @@ img { max-width: 100%; display: block; }
   color: var(--color-primary);
   font-size: 0.7rem;
 }
+.site-error {
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: var(--color-bg-deep);
+}
+.site-error-inner {
+  display: grid;
+  justify-items: center;
+  gap: 24px;
+  color: var(--color-text-bright);
+  text-align: center;
+}
 
 /* ─── CRT / RetroTV ─── */
 @keyframes danmaku-fly {
@@ -330,4 +352,19 @@ img { max-width: 100%; display: block; }
 /* ─── Responsive breakpoints ─── */
 @media (max-width: 768px) {
   :root { --section-padding: 48px 0; }
+  .section-title { font-size: 2rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+  .animate-on-scroll {
+    opacity: 1;
+    transform: none;
+  }
 }

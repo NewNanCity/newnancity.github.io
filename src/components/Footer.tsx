@@ -4,7 +4,7 @@ import './Footer.css';
 const year = new Date().getFullYear();
 
 export default function Footer() {
-  const { footer } = useSiteData();
+  const { footer, portal } = useSiteData();
 
   return (
     <footer className="footer">
@@ -16,11 +16,21 @@ export default function Footer() {
         </div>
 
         <div className="footer-col">
-          <h4>快捷链接</h4>
+          <h4>逛逛</h4>
+          <ul>
+            {portal.gateways.map((gateway) => (
+              <li key={gateway.id}><a href={gateway.href}>{gateway.label}</a></li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="footer-col">
+          <h4>常用入口</h4>
           <ul>
             {footer.quickLinks.map((l, i) => (
               <li key={i}><a href={l.url} target="_blank" rel="noopener noreferrer">{l.label}</a></li>
             ))}
+            <li><a href={footer.follow.url} target="_blank" rel="noopener noreferrer">{footer.follow.label}</a></li>
           </ul>
         </div>
 
@@ -33,17 +43,6 @@ export default function Footer() {
           </ul>
         </div>
 
-        <div className="footer-col">
-          <h4>关注我们</h4>
-          <a
-            href={footer.follow.url}
-            className="footer-follow-btn"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {footer.follow.label}
-          </a>
-        </div>
       </div>
 
       <div className="footer-bottom">

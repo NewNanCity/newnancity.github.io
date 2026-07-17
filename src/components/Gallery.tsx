@@ -24,11 +24,22 @@ export default function Gallery() {
   const [positionInShuffle, setPositionInShuffle] = useState(0)
   const [progressKey, setProgressKey] = useState(0)
   const [showControls] = useState(true)
+  const [isPaused, setIsPaused] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
   const [isInitialized, setIsInitialized] = useState(false)
+  const [reduceMotion, setReduceMotion] = useState(
+    () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  )
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const sectionRef = useRef<HTMLElement>(null)
   const total = gallery.length
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const handleChange = (event: MediaQueryListEvent) => setReduceMotion(event.matches)
+    mediaQuery.addEventListener('change', handleChange)
+    return () => mediaQuery.removeEventListener('change', handleChange)
+  }, [])
 
   // 监听 Gallery 是否在视口内
   useEffect(() => {
@@ -53,6 +64,7 @@ export default function Gallery() {
   // 计算需要渲染的图片指标（当前、前一张、后一张）
   const getIndexesToRender = (idx: number): Set<number> => {
     const toRender = new Set<number>()
+    if (total === 0) return toRender
     toRender.add(idx) // 当前
     toRender.add((idx - 1 + total) % total) // 前一张
     toRender.add((idx + 1) % total) // 后一张
@@ -92,8 +104,8 @@ export default function Gallery() {
     setPositionInShuffle(nextPos)
     setProgressKey(prev => prev + 1)
 
-    setTimeout(() => setIsTransitioning(false), TRANSITION)
-  }, [positionInShuffle, shuffledIndices, isTransitioning, total])
+    setTimeout(() => setIsTransitioning(false), reduceMotion ? 0 : TRANSITION)
+  }, [positionInShuffle, shuffledIndices, isTransitioning, reduceMotion, total])
 
   const goPrev = useCallback(() => {
     if (isTransitioning || total < 2 || shuffledIndices.length === 0) return
@@ -115,12 +127,12 @@ export default function Gallery() {
     setPositionInShuffle(prevPos)
     setProgressKey(prev => prev + 1)
 
-    setTimeout(() => setIsTransitioning(false), TRANSITION)
-  }, [positionInShuffle, shuffledIndices, isTransitioning, total])
+    setTimeout(() => setIsTransitioning(false), reduceMotion ? 0 : TRANSITION)
+  }, [positionInShuffle, shuffledIndices, isTransitioning, reduceMotion, total])
 
   /* auto-rotate with shuffled order - 仅当 Gallery 可见时运行 */
   useEffect(() => {
-    if (shuffledIndices.length === 0 || !isVisible) {
+    if (shuffledIndices.length === 0 || !isVisible || reduceMotion || isPaused) {
       // 如果不可见，清除定时器
       if (timerRef.current) {
         clearInterval(timerRef.current)
@@ -137,12 +149,18 @@ export default function Gallery() {
         timerRef.current = null
       }
     }
-  }, [goToNext, shuffledIndices, isVisible])
+  }, [goToNext, shuffledIndices, isVisible, isPaused, reduceMotion])
 
   const handleLoad = (i: number) => setLoadedSet(prev => { const s = new Set(prev); s.add(i); return s })
 
   return (
-    <section className="gallery-section" id="gallery" ref={sectionRef}>
+    <section
+      className="gallery-section"
+      id="gallery"
+      ref={sectionRef}
+      aria-roledescription="carousel"
+      aria-label="牛腩小镇风光"
+    >
       {/* Full-bleed background slides */}
       <div className="gallery-bg">
         {gallery.map((img, i) => {
@@ -152,11 +170,12 @@ export default function Gallery() {
             <div
               key={img.src}
               className={`gallery-bg-slide${i === current ? ' gallery-bg-slide--active' : ''}`}
+              aria-hidden={i !== current}
             >
               {shouldRender ? (
                 <img
                   src={img.src}
-                  alt={img.caption}
+                  alt={i === current ? img.caption : ''}
                   loading={i === current ? 'eager' : 'lazy'}
                   onLoad={() => handleLoad(i)}
                 />
@@ -191,7 +210,7 @@ export default function Gallery() {
       >
         {/* Progress bar */}
         <div className="gallery-progress-container">
-          <div key={progressKey} className="gallery-progress-bar" />
+          {!reduceMotion && !isPaused && <div key={progressKey} className="gallery-progress-bar" />}
         </div>
 
         <div className="gallery-info">
@@ -204,7 +223,12 @@ export default function Gallery() {
             ◀
           </button>
 
-          <span className="gallery-caption">{gallery[current]?.caption}</span>
+          <span
+            className="gallery-caption"
+            aria-live={isPaused || reduceMotion ? 'polite' : 'off'}
+          >
+            {gallery[current]?.caption}
+          </span>
           <span className="gallery-year pixel-text">{gallery[current]?.year}</span>
 
           <button
@@ -215,6 +239,18 @@ export default function Gallery() {
           >
             ▶
           </button>
+
+          {!reduceMotion && (
+            <button
+              className="gallery-btn gallery-btn--visible gallery-btn-toggle"
+              type="button"
+              onClick={() => setIsPaused((value) => !value)}
+              aria-label={isPaused ? '继续自动轮播' : '暂停自动轮播'}
+              title={isPaused ? '继续自动轮播' : '暂停自动轮播'}
+            >
+              <span aria-hidden="true">{isPaused ? '▶' : 'Ⅱ'}</span>
+            </button>
+          )}
         </div>
 
         {/* Dot indicators */}

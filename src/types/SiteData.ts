@@ -5,8 +5,76 @@ export interface NavLink {
 }
 
 export interface HeroStat {
-  value: number;
+  id?: 'years' | 'days';
+  value?: number;
+  unit: string;
+  description: string;
+}
+
+export type PortalGatewayId = 'world' | 'community' | 'archive' | 'join';
+
+export interface PortalGateway {
+  id: PortalGatewayId;
+  eyebrow: string;
   label: string;
+  description: string;
+  href: string;
+  icon: string;
+  image: string;
+}
+
+export interface PortalUpdate {
+  date: string;
+  category: 'town' | 'community' | 'archive';
+  title: string;
+  summary: string;
+  href: string;
+}
+
+export type PortalFeedCategory = 'news' | 'town' | 'activity' | 'memory' | 'scenery';
+
+export interface PortalFeedItem {
+  id: string;
+  category: PortalFeedCategory;
+  eyebrow: string;
+  title: string;
+  summary: string;
+  image: string;
+  href: string;
+  meta: string;
+  actionLabel: string;
+}
+
+export interface PortalEcosystemLink {
+  id: string;
+  title: string;
+  description: string;
+  href: string;
+  icon: string;
+}
+
+export interface PortalTownFact {
+  label: string;
+  value: string;
+}
+
+export interface PortalTown {
+  slug: string;
+  name: string;
+  subtitle: string;
+  summary: string;
+  cover: string;
+  siteUrl: string;
+  tags: string[];
+  facts: PortalTownFact[];
+}
+
+export interface PortalCommunityLink {
+  title: string;
+  description: string;
+  href: string;
+  icon: string;
+  kind: 'official' | 'external';
 }
 
 export interface ShowcaseBadge {
@@ -58,6 +126,29 @@ export interface SiteData {
     subtitle: string;
     stats: HeroStat[];
     slides: string[];
+  };
+  portal: {
+    gateways: PortalGateway[];
+    feed: PortalFeedItem[];
+    spotlight: {
+      eyebrow: string;
+      title: string;
+      summary: string;
+      image: string;
+      href: string;
+      meta: string;
+    };
+    updates: PortalUpdate[];
+    ecosystem: PortalEcosystemLink[];
+    towns: PortalTown[];
+    community: {
+      intro: string;
+      links: PortalCommunityLink[];
+      creator: {
+        title: string;
+        description: string;
+      };
+    };
   };
   showcase: {
     intro: string;

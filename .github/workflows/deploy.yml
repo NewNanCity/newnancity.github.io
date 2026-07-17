@@ -7,6 +7,10 @@ on:
             - master
     workflow_dispatch:
 
+concurrency:
+    group: github-pages-${{ github.ref }}
+    cancel-in-progress: true
+
 # 设置 GITHUB_TOKEN 权限以允许推送到 page 分支
 permissions:
     contents: write
@@ -33,6 +37,9 @@ jobs:
 
             - name: Install dependencies
               run: pnpm install --frozen-lockfile
+
+            - name: Test
+              run: pnpm test
 
             - name: Build (with image processing)
               run: pnpm run build

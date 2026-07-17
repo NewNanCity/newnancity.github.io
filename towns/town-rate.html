@@ -1,456 +1,639 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="牛腩小镇 0 至 7 星城镇评级标准、升星条件与城镇特权。">
+  <link rel="canonical" href="https://newnan.city/towns/town-rate.html">
   <title>牛腩小镇 · 城镇评级</title>
   <style>
+    :root {
+      color-scheme: light;
+      --ink: #202a2c;
+      --ink-soft: #536062;
+      --paper: #f3f1eb;
+      --surface: #fffefb;
+      --line: #cfd2cc;
+      --line-strong: #9ca5a2;
+      --accent: #9f4e18;
+      --focus: #2f7e8c;
+      font-family: "Noto Sans SC", "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+      font-synthesis: none;
+    }
+
     *,
     *::before,
     *::after {
       box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
-      background: #f8f9fa;
-      color: #333;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      overflow-x: hidden;
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.7;
     }
 
-    .header {
-      text-align: center;
-      padding: 40px 24px 8px;
+    button,
+    a {
+      font: inherit;
     }
 
-    .header h1 {
-      font-size: 28px;
-      font-weight: 700;
-      color: #1a1a1a;
-      letter-spacing: 1px;
+    button:focus-visible,
+    a:focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 3px;
     }
 
-    .header .sub {
-      font-size: 13px;
-      color: #999;
-      margin-top: 6px;
-    }
-
-    /* ── 介绍文字 ── */
-    .intro {
-      max-width: 640px;
-      margin: 0 auto;
-      padding: 0 28px 8px;
-      font-size: 13.5px;
-      line-height: 1.8;
-      color: #666;
-    }
-
-    .intro p {
-      margin-top: 8px;
-    }
-
-    .intro .highlight {
-      color: #ff8c00;
-      font-weight: 600;
-    }
-
-    /* ── 底部注释 ── */
-    .notes {
-      max-width: 640px;
-      margin: 0 auto;
-      padding: 24px 28px 8px;
-      font-size: 13px;
-      line-height: 1.8;
-      color: #999;
-    }
-
-    .notes .notes-title {
-      font-size: 14px;
-      font-weight: 700;
-      color: #666;
-      margin-bottom: 6px;
-    }
-
-    /* ── 快速导航（紧凑小药丸） ── */
-    .quick-nav {
-      display: flex;
-      justify-content: center;
-      gap: 6px;
-      padding: 16px 24px;
-      flex-wrap: wrap;
-    }
-
-    .quick-nav button {
-      height: 32px;
-      min-width: 32px;
-      padding: 0 10px;
-      border-radius: 16px;
-      border: 1.5px solid #e0e0e0;
-      background: #fff;
-      font-size: 13px;
-      font-weight: 700;
-      color: #666;
-      cursor: pointer;
-      transition: all 0.2s;
-      white-space: nowrap;
-    }
-
-    .quick-nav button:hover {
-      border-color: #ffb347;
-      color: #ff8c00;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(255, 140, 0, 0.12);
-    }
-
-    .quick-nav button.active {
-      background: linear-gradient(135deg, #ff8c00, #ffb347);
-      border-color: #ff8c00;
-      color: #fff;
-      box-shadow: 0 4px 14px rgba(255, 140, 0, 0.28);
-    }
-
-    /* ── 外层容器：固定视口，卡片横排滑动 ── */
-    .cards-viewport {
-      position: relative;
-      width: 100%;
-      margin: 0 auto;
-      overflow: hidden;
-      padding: 0 24px;
-    }
-
-    /* 横向滚动轨道 */
-    .cards-scroll {
-      display: flex;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      scroll-behavior: smooth;
-      padding: 12px 0 40px;
-      gap: 16px;
-      scroll-padding: 0 calc((100% - 60%) / 2);
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-    }
-
-    .cards-scroll::-webkit-scrollbar {
-      display: none;
-    }
-
-    /* ── 每张卡片 ── */
-    .card {
-      flex: 0 0 60%;
-      scroll-snap-align: center;
-      background: #fff;
-      border-radius: 20px;
-      padding: 28px 24px 24px;
-      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
-      border: 1px solid #f0f0f0;
-      cursor: pointer;
-      transition: opacity 0.4s ease, transform 0.4s ease, filter 0.4s ease;
-      opacity: 1;
-      transform: scale(1);
-      filter: none;
-      user-select: none;
-    }
-
-    /* 非居中卡片：变灰、缩小 */
-    .card.dimmed {
-      opacity: 0.45;
-      transform: scale(0.88);
-      filter: grayscale(50%);
-      pointer-events: auto;
-    }
-
-    /* 首尾留白 spacer，让首/末卡片也能滑到中间 */
-    .spacer {
-      flex: 0 0 calc((100% - 60%) / 2 - 8px);
-      min-width: 0;
-    }
-
-    /* ── 徽章 ── */
-    .card-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 5px 16px;
-      border-radius: 20px;
-      font-size: 14px;
-      font-weight: 700;
-      margin-bottom: 16px;
-      color: #fff;
-    }
-
-    .card-badge.tier0 {
-      background: linear-gradient(135deg, #9e9e9e, #bdbdbd);
-    }
-
-    .card-badge.tier1 {
-      background: linear-gradient(135deg, #8d6e63, #a1887f);
-    }
-
-    .card-badge.tier2 {
-      background: linear-gradient(135deg, #66bb6a, #81c784);
-    }
-
-    .card-badge.tier3 {
-      background: linear-gradient(135deg, #42a5f5, #64b5f6);
-    }
-
-    .card-badge.tier4 {
-      background: linear-gradient(135deg, #ab47bc, #ba68c8);
-    }
-
-    .card-badge.tier5 {
-      background: linear-gradient(135deg, #ef5350, #e57373);
-    }
-
-    .card-badge.tier6 {
-      background: linear-gradient(135deg, #ff7043, #ff8a65);
-    }
-
-    .card-badge.tier7 {
-      background: linear-gradient(135deg, #fdd835, #ffee58);
-      color: #5d4037;
-    }
-
-    .card-title {
-      font-size: 21px;
-      font-weight: 700;
-      color: #1a1a1a;
-      margin-bottom: 4px;
-    }
-
-    /* ── 内容区 ── */
-    .section {
-      margin-top: 18px;
-    }
-
-    .section-label {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: #ff8c00;
-      margin-bottom: 8px;
-      padding-bottom: 5px;
-      border-bottom: 2px solid #fff3e0;
-    }
-
-    .section ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    .section ul li {
-      position: relative;
-      padding-left: 15px;
-      font-size: 13.5px;
-      line-height: 1.75;
-      color: #555;
-    }
-
-    .section ul li::before {
-      content: "·";
-      position: absolute;
-      left: 0;
-      top: 0;
-      color: #ff8c00;
-      font-weight: 700;
-      font-size: 17px;
-      line-height: 1.35;
-    }
-
-    /* ── info 提示图标 ── */
-    .tip {
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      line-height: 16px;
-      text-align: center;
-      border-radius: 50%;
-      background: #e8e8e8;
-      color: #888;
-      font-size: 10px;
-      font-weight: 700;
-      font-style: normal;
-      cursor: help;
-      margin: 0 2px;
-      vertical-align: middle;
-      position: relative;
-      top: -1px;
-      transition: all 0.2s;
-    }
-
-    .tip:hover {
-      background: #ff8c00;
-      color: #fff;
-    }
-
-    /* ── 自定义 tooltip 气泡 ── */
-    #customTip {
+    .skip-link {
       position: fixed;
-      z-index: 9999;
-      max-width: 300px;
-      padding: 10px 14px;
-      background: rgba(30, 30, 30, 0.92);
-      color: #fff;
-      font-size: 13px;
-      line-height: 1.6;
-      border-radius: 8px;
-      pointer-events: none;
-      opacity: 0;
-      transform: translateY(4px);
-      transition: opacity 0.18s ease, transform 0.18s ease;
-      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.22);
-      letter-spacing: 0.3px;
+      top: 8px;
+      left: 8px;
+      z-index: 100;
+      padding: 8px 12px;
+      background: var(--surface);
+      color: var(--ink);
+      transform: translateY(-160%);
     }
 
-    #customTip.show {
-      opacity: 1;
+    .skip-link:focus {
       transform: translateY(0);
     }
 
-    .no-content {
+    .page-header {
+      position: relative;
+      overflow: hidden;
+      background: var(--ink);
+      color: #f7f6f1;
+      border-bottom: 8px solid var(--accent);
+    }
+
+    .page-header::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 88px;
+      height: 88px;
+      background: #2f7e8c;
+      box-shadow: -88px 0 0 #d1a93b, 0 -88px 0 #793f6b;
+      opacity: 0.82;
+    }
+
+    .header-inner,
+    .page-layout {
+      width: min(1240px, calc(100% - 48px));
+      margin: 0 auto;
+    }
+
+    .header-inner {
+      position: relative;
+      z-index: 1;
+      padding: 58px 0 48px;
+    }
+
+    .kicker,
+    .revision,
+    .section-kicker,
+    .tier-section h3,
+    .nav-title {
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .kicker {
+      margin: 0;
+      color: #e3aa72;
+    }
+
+    h1 {
+      max-width: 780px;
+      margin: 10px 0 0;
+      font-size: 46px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .revision {
+      margin: 12px 0 0;
+      color: #b8c8c7;
+    }
+
+    .intro {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 38px;
+      max-width: 1020px;
+      margin-top: 38px;
+    }
+
+    .intro-block {
+      padding-left: 18px;
+      border-left: 3px solid #677677;
+    }
+
+    .intro-block:first-child {
+      border-left-color: #d1a93b;
+    }
+
+    .intro h2 {
+      margin: 0 0 8px;
+      color: #f3bd86;
+      font-size: 14px;
+    }
+
+    .intro p {
+      margin: 0;
+      color: #d2d8d5;
       font-size: 13px;
-      color: #bbb;
-      font-style: italic;
-      padding-left: 15px;
     }
 
-    /* 累计总计行 */
-    .total-summary {
-      margin-top: 14px;
-      font-size: 12px;
-      color: #999;
-      letter-spacing: 0.5px;
+    .intro strong {
+      color: #ffffff;
     }
 
-    .card-footer-line {
-      margin-top: 22px;
-      height: 3px;
-      border-radius: 2px;
-      background: linear-gradient(90deg, #fff3e0, #ffb347, #fff3e0);
-      opacity: 0.4;
+    .page-layout {
+      display: grid;
+      grid-template-columns: 210px minmax(0, 1fr);
+      gap: 30px;
+      align-items: start;
+      padding: 42px 0 72px;
     }
 
-    /* ── 滚动指示点 ── */
-    .dots {
+    .tier-aside {
+      position: sticky;
+      top: 20px;
+    }
+
+    .nav-title {
+      margin: 0 0 10px;
+      color: var(--ink-soft);
+    }
+
+    .tier-nav {
       display: flex;
-      justify-content: center;
-      gap: 8px;
-      padding: 0 0 16px;
+      flex-direction: column;
+      gap: 5px;
     }
 
-    .dots span {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #ddd;
-      transition: all 0.3s;
+    .tier-nav button {
+      min-height: 44px;
+      display: grid;
+      grid-template-columns: 38px minmax(0, 1fr);
+      align-items: center;
+      width: 100%;
+      padding: 6px 10px;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      background: transparent;
+      color: var(--ink-soft);
+      text-align: left;
       cursor: pointer;
     }
 
-    .dots span.active {
-      background: #ff8c00;
-      width: 24px;
+    .tier-nav button:hover {
+      background: #e5e5de;
+      color: var(--ink);
+    }
+
+    .tier-nav button[aria-current="true"] {
+      border-color: var(--line-strong);
+      background: var(--surface);
+      color: var(--ink);
+      box-shadow: inset 4px 0 0 var(--nav-color);
+    }
+
+    .nav-star {
+      color: var(--nav-color);
+      font-family: Georgia, serif;
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .nav-name {
+      overflow: hidden;
+      font-size: 12px;
+      font-weight: 700;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .rate-column {
+      min-width: 0;
+    }
+
+    .list-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 2px solid var(--ink);
+    }
+
+    .section-kicker {
+      margin: 0;
+      color: var(--accent);
+    }
+
+    .list-heading h2 {
+      margin: 4px 0 0;
+      font-size: 27px;
+      line-height: 1.3;
+    }
+
+    .level-range {
+      margin: 0;
+      color: var(--ink-soft);
+      font-family: Georgia, serif;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .tier-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .tier-card {
+      --tier-color: #737b7d;
+      scroll-margin-top: 20px;
+      overflow: hidden;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-left: 6px solid var(--tier-color);
+      border-radius: 6px;
+    }
+
+    .tier0 { --tier-color: #666e70; }
+    .tier1 { --tier-color: #8b624a; }
+    .tier2 { --tier-color: #3f734d; }
+    .tier3 { --tier-color: #347b96; }
+    .tier4 { --tier-color: #793f6b; }
+    .tier5 { --tier-color: #bd4a45; }
+    .tier6 { --tier-color: #9f4e18; }
+    .tier7 { --tier-color: #825f08; }
+
+    .tier-head {
+      display: grid;
+      grid-template-columns: 94px minmax(0, 1fr);
+      align-items: center;
+      min-height: 84px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .tier-rank {
+      align-self: stretch;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      background: var(--tier-color);
+      color: #ffffff;
+    }
+
+    .tier-rank strong {
+      font-family: Georgia, serif;
+      font-size: 30px;
+      line-height: 1;
+    }
+
+    .tier-rank span {
+      margin-top: 3px;
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .tier-name {
+      padding: 15px 22px;
+    }
+
+    .tier-name p {
+      margin: 0;
+      color: var(--tier-color);
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .tier-name h2 {
+      margin: 2px 0 0;
+      font-size: 24px;
+      line-height: 1.3;
+      overflow-wrap: anywhere;
+    }
+
+    .tier-sections {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr 1fr;
+    }
+
+    .tier-section {
+      min-width: 0;
+      padding: 22px;
+      border-right: 1px solid var(--line);
+    }
+
+    .tier-section:last-child {
+      border-right: 0;
+    }
+
+    .tier-section h3 {
+      margin: 0 0 11px;
+      padding-bottom: 7px;
+      border-bottom: 2px solid #e8e4da;
+      color: var(--tier-color);
+    }
+
+    .tier-section ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .tier-section li {
+      margin: 0 0 7px;
+      color: #3e4a4b;
+      font-size: 13px;
+    }
+
+    .tier-section li:last-child {
+      margin-bottom: 0;
+    }
+
+    .empty {
+      margin: 0;
+      color: #7f8888;
+      font-size: 13px;
+    }
+
+    .tier-summary {
+      margin: 0;
+      padding: 10px 22px;
+      background: #eceae3;
+      border-top: 1px solid var(--line);
+      color: var(--ink-soft);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .notes {
+      margin-top: 28px;
+      padding: 22px 24px;
+      background: #e5e0d3;
+      border: 1px solid #ccc5b5;
+      border-left: 6px solid var(--accent);
       border-radius: 4px;
     }
 
-    .footer {
-      text-align: center;
-      padding: 0 24px 36px;
-      font-size: 12px;
-      color: #bbb;
+    .notes h2 {
+      margin: 0 0 8px;
+      font-size: 16px;
     }
 
-    /* ── 响应式 ── */
-    @media (max-width: 600px) {
-      .cards-viewport {
-        padding: 0 12px;
+    .notes ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .notes li {
+      margin-top: 4px;
+      color: var(--ink-soft);
+      font-size: 13px;
+    }
+
+    .page-footer {
+      padding: 26px 24px;
+      background: var(--ink);
+      color: #aeb9b8;
+      font-size: 11px;
+      text-align: center;
+    }
+
+    @media (max-width: 980px) {
+      .tier-sections {
+        grid-template-columns: 1fr 1fr;
       }
 
-      .card {
-        padding: 22px 16px 20px;
-        border-radius: 16px;
-        flex: 0 0 66%;
+      .tier-section:first-child {
+        grid-column: 1 / -1;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+    }
+
+    @media (max-width: 780px) {
+      .header-inner,
+      .page-layout {
+        width: min(100% - 32px, 1240px);
       }
 
-      .cards-scroll {
-        scroll-padding: 0 calc((100% - 66%) / 2);
-        gap: 10px;
+      .header-inner {
+        padding: 44px 0 38px;
       }
 
-      .spacer {
-        flex: 0 0 calc((100% - 66%) / 2 - 5px);
-      }
-
-      .header h1 {
-        font-size: 23px;
+      h1 {
+        font-size: 34px;
       }
 
       .intro {
-        padding: 0 16px 8px;
-        font-size: 13px;
+        grid-template-columns: 1fr;
+        gap: 20px;
+        margin-top: 30px;
       }
 
-      .notes {
-        padding: 20px 16px 8px;
-        font-size: 12px;
+      .page-layout {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 20px;
+        padding-top: 0;
       }
 
-      .quick-nav button {
-        height: 28px;
-        min-width: 28px;
-        padding: 0 8px;
-        font-size: 12px;
+      .tier-aside {
+        position: sticky;
+        top: 0;
+        z-index: 30;
+        width: auto;
+        margin-left: -16px;
+        margin-right: -16px;
+        padding: 10px 16px;
+        background: var(--paper);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .nav-title {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+      }
+
+      .tier-nav {
+        min-width: 0;
+        width: 100%;
+        flex-direction: row;
+        gap: 5px;
+        overflow-x: auto;
+        scrollbar-width: thin;
+      }
+
+      .tier-nav button {
+        min-width: 54px;
+        width: 54px;
+        grid-template-columns: 1fr;
+        padding: 4px;
+        text-align: center;
+      }
+
+      .tier-nav button[aria-current="true"] {
+        box-shadow: inset 0 -4px 0 var(--nav-color);
+      }
+
+      .nav-name {
+        display: none;
+      }
+
+      .tier-card {
+        scroll-margin-top: 80px;
+      }
+
+      .page-header::after {
+        width: 56px;
+        height: 56px;
+        box-shadow: -56px 0 0 #d1a93b, 0 -56px 0 #793f6b;
+      }
+    }
+
+    @media (max-width: 580px) {
+      .list-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .list-heading h2 {
+        font-size: 24px;
+      }
+
+      .tier-head {
+        grid-template-columns: 74px minmax(0, 1fr);
+        min-height: 76px;
+      }
+
+      .tier-rank strong {
+        font-size: 25px;
+      }
+
+      .tier-name {
+        padding: 12px 16px;
+      }
+
+      .tier-name h2 {
+        font-size: 20px;
+      }
+
+      .tier-sections {
+        grid-template-columns: 1fr;
+      }
+
+      .tier-section,
+      .tier-section:first-child {
+        grid-column: auto;
+        padding: 18px;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .tier-section:last-child {
+        border-bottom: 0;
+      }
+
+      .tier-summary {
+        padding: 10px 18px;
+      }
+    }
+
+    @media print {
+      .tier-aside,
+      .page-footer {
+        display: none;
+      }
+
+      .page-layout {
+        display: block;
+        width: 100%;
+      }
+
+      .tier-card {
+        break-inside: avoid;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
       }
     }
   </style>
 </head>
-
 <body>
+  <a class="skip-link" href="#main">跳到等级标准</a>
 
-  <div class="header">
-    <h1>🏘️ 牛腩小镇 · 城镇评级</h1>
-    <p class="sub">2026.2 修订 · 左右滑动或点击星标切换等级</p>
-  </div>
+  <header class="page-header">
+    <div class="header-inner">
+      <p class="kicker">NewNan City / Town Standard</p>
+      <h1>牛腩小镇 · 城镇评级</h1>
+      <p class="revision">2026.2 修订 · 0–7 星等级与权益对照</p>
 
-  <!-- 介绍 -->
-  <div class="intro">
-    <p>城镇等级制度是基于玩家群体在"牛腩小镇"的建设贡献，由管理组（包含 OP、镇长及资深认可玩家组成的最高委员会）进行的综合评定。评级旨在鼓励原创与美学，核心维度包括：<span
-        class="highlight">建筑原创性、美观度、城镇规划、布局缜密性及资源产出</span>。</p>
-    <p><span class="highlight">审核机制 ——</span>
-      公平性：评级采用管理组全员独立评分制，结合"哈哈版"评分计算表进行最终推导，确保结果客观公平。独立性：建筑法与城镇法互不隶属，管理组在处理建筑事务时，严禁将个人主观感观带入城镇等级评定。</p>
-  </div>
+      <div class="intro">
+        <section class="intro-block" aria-labelledby="about-title">
+          <h2 id="about-title">评级依据</h2>
+          <p>城镇等级制度是基于玩家群体在“牛腩小镇”的建设贡献，由管理组（包含 OP、镇长及资深认可玩家组成的最高委员会）进行的综合评定。评级旨在鼓励原创与美学，核心维度包括：<strong>建筑原创性、美观度、城镇规划、布局缜密性及资源产出</strong>。</p>
+        </section>
+        <section class="intro-block" aria-labelledby="review-title">
+          <h2 id="review-title">审核机制</h2>
+          <p><strong>公平性：</strong>评级采用管理组全员独立评分制，结合“哈哈版”评分计算表进行最终推导，确保结果客观公平。<strong>独立性：</strong>建筑法与城镇法互不隶属，管理组在处理建筑事务时，严禁将个人主观感观带入城镇等级评定。</p>
+        </section>
+      </div>
+    </div>
+  </header>
 
-  <!-- 快速导航 -->
-  <div class="quick-nav" id="quickNav"></div>
+  <main class="page-layout" id="main">
+    <aside class="tier-aside">
+      <p class="nav-title" id="tier-nav-title">等级索引</p>
+      <nav class="tier-nav" id="tierNav" aria-labelledby="tier-nav-title"></nav>
+    </aside>
 
-  <!-- 卡片横排滑动区域 -->
-  <div class="cards-viewport">
-    <div class="cards-scroll" id="cardsScroll"></div>
-  </div>
+    <div class="rate-column">
+      <header class="list-heading">
+        <div>
+          <p class="section-kicker">评级标准</p>
+          <h2>等级标准与对应权益</h2>
+        </div>
+        <p class="level-range">LEVEL 0 → LEVEL 7</p>
+      </header>
 
-  <!-- 滚动指示点 -->
-  <div class="dots" id="dots"></div>
+      <section class="tier-list" id="tierList" aria-label="城镇评级等级列表"></section>
 
-  <!-- 底部注释 -->
-  <div class="notes">
-    <div class="notes-title">💡 补充说明</div>
-    <p>· 不以工业为判断原则，避免大家产生工业竞赛</p>
-    <p>· 考虑到部分人员会社恐，但也有不错的能力，因此举办活动可以视为加分项而不是主动项</p>
-  </div>
+      <section class="notes" aria-labelledby="notes-title">
+        <h2 id="notes-title">补充说明</h2>
+        <ul>
+          <li>不以工业为判断原则，避免大家产生工业竞赛</li>
+          <li>考虑到部分人员会社恐，但也有不错的能力，因此举办活动可以视为加分项而不是主动项</li>
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <footer class="page-footer">NewNan City · 城镇评级制度</footer>
 
   <script>
-    var tiers = [
+    const tiers = [
       {
         star: 0, name: "聚落", tierClass: "tier0",
         desc: ["在大群，游戏公屏等渠道内发起聚落声明", "拥有一定规模的建筑群（只要不是单个建筑就行应该）"],
@@ -500,269 +683,164 @@
       }
     ];
 
-    var currentIndex = 0;
-    var scrollContainer = null;
-    var allCards = [];
+    const tierColors = ["#666e70", "#8b624a", "#3f734d", "#347b96", "#793f6b", "#bd4a45", "#9f4e18", "#825f08"];
+    const tierList = document.getElementById("tierList");
+    const tierNav = document.getElementById("tierNav");
 
-    // ── 将中文括号内容替换为 info 图标 ──
-    function processText(text) {
-      return text.replace(/（(.+?)）/g, function (match, inner) {
-        return '<span class="tip" data-tip="' + inner.replace(/"/g, '&quot;') + '">i</span>';
+    function createSection(title, values, emptyText) {
+      const section = document.createElement("section");
+      section.className = "tier-section";
+
+      const heading = document.createElement("h3");
+      heading.textContent = title;
+      section.appendChild(heading);
+
+      if (values.length === 0) {
+        const empty = document.createElement("p");
+        empty.className = "empty";
+        empty.textContent = emptyText;
+        section.appendChild(empty);
+        return section;
+      }
+
+      const list = document.createElement("ul");
+      values.forEach(function (value) {
+        const item = document.createElement("li");
+        item.textContent = value;
+        list.appendChild(item);
+      });
+      section.appendChild(list);
+      return section;
+    }
+
+    function cumulativeSummary(index) {
+      let totalAcquire = 0;
+      let totalSell = 0;
+      let totalVillager = 0;
+      let totalVoid = 0;
+      let totalSpecial = 0;
+
+      for (let tierIndex = 0; tierIndex <= index; tierIndex += 1) {
+        tiers[tierIndex].privileges.forEach(function (privilege) {
+          const acquire = privilege.match(/\+(\d+)\s*系统商店收购箱/);
+          const sell = privilege.match(/\+(\d+)\s*系统商店出售箱/);
+          const villager = privilege.match(/\+(\d+)\s*系统商店兑换村民/);
+          const voidDomain = privilege.match(/\+(\d+)\s*空置域/);
+          const special = privilege.match(/\+(\d+)\s*(?:城镇自制特殊物品|特殊物品制作)/);
+          if (acquire) totalAcquire += Number.parseInt(acquire[1], 10);
+          if (sell) totalSell += Number.parseInt(sell[1], 10);
+          if (villager) totalVillager += Number.parseInt(villager[1], 10);
+          if (voidDomain) totalVoid += Number.parseInt(voidDomain[1], 10);
+          if (special) totalSpecial += Number.parseInt(special[1], 10);
+        });
+      }
+
+      const parts = [];
+      if (totalAcquire > 0) parts.push(totalAcquire + " 收购箱");
+      if (totalSell > 0) parts.push(totalSell + " 出售箱");
+      if (totalVillager > 0) parts.push(totalVillager + " 兑换村民");
+      if (totalVoid > 0) parts.push(totalVoid + " 空置域");
+      if (totalSpecial > 0) parts.push(totalSpecial + " 特殊物品");
+      return parts.join(" / ");
+    }
+
+    function renderTier(tier, index) {
+      const article = document.createElement("article");
+      article.className = "tier-card " + tier.tierClass;
+      article.id = "tier-" + index;
+
+      const header = document.createElement("header");
+      header.className = "tier-head";
+
+      const rank = document.createElement("div");
+      rank.className = "tier-rank";
+      const rankNumber = document.createElement("strong");
+      rankNumber.textContent = String(tier.star);
+      const rankLabel = document.createElement("span");
+      rankLabel.textContent = tier.star === 0 ? "聚落" : "星等级";
+      rank.append(rankNumber, rankLabel);
+
+      const name = document.createElement("div");
+      name.className = "tier-name";
+      const level = document.createElement("p");
+      level.textContent = "LEVEL " + tier.star;
+      const heading = document.createElement("h2");
+      heading.textContent = tier.name;
+      name.append(level, heading);
+      header.append(rank, name);
+
+      const sections = document.createElement("div");
+      sections.className = "tier-sections";
+      sections.append(
+        createSection("说明", tier.desc, "暂无说明"),
+        createSection("升星条件", tier.conditions, tier.star === 7 ? "已达最高等级" : "此为入门等级，无升星条件"),
+        createSection("特权", tier.privileges, "暂无特权")
+      );
+
+      article.append(header, sections);
+      const summary = cumulativeSummary(index);
+      if (summary) {
+        const footer = document.createElement("p");
+        footer.className = "tier-summary";
+        footer.textContent = "累计：" + summary;
+        article.appendChild(footer);
+      }
+      tierList.appendChild(article);
+    }
+
+    function setActiveTier(index) {
+      tierNav.querySelectorAll("button").forEach(function (button, buttonIndex) {
+        button.setAttribute("aria-current", buttonIndex === index ? "true" : "false");
       });
     }
 
-    // ── 构建单张卡片 HTML ──
-    function cardHTML(t, i) {
-      var starsHtml = '';
-      for (var s = 0; s < t.star; s++) starsHtml += '★';
-      if (t.star === 0) starsHtml = '○';
+    function renderNav(tier, index) {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.style.setProperty("--nav-color", tierColors[index]);
+      button.setAttribute("aria-controls", "tier-" + index);
+      button.setAttribute("aria-label", tier.star + " 星 " + tier.name);
+      button.setAttribute("aria-current", index === 0 ? "true" : "false");
 
-      var sec = '';
-      sec += '<div class="section"><div class="section-label">📋 说明</div><ul>';
-      for (var a = 0; a < t.desc.length; a++) sec += '<li>' + processText(t.desc[a]) + '</li>';
-      sec += '</ul></div>';
+      const star = document.createElement("span");
+      star.className = "nav-star";
+      star.textContent = String(tier.star) + "★";
+      const name = document.createElement("span");
+      name.className = "nav-name";
+      name.textContent = tier.name;
+      button.append(star, name);
 
-      sec += '<div class="section"><div class="section-label">⬆ 升星条件</div>';
-      if (t.conditions.length === 0) {
-        sec += '<p class="no-content">' + (t.star === 7 ? '已达最高等级' : '此为入门等级，无升星条件') + '</p>';
-      } else {
-        sec += '<ul>';
-        for (var b = 0; b < t.conditions.length; b++) sec += '<li>' + processText(t.conditions[b]) + '</li>';
-        sec += '</ul>';
-      }
-      sec += '</div>';
-
-      sec += '<div class="section"><div class="section-label">🎁 特权</div>';
-      if (t.privileges.length === 0) {
-        sec += '<p class="no-content">暂无特权</p>';
-      } else {
-        sec += '<ul>';
-        for (var c = 0; c < t.privileges.length; c++) sec += '<li>' + processText(t.privileges[c]) + '</li>';
-        sec += '</ul>';
-      }
-
-      // 累计总计提示（0星除外）
-      if (t.star > 0) {
-        var totalAcquire = 0, totalSell = 0, totalVillager = 0, totalVoid = 0, totalSpecial = 0;
-        for (var k = 0; k <= i; k++) {
-          var privs = tiers[k].privileges;
-          for (var p = 0; p < privs.length; p++) {
-            var txt = privs[p];
-            var m1 = txt.match(/\+(\d+)\s*系统商店收购箱/);
-            var m2 = txt.match(/\+(\d+)\s*系统商店出售箱/);
-            var m3 = txt.match(/\+(\d+)\s*系统商店兑换村民/);
-            var m4 = txt.match(/\+(\d+)\s*空置域/);
-            var m5 = txt.match(/\+(\d+)\s*(?:城镇自制特殊物品|特殊物品制作)/);
-            if (m1) totalAcquire += parseInt(m1[1]);
-            if (m2) totalSell += parseInt(m2[1]);
-            if (m3) totalVillager += parseInt(m3[1]);
-            if (m4) totalVoid += parseInt(m4[1]);
-            if (m5) totalSpecial += parseInt(m5[1]);
-          }
-        }
-        var parts = [];
-        if (totalAcquire > 0) parts.push(totalAcquire + ' 收购箱');
-        if (totalSell > 0) parts.push(totalSell + ' 出售箱');
-        if (totalVillager > 0) parts.push(totalVillager + ' 兑换村民');
-        if (totalVoid > 0) parts.push(totalVoid + ' 空置域');
-        if (totalSpecial > 0) parts.push(totalSpecial + ' 特殊物品');
-        if (parts.length > 0) {
-          sec += '<p class="total-summary">📊 累计：' + parts.join(' / ') + '</p>';
-        }
-      }
-
-      sec += '</div>';
-
-      return '<div class="card" data-index="' + i + '">' +
-        '<span class="card-badge ' + t.tierClass + '">' + starsHtml + ' ' + t.star + ' 星</span>' +
-        '<div class="card-title">' + t.name + '</div>' +
-        sec +
-        '<div class="card-footer-line"></div>' +
-        '</div>';
+      button.addEventListener("click", function () {
+        document.getElementById("tier-" + index).scrollIntoView({ block: "start", behavior: "smooth" });
+        setActiveTier(index);
+      });
+      tierNav.appendChild(button);
     }
 
-    // ── 渲染所有卡片 ──
-    function renderAllCards() {
-      var html = '<div class="spacer"></div>';
-      for (var i = 0; i < tiers.length; i++) {
-        html += cardHTML(tiers[i], i);
-      }
-      html += '<div class="spacer"></div>';
-      scrollContainer.innerHTML = html;
-      allCards = scrollContainer.querySelectorAll('.card');
-
-      // 每张卡片点击：如果被点击的不是居中卡片，则滚动到它
-      for (var j = 0; j < allCards.length; j++) {
-        allCards[j].addEventListener('click', function () {
-          var idx = parseInt(this.getAttribute('data-index'));
-          if (idx !== currentIndex) {
-            scrollToIndex(idx);
-          }
-        });
-      }
-    }
-
-    // ── 渲染快速导航 ──
-    function renderQuickNav() {
-      var nav = document.getElementById('quickNav');
-      var h = '';
-      for (var i = 0; i < tiers.length; i++) {
-        var t = tiers[i];
-        var label = t.star === 0 ? '○' : (t.star + '★');
-        var cls = (i === currentIndex) ? ' active' : '';
-        h += '<button class="' + cls + '" data-index="' + i + '">' + label + '</button>';
-      }
-      nav.innerHTML = h;
-      var btns = nav.querySelectorAll('button');
-      for (var j = 0; j < btns.length; j++) {
-        btns[j].addEventListener('click', function () {
-          var idx = parseInt(this.getAttribute('data-index'));
-          scrollToIndex(idx);
-        });
-      }
-    }
-
-    // ── 渲染指示点 ──
-    function renderDots() {
-      var dots = document.getElementById('dots');
-      var h = '';
-      for (var i = 0; i < tiers.length; i++) {
-        h += '<span data-index="' + i + '" class="' + (i === currentIndex ? 'active' : '') + '"></span>';
-      }
-      dots.innerHTML = h;
-      var sps = dots.querySelectorAll('span');
-      for (var j = 0; j < sps.length; j++) {
-        sps[j].addEventListener('click', function () {
-          var idx = parseInt(this.getAttribute('data-index'));
-          scrollToIndex(idx);
-        });
-      }
-    }
-
-    // ── 更新 dimmed 类 ──
-    function updateDimmed() {
-      var containerWidth = scrollContainer.clientWidth;
-      var scrollLeft = scrollContainer.scrollLeft;
-      var viewCenter = scrollLeft + containerWidth / 2;
-      var bestIdx = 0;
-      var bestDist = Infinity;
-      for (var i = 0; i < allCards.length; i++) {
-        var card = allCards[i];
-        var cardCenter = card.offsetLeft + card.offsetWidth / 2;
-        var dist = Math.abs(cardCenter - viewCenter);
-        if (dist < bestDist) { bestDist = dist; bestIdx = i; }
-      }
-      // 更新 dimmed
-      for (var j = 0; j < allCards.length; j++) {
-        if (j === bestIdx) {
-          allCards[j].classList.remove('dimmed');
-        } else {
-          allCards[j].classList.add('dimmed');
-        }
-      }
-      if (bestIdx !== currentIndex) {
-        currentIndex = bestIdx;
-        renderQuickNav();
-        renderDots();
-      }
-    }
-
-    // ── 滚动到指定卡片 ──
-    function scrollToIndex(idx) {
-      if (idx < 0 || idx >= tiers.length) return;
-      currentIndex = idx;
-      if (allCards[idx]) {
-        allCards[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-      }
-      // 立即更新 dimmed（scroll 事件会再次触发确认）
-      for (var j = 0; j < allCards.length; j++) {
-        allCards[j].classList.toggle('dimmed', j !== idx);
-      }
-      renderQuickNav();
-      renderDots();
-    }
-
-    // ── 键盘 ──
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'ArrowLeft') { e.preventDefault(); if (currentIndex > 0) scrollToIndex(currentIndex - 1); }
-      if (e.key === 'ArrowRight') { e.preventDefault(); if (currentIndex < tiers.length - 1) scrollToIndex(currentIndex + 1); }
+    tiers.forEach(function (tier, index) {
+      renderNav(tier, index);
+      renderTier(tier, index);
     });
 
-    // ── 自定义 tooltip ──
-    var customTip = document.createElement('div');
-    customTip.id = 'customTip';
-    document.body.appendChild(customTip);
+    let activeFrame = 0;
 
-    document.addEventListener('mouseover', function (e) {
-      var el = e.target;
-      while (el && el !== document) {
-        if (el.classList && el.classList.contains('tip')) {
-          var tipText = el.getAttribute('data-tip');
-          if (tipText) {
-            customTip.textContent = tipText;
-            customTip.classList.add('show');
-          }
-          return;
-        }
-        el = el.parentElement;
-      }
-      hideTip();
-    });
-
-    document.addEventListener('mouseout', function (e) {
-      var el = e.target;
-      while (el && el !== document) {
-        if (el.classList && el.classList.contains('tip')) {
-          hideTip();
-          return;
-        }
-        el = el.parentElement;
-      }
-    });
-
-    function hideTip() {
-      customTip.classList.remove('show');
+    function syncActiveTier() {
+      const anchor = window.innerWidth <= 780 ? 100 : 160;
+      let activeIndex = 0;
+      tierList.querySelectorAll(".tier-card").forEach(function (card, index) {
+        if (card.getBoundingClientRect().top <= anchor) activeIndex = index;
+      });
+      setActiveTier(activeIndex);
+      activeFrame = 0;
     }
 
-    document.addEventListener('mousemove', function (e) {
-      if (customTip.classList.contains('show')) {
-        var x = e.clientX + 16;
-        var y = e.clientY - 40;
-        // 防止超出右边界
-        if (x + customTip.offsetWidth > window.innerWidth - 8) {
-          x = e.clientX - customTip.offsetWidth - 16;
-        }
-        // 防止超出上边界
-        if (y < 8) {
-          y = e.clientY + 20;
-        }
-        customTip.style.left = x + 'px';
-        customTip.style.top = y + 'px';
-      }
-    }, { passive: true });
+    function scheduleActiveTierSync() {
+      if (activeFrame) window.cancelAnimationFrame(activeFrame);
+      activeFrame = window.requestAnimationFrame(syncActiveTier);
+    }
 
-    // ── 入口 ──
-    scrollContainer = document.getElementById('cardsScroll');
-    renderAllCards();
-    renderQuickNav();
-    renderDots();
-
-    // 滚动时更新 dimmed
-    var scrollTimer = null;
-    scrollContainer.addEventListener('scroll', function () {
-      if (scrollTimer) clearTimeout(scrollTimer);
-      scrollTimer = setTimeout(updateDimmed, 50);
-    }, { passive: true });
-
-    // 触摸结束
-    scrollContainer.addEventListener('touchend', function () {
-      setTimeout(updateDimmed, 100);
-    });
-
-    // 初始状态
-    setTimeout(updateDimmed, 300);
+    window.addEventListener("scroll", scheduleActiveTierSync, { passive: true });
+    window.addEventListener("resize", scheduleActiveTierSync);
   </script>
-
 </body>
-
 </html>

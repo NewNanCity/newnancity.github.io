@@ -1,17 +1,24 @@
 /**
- * 构建时图片处理脚本
- * - 将图片转换为 WebP 格式
- * - 智能压缩到最多 1080P（等比缩放，最长边）
- * - 保持文件大小在 400KB 以下
- * - 生成文件哈希后缀以解决CDN缓存问题
- * - 更新 site-data.json 中的图片路径
+ * 构建期图片管线。
+ *
+ * 图片按页面用途和内容特征选择策略；源文件只读，优化结果写入 dist。
  */
 
-import fs from 'fs'
-import path from 'path'
-import crypto from 'crypto'
+import crypto from 'node:crypto'
+import fs from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import sharp from 'sharp'
-import { fileURLToPath } from 'url'
+
+import { parseSiteData } from '../src/types/site-data-validator.js'
+import { ImageBudgetError, optimizeImageBuffer } from './image-optimizer.js'
+import {
+  getGalleryImageKeys,
+  getSiteDataImagePaths,
+  imageKey,
+  mapImagePath,
+  rewriteSiteDataImagePaths,
+} from './site-data-images.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const publicDir = path.join(__dirname, '../public')
@@ -19,349 +26,228 @@ const distDir = path.join(__dirname, '../dist')
 const picSourceDir = path.join(publicDir, 'pic')
 const picDistDir = path.join(distDir, 'pic')
 const siteDataPath = path.join(distDir, 'site-data.json')
+const indexHtmlPath = path.join(distDir, 'index.html')
+const reportPath = path.join(distDir, 'image-processing-report.json')
 
-const MAX_DIMENSION = 1080 // 最长边
-const MAX_FILE_SIZE = 400 * 1024 // 400KB（平衡压缩率和图片质量）
-const MIN_QUALITY = 50 // 最低质量（防止过度压缩导致模糊）
-const MAX_QUALITY = 90 // 最高质量
+const IMAGE_EXTENSIONS = new Set([
+  '.jpg',
+  '.jpeg',
+  '.png',
+  '.webp',
+  '.bmp',
+  '.gif',
+])
 
-/**
- * 生成文件哈希（用于cache busting，避免CDN缓存旧版本）
- */
+// 只有经过视觉审查且无法在质量下限内满足预算的图片才允许加例外。
+const IMAGE_OVERRIDES = Object.freeze({})
+
 function generateFileHash(buffer) {
-  const hash = crypto.createHash('md5').update(buffer).digest('hex')
-  return hash.substring(0, 8) // 取前8位
+  return crypto.createHash('md5').update(buffer).digest('hex').substring(0, 8)
 }
 
-/**
- * 获取等比缩放的宽高
- */
-function getScaledDimensions(width, height, maxDimension) {
-  if (width <= maxDimension && height <= maxDimension) {
-    return { width, height }
+function loadSiteData() {
+  if (!fs.existsSync(siteDataPath)) {
+    throw new Error(`构建数据不存在: ${siteDataPath}`)
   }
-
-  const ratio = width / height
-  if (width > height) {
-    return {
-      width: maxDimension,
-      height: Math.round(maxDimension / ratio),
-    }
-  } else {
-    return {
-      width: Math.round(maxDimension * ratio),
-      height: maxDimension,
-    }
-  }
+  return parseSiteData(JSON.parse(fs.readFileSync(siteDataPath, 'utf8')))
 }
 
-/**
- * 处理单个图片
- * 动态压缩策略：
- * - 小于400KB的图片：只转换格式，保持高质量
- * - 大于400KB的图片：根据原始大小动态调整质量下限，避免过度压缩
- *   - 400-600KB: MIN_QUALITY = 70
- *   - 600-900KB: MIN_QUALITY = 75
- *   - >900KB: MIN_QUALITY = 80
- */
-async function processImage(inputPath, outputPath) {
-  try {
-    const image = sharp(inputPath)
-    const metadata = await image.metadata()
-    const { width, height } = metadata
-    const originalSize = fs.statSync(inputPath).size
+function updateSiteData(siteData, fileMapping) {
+  const updated = rewriteSiteDataImagePaths(siteData, fileMapping)
 
-    // 计算缩放后的尺寸
-    const scaled = getScaledDimensions(width, height, MAX_DIMENSION)
-    const wasResized = scaled.width !== width || scaled.height !== height
+  fs.writeFileSync(siteDataPath, JSON.stringify(updated), 'utf8')
+  return updated
+}
 
-    let quality = MAX_QUALITY
-    let buffer
-    let fileSize
-    let compressionApplied = false
-    let adaptiveMinQuality = MIN_QUALITY
+function updateHeroPreload(siteData, fileMapping) {
+  const firstSlide = siteData.hero?.slides?.[0]
+  if (!firstSlide) return
+  if (!fs.existsSync(indexHtmlPath)) {
+    throw new Error(`构建入口不存在: ${indexHtmlPath}`)
+  }
 
-    // 动态压缩策略
-    if (originalSize < MAX_FILE_SIZE) {
-      // 小文件：只做格式转换，保持最高质量（WebP本身压缩效率高）
-      const processor = sharp(inputPath)
-        .resize(scaled.width, scaled.height, {
-          fit: 'inside',
-          withoutEnlargement: true,
-        })
-        .webp({ quality: MAX_QUALITY })
+  const mappedSlide = mapImagePath(firstSlide, fileMapping)
+  const html = fs.readFileSync(indexHtmlPath, 'utf8')
+  if (!html.includes(firstSlide)) {
+    throw new Error(`index.html 缺少首屏图片预加载: ${firstSlide}`)
+  }
+  fs.writeFileSync(indexHtmlPath, html.replaceAll(firstSlide, mappedSlide), 'utf8')
+}
 
-      buffer = await processor.toBuffer()
-      fileSize = buffer.length
-      quality = MAX_QUALITY
-      compressionApplied = false
-    } else {
-      // 大文件：根据原始大小动态调整质量下限
-      // 越大的文件，使用越高的质量下限，避免过度压缩
-      if (originalSize < 600 * 1024) {
-        adaptiveMinQuality = 70
-      } else if (originalSize < 900 * 1024) {
-        adaptiveMinQuality = 75
-      } else {
-        adaptiveMinQuality = 80
-      }
+async function validateOutputs(report, siteData) {
+  const violations = []
 
-      // 循环压缩直到符合要求或达到自适应质量下限
-      for (quality = MAX_QUALITY; quality >= adaptiveMinQuality; quality -= 2) {
-        const processor = sharp(inputPath)
-          .resize(scaled.width, scaled.height, {
-            fit: 'inside',
-            withoutEnlargement: true,
-          })
-          .webp({ quality })
+  for (const entry of report.images) {
+    const outputPath = path.join(picDistDir, entry.outputFile)
+    const metadata = await sharp(outputPath).metadata()
 
-        buffer = await processor.toBuffer()
-        fileSize = buffer.length
-
-        // 如果文件大小符合要求，则停止
-        if (fileSize <= MAX_FILE_SIZE) {
-          break
-        }
-      }
-      compressionApplied = true
+    if (metadata.format !== 'webp') {
+      violations.push(`${entry.outputFile}: 实际格式为 ${metadata.format}`)
     }
-
-    // 生成文件哈希用于cache busting
-    const fileHash = generateFileHash(buffer)
-    const originalFileName = path.parse(outputPath).name
-    const hashedFileName = `${originalFileName}-${fileHash}.webp`
-    const hashedOutputPath = path.join(path.dirname(outputPath), hashedFileName)
-
-    // 确保目录存在
-    const outputDir = path.dirname(outputPath)
-    if (!fs.existsSync(outputDir)) {
-      fs.mkdirSync(outputDir, { recursive: true })
+    if (entry.outputSize > entry.hardBytes) {
+      violations.push(
+        `${entry.outputFile}: ${entry.outputSize} bytes 超过硬预算 ${entry.hardBytes} bytes`,
+      )
     }
+  }
 
-    // 写入文件（使用哈希后的文件名）
-    fs.writeFileSync(hashedOutputPath, buffer)
+  for (const imagePath of getSiteDataImagePaths(siteData)) {
+    const outputPath = path.join(distDir, imagePath.replace(/^\//, ''))
+    if (!fs.existsSync(outputPath)) {
+      violations.push(`部署数据引用了不存在的图片: ${imagePath}`)
+    }
+  }
 
-    return {
-      success: true,
-      originalFileName,
-      hashedFileName,
-      hashedPath: `/pic/${hashedFileName}`,
-      originalSize,
-      processedSize: fileSize,
-      wasResized,
-      dimensions: { original: { width, height }, scaled },
-      quality,
-      compressionApplied,
+  const firstSlide = siteData.hero?.slides?.[0]
+  if (firstSlide) {
+    const indexHtml = fs.readFileSync(indexHtmlPath, 'utf8')
+    if (!indexHtml.includes(firstSlide)) {
+      violations.push(`index.html 未预加载首屏图片: ${firstSlide}`)
     }
-  } catch (error) {
-    return {
-      success: false,
-      error: error.message,
-    }
+  }
+
+  if (violations.length > 0) {
+    throw new Error(`图片产物校验失败:\n- ${violations.join('\n- ')}`)
   }
 }
 
-/**
- * 更新 site-data.json 中的图片路径
- * @param {string} siteDataPath - site-data.json 的路径
- * @param {Map<string, string>} fileMapping - 原始文件名 -> 哈希后文件名的映射
- */
-function updateSiteData(siteDataPath, fileMapping) {
-  try {
-    const rawData = fs.readFileSync(siteDataPath, 'utf8')
-    const data = JSON.parse(rawData)
+function cleanCopiedSourceImages(generatedFiles) {
+  let cleanedCount = 0
 
-    // 遍历 gallery 中的所有图片，替换为哈希后的文件名
-    if (data.gallery && Array.isArray(data.gallery)) {
-      data.gallery = data.gallery.map((item) => {
-        if (item.src && item.src.includes('/pic/')) {
-          // 提取文件名（不含后缀）
-          const fileName = path.parse(item.src).name
+  for (const file of fs.readdirSync(picDistDir)) {
+    if (!IMAGE_EXTENSIONS.has(path.extname(file).toLowerCase())) continue
+    if (generatedFiles.has(file)) continue
 
-          // 检查是否在映射中
-          if (fileMapping.has(fileName)) {
-            return {
-              ...item,
-              src: fileMapping.get(fileName),
-            }
-          } else {
-            // 如果不在映射中，说明这是一个未处理的文件或已跳过的文件
-            console.warn(`⚠️  未找到图片的哈希映射: ${fileName}`)
-            return item
-          }
-        }
-        return item
-      })
-    }
-
-    // 写回精简的 JSON
-    const minified = JSON.stringify(data)
-    fs.writeFileSync(siteDataPath, minified, 'utf8')
-
-    return true
-  } catch (error) {
-    console.error('❌ 更新 site-data.json 失败:', error.message)
-    return false
+    fs.unlinkSync(path.join(picDistDir, file))
+    cleanedCount += 1
   }
+
+  return cleanedCount
 }
 
-/**
- * 主函数
- */
+function formatKib(bytes) {
+  return `${(bytes / 1024).toFixed(1)}KB`
+}
+
 async function main() {
-  console.log('🖼️  开始处理图片...\n')
+  console.log('开始执行分层图片管线...\n')
 
-  // 检查源目录是否存在
   if (!fs.existsSync(picSourceDir)) {
-    console.warn(`⚠️  源目录不存在: ${picSourceDir}`)
-    return
+    throw new Error(`图片源目录不存在: ${picSourceDir}`)
   }
+  fs.mkdirSync(picDistDir, { recursive: true })
 
-  // 检查 dist 目录的 pic 文件夹是否存在
-  if (!fs.existsSync(picDistDir)) {
-    fs.mkdirSync(picDistDir, { recursive: true })
-  }
-
-  const files = fs.readdirSync(picSourceDir)
-  const imageExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.bmp', '.gif']
-  const imageFiles = files.filter((file) =>
-    imageExtensions.includes(path.extname(file).toLowerCase())
-  )
+  const siteData = loadSiteData()
+  const galleryImageKeys = getGalleryImageKeys(siteData)
+  const imageFiles = fs
+    .readdirSync(picSourceDir)
+    .filter((file) => IMAGE_EXTENSIONS.has(path.extname(file).toLowerCase()))
+    .sort((a, b) => a.localeCompare(b))
 
   if (imageFiles.length === 0) {
-    console.warn('⚠️  未找到任何图片文件')
-    return
+    throw new Error(`没有在 ${picSourceDir} 找到图片`)
   }
 
-  let successCount = 0
-  let failCount = 0
-  let totalOriginalSize = 0
-  let totalProcessedSize = 0
-
-  // 文件名映射：originalName -> hashedPath（用于更新site-data.json）
   const fileMapping = new Map()
+  const generatedFiles = new Set()
+  const images = []
+  const failures = []
 
-  console.log(`📊 找到 ${imageFiles.length} 个图片文件\n`)
-
-  // 处理每个图片
   for (const file of imageFiles) {
-    const inputPath = path.join(picSourceDir, file)
-    const outputFileName = path.parse(file).name + '.webp'
-    const outputPath = path.join(picDistDir, outputFileName)
+    const sourcePath = path.join(picSourceDir, file)
+    const key = imageKey(file)
+    const role = galleryImageKeys.has(key) ? 'gallery' : 'archive'
 
-    // WebP文件直接复制，不重新编码（保持原始质量）
-    const stats = fs.statSync(inputPath)
-    if (path.extname(file).toLowerCase() === '.webp') {
-      // 直接复制 WebP 文件（无论大小），但添加哈希后缀用于cache busting
-      const buffer = fs.readFileSync(inputPath)
-      const fileHash = generateFileHash(buffer)
-      const originalFileName = path.parse(file).name
-      const hashedFileName = `${originalFileName}-${fileHash}.webp`
-      const hashedOutputPath = path.join(picDistDir, hashedFileName)
+    try {
+      const result = await optimizeImageBuffer({
+        inputBuffer: fs.readFileSync(sourcePath),
+        fileName: file,
+        role,
+        policyOverride: IMAGE_OVERRIDES[file],
+      })
+      const hash = generateFileHash(result.buffer)
+      const outputFile = `${key}-${hash}.webp`
+      const outputPath = path.join(picDistDir, outputFile)
 
-      fs.copyFileSync(inputPath, hashedOutputPath)
-      fileMapping.set(originalFileName, `/pic/${hashedFileName}`)
+      fs.writeFileSync(outputPath, result.buffer)
+      generatedFiles.add(outputFile)
+      fileMapping.set(key, `/pic/${outputFile}`)
 
-      successCount++
-      totalOriginalSize += stats.size
-      totalProcessedSize += stats.size
-      console.log(`✅ ${file} (WebP原生格式，保持质量)`)
-      continue
-    }
-
-    const result = await processImage(inputPath, outputPath)
-
-    if (result.success) {
-      successCount++
-      totalOriginalSize += result.originalSize
-      totalProcessedSize += result.processedSize
-
-      // 保存文件名映射
-      fileMapping.set(result.originalFileName, result.hashedPath)
-
-      const ratio = ((1 - result.processedSize / result.originalSize) * 100).toFixed(1)
-      const sizeInfo = `${(result.originalSize / 1024).toFixed(1)}KB → ${(result.processedSize / 1024).toFixed(1)}KB (-${ratio}%)`
-      const resizeInfo = result.wasResized
-        ? `(缩放至 ${result.dimensions.scaled.width}×${result.dimensions.scaled.height}, 质量 ${result.quality})`
-        : `(保持原尺寸 ${result.dimensions.original.width}×${result.dimensions.original.height}, 质量 ${result.quality})`
-      const compressionLabel = result.compressionApplied ? '🔧 已压缩' : '✨ 仅转换'
-
-      console.log(`✅ ${file}`)
-      console.log(`   ${sizeInfo} ${resizeInfo} [${compressionLabel}]`)
-      console.log(`   → ${result.hashedFileName} (cache busting)`)
-    } else {
-      failCount++
-      console.error(`❌ ${file} - ${result.error}`)
-    }
-  }
-
-  // 更新 site-data.json
-  if (fs.existsSync(siteDataPath)) {
-    console.log('\n📝 更新 site-data.json（替换为哈希后的文件名）...')
-    if (updateSiteData(siteDataPath, fileMapping)) {
-      console.log('✅ site-data.json 更新完成')
-    }
-  }
-
-  // 输出统计信息
-  console.log('\n' + '='.repeat(50))
-  console.log('📊 处理完成统计:')
-  console.log(`   成功: ${successCount} 个`)
-  console.log(`   失败: ${failCount} 个`)
-  console.log(
-    `   原始总大小: ${(totalOriginalSize / 1024 / 1024).toFixed(2)} MB`
-  )
-  console.log(
-    `   处理后总大小: ${(totalProcessedSize / 1024 / 1024).toFixed(2)} MB`
-  )
-  console.log(
-    `   总体压缩率: ${((1 - totalProcessedSize / totalOriginalSize) * 100).toFixed(1)}%`
-  )
-  console.log('='.repeat(50))
-  console.log('💡 所有图片均已添加哈希后缀用于CDN cache busting')
-
-  // 清理未哈希的文件（保留新的cache-busted版本）
-  console.log('\n🧹 清理未哈希的旧文件...')
-  const allFiles = fs.readdirSync(picDistDir)
-  const hashedFileNames = new Set()
-
-  // 首先收集所有已哈希的文件名（去掉哈希后缀获得原始名）
-  for (const file of allFiles) {
-    if (file.match(/-[a-f0-9]{8}\.webp$/)) {
-      const originalName = file.replace(/-[a-f0-9]{8}\.webp$/, '')
-      hashedFileNames.add(originalName)
-    }
-  }
-
-  // 然后删除所有未哈希且有对应哈希版本的文件
-  let cleanedCount = 0
-  for (const file of allFiles) {
-    if (file.endsWith('.webp') && !file.match(/-[a-f0-9]{8}\.webp$/)) {
-      const baseName = file.replace(/\.webp$/, '')
-      // 只删除有对应哈希版本的文件
-      if (hashedFileNames.has(baseName)) {
-        const filePath = path.join(picDistDir, file)
-        try {
-          fs.unlinkSync(filePath)
-          cleanedCount++
-        } catch (err) {
-          console.warn(`   ⚠️  删除失败: ${file} - ${err.message}`)
-        }
+      const entry = {
+        sourceFile: file,
+        outputFile,
+        action: result.action,
+        role: result.role,
+        contentClass: result.contentClass,
+        sourceFormat: result.sourceFormat,
+        sourceSize: result.sourceSize,
+        outputSize: result.outputSize,
+        sourceDimensions: result.sourceDimensions,
+        outputDimensions: result.outputDimensions,
+        quality: result.quality,
+        softBytes: result.policy.softBytes,
+        hardBytes: result.policy.hardBytes,
       }
+      images.push(entry)
+
+      const sizeLabel =
+        result.action === 'preserved'
+          ? formatKib(result.sourceSize)
+          : `${formatKib(result.sourceSize)} -> ${formatKib(result.outputSize)}`
+      const qualityLabel = result.quality ? `, q${result.quality}` : ''
+      console.log(
+        `${result.action === 'preserved' ? '保留' : '优化'} ${file} ` +
+          `[${role}/${result.contentClass}${qualityLabel}] ${sizeLabel}`,
+      )
+    } catch (error) {
+      const details =
+        error instanceof ImageBudgetError
+          ? JSON.stringify(error.details)
+          : error instanceof Error
+            ? error.message
+            : String(error)
+      failures.push(`${file}: ${details}`)
     }
   }
 
-  if (cleanedCount > 0) {
-    console.log(`✅ 共清理 ${cleanedCount} 个未哈希的旧文件`)
+  if (failures.length > 0) {
+    throw new Error(`有 ${failures.length} 张图片处理失败:\n- ${failures.join('\n- ')}`)
   }
 
-  if (failCount > 0) {
-    console.warn(`⚠️  有 ${failCount} 个图片处理失败，但继续部署`)
-    process.exit(0)
+  const updatedSiteData = updateSiteData(siteData, fileMapping)
+  updateHeroPreload(siteData, fileMapping)
+  const cleanedCount = cleanCopiedSourceImages(generatedFiles)
+  const sourceBytes = images.reduce((sum, item) => sum + item.sourceSize, 0)
+  const outputBytes = images.reduce((sum, item) => sum + item.outputSize, 0)
+  const report = {
+    summary: {
+      imageCount: images.length,
+      preservedCount: images.filter((item) => item.action === 'preserved').length,
+      optimizedCount: images.filter((item) => item.action === 'optimized').length,
+      sourceBytes,
+      outputBytes,
+      savedBytes: sourceBytes - outputBytes,
+      savingPercent: Number(((1 - outputBytes / sourceBytes) * 100).toFixed(1)),
+      cleanedSourceCopies: cleanedCount,
+    },
+    images,
   }
+
+  await validateOutputs(report, updatedSiteData)
+  fs.writeFileSync(reportPath, JSON.stringify(report, null, 2), 'utf8')
+
+  console.log('\n图片管线完成:')
+  console.log(`  图片: ${report.summary.imageCount}`)
+  console.log(`  原样保留: ${report.summary.preservedCount}`)
+  console.log(`  重新优化: ${report.summary.optimizedCount}`)
+  console.log(
+    `  总体积: ${formatKib(sourceBytes)} -> ${formatKib(outputBytes)} ` +
+      `(-${report.summary.savingPercent}%)`,
+  )
+  console.log(`  构建报告: ${reportPath}`)
 }
 
 main().catch((error) => {
-  console.error('❌ 脚本执行失败:', error)
+  console.error(error instanceof Error ? error.message : error)
   process.exit(1)
 })

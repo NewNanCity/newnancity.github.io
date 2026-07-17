@@ -1,35 +1,20 @@
-Landed by HTML5 UP
-html5up.net | @ajlkn
-Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+天元镇 TyanSec 静态站
+=====================
 
+目录说明：
 
-A dark, slick, modern, responsive, adjective-drenched design built around an extremely
-dynamic landing page (scroll that mofo!). Inspired by Big Picture, another design
-of mine with a similarish feel/flow, only this time I took it waaaaaay further and
-actually made it multipurpose (versus copping out and making it a one pager like I
-did last time ;) Includes multiple pages, a bunch of pre-styled elements, and all
-its Sass sources.
+- index.html：天元镇首页。
+- news/：天元新闻与成员档案。
+- shop/：天元商品、合作伙伴与原材料信息。
+- images/：首页原始图片与 WebP 发布版本；原始图片保留作事实源。
+- assets/css/main.css：首页样式，无外部字体或运行时依赖。
 
-Demo images* courtesy of Unsplash, a radtastic collection of CC0 (public domain) images
-you can use for pretty much whatever.
+本地预览：
 
-(* = Not included)
+    python -m http.server 4178 --bind 127.0.0.1
 
-Feedback, bug reports, and comments are not only welcome, but strongly encouraged :)
+打开 http://127.0.0.1:4178/towns/tyansec/ 。
 
-AJ
-aj@lkn.io | @ajlkn
+图片约定：Minecraft 场景截图使用高质量有损 WebP；小型物品、界面与透明像素素材使用无损 WebP，避免统一压缩导致文字和像素边缘模糊。原始 JPG/PNG 不删除。
 
-
-Credits:
-
-	Demo Images:
-		Unsplash (unsplash.com)
-
-	Icons:
-		Font Awesome (fontawesome.io)
-
-	Other:
-		jQuery (jquery.com)
-		Scrollex (github.com/ajlkn/jquery.scrollex)
-		Responsive Tools (github.com/ajlkn/responsive-tools)
+Original templates by HTML5 UP, licensed under CCA 3.0. See LICENSE.txt.

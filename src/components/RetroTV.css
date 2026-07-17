@@ -1,237 +1,250 @@
-/* ═══ RetroTV ═══ */
 .retrotv-section {
-  background: linear-gradient(180deg, var(--color-bg-alt) 0%, var(--color-bg-deep) 100%);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 80px 24px;
+  background: var(--color-bg-deep);
 }
 
-/* TV wrapper */
 .tv-wrapper {
-  width: calc(100vw - 100px);
-  max-width: 1000px;
+  max-width: 1060px;
   margin: 0 auto;
 }
 
-/* TV body — the main CRT housing */
-.tv-body {
-  display: flex;
-  background: linear-gradient(180deg, #3a2f24 0%, #2a2118 60%, #1e1812 100%);
-  border: 4px solid;
-  border-color: #5a4a3a #2a1e14 #2a1e14 #5a4a3a;
-  border-radius: 16px;
-  padding: 16px;
-  gap: 12px;
-  box-shadow:
-    0 20px 60px rgba(0,0,0,0.5),
-    inset 0 1px 0 rgba(255,200,130,0.08);
-}
-
-/* Screen */
-.tv-screen {
-  flex: 1;
-  position: relative;
-  background: #141e12;
-  border-radius: 12px;
-  overflow: hidden;
-  min-height: 480px;
-  border: 3px solid #2a2a2a;
-  box-shadow:
-    inset 0 0 80px rgba(93,186,79,0.08),
-    inset 0 0 40px rgba(0,0,0,0.3);
-}
-
-/* CRT scanlines */
-.tv-scanlines {
-  position: absolute; inset: 0; z-index: 10;
-  pointer-events: none;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent 0px,
-    transparent 2px,
-    rgba(0,0,0,0.08) 2px,
-    rgba(0,0,0,0.08) 4px
-  );
-}
-
-/* CRT vignette (darker edges) */
-.tv-vignette {
-  position: absolute; inset: 0; z-index: 11;
-  pointer-events: none;
-  background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.35) 100%);
-}
-
-/* Noise static on channel switch */
-.tv-noise {
-  position: absolute; inset: 0; z-index: 15;
-  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.7'/%3E%3C/svg%3E");
-  background-size: 200px 200px;
-  animation: tv-noise 0.15s steps(5) infinite;
-  opacity: 0.8;
-  mix-blend-mode: overlay;
-}
-
-/* Year display */
-.tv-year-display {
-  position: absolute; top: 12px; left: 16px;
-  z-index: 12;
-  font-size: 1.5rem;
-  color: rgba(93,186,79,0.85);
-  text-shadow: 0 0 10px rgba(93,186,79,0.5);
-}
-
-/* Danmaku layer */
-.tv-danmaku-layer {
-  position: absolute; inset: 0; z-index: 5;
-  overflow: hidden;
-}
-
-/* Individual danmaku card */
-.tv-danmaku-card {
-  position: absolute;
-  left: 100%;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 14px;
-  background: rgba(30, 38, 26, 0.88);
-  border-left: 3px solid;
-  border-radius: 4px;
-  white-space: nowrap;
-  cursor: pointer;
-  animation: danmaku-fly linear forwards;
-  transition: background 0.2s;
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
-}
-.tv-danmaku-card:hover {
-  background: rgba(50, 60, 40, 0.95);
-}
-.tv-danmaku-card--expanded {
-  animation-play-state: paused;
-  max-width: 480px;
-  flex-direction: column;
-  align-items: flex-start;
-  z-index: 20;
-}
-.tv-danmaku-type {
-  font-size: 0.7rem; font-weight: 700;
-  flex-shrink: 0;
-}
-.tv-danmaku-title {
-  font-size: 0.82rem;
-  color: #e8f0e0;
-  font-weight: 600;
-}
-.tv-danmaku-date {
-  font-size: 0.65rem;
-  color: #a0b890;
-  flex-shrink: 0;
-}
-.tv-danmaku-desc {
-  font-size: 0.75rem;
-  color: #b0c8a0;
-  line-height: 1.5;
-  margin-top: 4px;
-  padding-top: 4px;
-  border-top: 1px solid rgba(93,186,79,0.2);
-}
-
-/* Empty state */
-.tv-empty {
-  position: absolute; inset: 0; z-index: 5;
-  display: flex; align-items: center; justify-content: center;
-  color: var(--color-text-dim);
-  font-size: 0.7rem;
-}
-
-/* Channel dial panel */
-.tv-channels {
-  display: flex;
-  flex-direction: column;
+.tv-channel-tabs {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 6px;
-  padding: 8px;
-  min-width: 64px;
-  align-items: center;
+  margin: 0 18px 10px;
 }
-.tv-channels-label {
-  font-size: 1.1rem;
-  color: var(--color-text-dim);
-  margin-bottom: 4px;
-  letter-spacing: 0.2em;
-}
+
 .tv-channel-btn {
-  width: 56px; height: 36px;
-  background: linear-gradient(180deg, #4a3e30 0%, #3a3020 100%);
+  min-width: 0;
+  min-height: 44px;
+  padding: 8px;
+  background: #292e2a;
   border: 2px solid;
-  border-color: #6a5a4a #2a2018 #2a2018 #6a5a4a;
+  border-color: #4a514b #141715 #141715 #4a514b;
   color: var(--color-text-dim);
   font-family: var(--font-pixel);
-  font-size: 0.75rem;
+  font-size: 0.68rem;
   cursor: pointer;
-  transition: all 0.15s ease;
-  border-radius: 4px;
-}
-.tv-channel-btn:hover {
-  background: linear-gradient(180deg, #5a4e40 0%, #4a4030 100%);
-  color: var(--color-text-bright);
-}
-.tv-channel-btn--active {
-  background: linear-gradient(180deg, #3d8a30 0%, #2a6a20 100%);
-  border-color: #5dba4f #1a4a10 #1a4a10 #5dba4f;
-  color: var(--color-text-bright);
-  box-shadow: 0 0 12px rgba(93,186,79,0.3);
-}
-.tv-channel-btn--active:hover {
-  background: linear-gradient(180deg, #4d9a40 0%, #3a7a30 100%);
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
 
-/* TV stand legs */
+.tv-channel-btn:hover {
+  background: #363d38;
+  color: var(--color-text-bright);
+}
+
+.tv-channel-btn--active {
+  background: var(--color-secondary);
+  border-color: #7cdd6d #28631f #28631f #7cdd6d;
+  color: #0d170b;
+}
+
+.tv-channel-btn--active:hover {
+  background: #6bca5d;
+  color: #0d170b;
+}
+
+.tv-body {
+  padding: 16px;
+  background: #2a2e2a;
+  border: 4px solid;
+  border-color: #545b54 #141715 #141715 #545b54;
+  border-radius: 8px;
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.42);
+}
+
+.tv-bezel-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 32px;
+  padding: 0 6px 10px;
+  color: #968773;
+  font-size: 0.52rem;
+}
+
+.tv-power-light {
+  width: 8px;
+  height: 8px;
+  background: var(--color-secondary);
+  box-shadow: 0 0 10px rgba(93, 186, 79, 0.72);
+}
+
+.tv-screen {
+  max-height: 580px;
+  overflow-y: auto;
+  padding: 24px;
+  background:
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.05) 0, rgba(0, 0, 0, 0.05) 2px, transparent 2px, transparent 4px),
+    #101b12;
+  border: 3px solid #111;
+  color: #dce7d8;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-secondary) #0d140e;
+  box-shadow: inset 0 0 70px rgba(0, 0, 0, 0.38);
+}
+
+.tv-screen::-webkit-scrollbar {
+  width: 10px;
+}
+
+.tv-screen::-webkit-scrollbar-track {
+  background: #0d140e;
+}
+
+.tv-screen::-webkit-scrollbar-thumb {
+  background: var(--color-secondary);
+  border: 3px solid #0d140e;
+}
+
+.tv-screen-header {
+  position: sticky;
+  top: -24px;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin: -24px -24px 22px;
+  padding: 22px 24px 16px;
+  background: rgba(16, 27, 18, 0.96);
+  border-bottom: 1px solid rgba(93, 186, 79, 0.26);
+}
+
+.tv-screen-kicker {
+  display: block;
+  margin-bottom: 5px;
+  color: #79b971;
+  font-size: 0.52rem;
+}
+
+.tv-screen-header h3 {
+  color: #a5e39d;
+  font-size: 1.8rem;
+  line-height: 1;
+  text-shadow: 0 0 14px rgba(93, 186, 79, 0.35);
+}
+
+.tv-story-count {
+  color: #91a28f;
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+.tv-story-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.tv-story {
+  min-width: 0;
+  padding: 16px;
+  background: rgba(31, 48, 32, 0.74);
+  border-left: 3px solid var(--color-primary);
+  box-shadow: inset 0 0 0 1px rgba(220, 240, 214, 0.05);
+}
+
+.tv-story--person {
+  border-left-color: var(--color-secondary);
+}
+
+.tv-story--place {
+  border-left-color: var(--color-accent);
+}
+
+.tv-story--meme {
+  border-left-color: #ff7b9c;
+}
+
+.tv-story-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.tv-story-type {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #9fb69b;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.tv-story time {
+  color: #7f927c;
+  font-size: 0.68rem;
+  text-align: right;
+}
+
+.tv-story h4 {
+  margin-bottom: 6px;
+  color: #edf5e9;
+  font-size: 0.96rem;
+  line-height: 1.45;
+}
+
+.tv-story p {
+  color: #aab9a6;
+  font-size: 0.78rem;
+  line-height: 1.65;
+}
+
 .tv-stand {
   display: flex;
   justify-content: center;
-  gap: 120px;
+  gap: 130px;
   margin-top: -2px;
 }
-.tv-stand-leg {
-  width: 16px; height: 24px;
-  background: linear-gradient(180deg, #3a2f24 0%, #2a2118 100%);
+
+.tv-stand span {
+  width: 20px;
+  height: 24px;
+  background: #252925;
   border: 2px solid;
-  border-color: #5a4a3a #2a1e14 #2a1e14 #5a4a3a;
-  border-top: none;
-  border-radius: 0 0 4px 4px;
+  border-color: #545b54 #141715 #141715 #545b54;
+  border-top: 0;
 }
 
-/* ─── Responsive ─── */
-@media (max-width: 768px) {
+@media (max-width: 760px) {
+  .tv-channel-tabs {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin-inline: 0;
+  }
+
   .tv-body {
-    flex-direction: column;
-    padding: 12px;
+    padding: 10px;
   }
+
   .tv-screen {
-    min-height: 340px;
+    max-height: 560px;
+    padding: 16px;
   }
-  .tv-channels {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 4px;
-    padding: 4px;
-    min-width: auto;
+
+  .tv-screen-header {
+    top: -16px;
+    margin: -16px -16px 16px;
+    padding: 18px 16px 14px;
   }
-  .tv-channels-label {
-    width: 100%;
-    text-align: center;
-    margin-bottom: 2px;
+
+  .tv-story-grid {
+    grid-template-columns: 1fr;
   }
-  .tv-channel-btn {
-    width: 52px; height: 30px;
-    font-size: 0.8rem;
+
+  .tv-story {
+    padding: 14px;
   }
-  .tv-stand { gap: 80px; }
-  .tv-danmaku-card {
-    padding: 4px 10px;
-    font-size: 0.75rem;
+}
+
+@media (max-width: 390px) {
+  .tv-channel-tabs {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .tv-screen-header h3 {
+    font-size: 1.45rem;
   }
 }

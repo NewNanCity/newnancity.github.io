@@ -1,129 +1,102 @@
-<!DOCTYPE HTML>
-<!--
-	Big Picture by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
-	<head>
-		<title>天元新闻 TyanSecNews</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-	</head>
-	<body class="is-preload">
+<!doctype html>
+<html lang="zh-CN">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="天元新闻播报与天元镇成员列表。">
+	<meta name="theme-color" content="#151917">
+	<link rel="canonical" href="https://newnan.city/towns/tyansec/news/">
+	<title>天元新闻 TyanSecNews</title>
+	<link rel="icon" href="../images/pic01.webp">
+	<link rel="stylesheet" href="assets/css/main.css?v=20260717a">
+</head>
+<body>
+	<a class="skip-link" href="#main-content">跳到主要内容</a>
 
-		<!-- Header -->
-			<header id="header" >
-				<h1>天元镇 TyanSec</h1>
-				<nav id="nav">
-					<ul>
-						<li><a href="https://sasuke1003.github.io/NewNan-TyanSec/">返回官网</a></li>
-						<li><a href="https://sasuke1003.github.io/NewNan-TyanSec/shop/index.html">天元商品</a></li>
-						<li><a href="#">尚未开发</a></li>
-						<li><a href="#" class="button">登录</a></li>
-					</ul>
-				</nav>
-			</header>
+	<header class="news-header">
+		<div class="header-inner">
+			<a class="brand" href="../index.html" aria-label="返回天元镇官网">
+				<span class="brand-mark" aria-hidden="true">TS</span>
+				<span><strong>天元镇</strong><small>NEWS DESK</small></span>
+			</a>
+			<nav aria-label="新闻站导航">
+				<a href="#news">新闻</a>
+				<a href="#members">成员</a>
+				<a href="../shop/index.html">天元商品</a>
+				<a class="home-link" href="../index.html">返回官网</a>
+			</nav>
+		</div>
+	</header>
 
-		<!-- Intro -->
-			<section id="intro" class="main style1 dark fullscreen">
-				<div class="content">
-					<header>
-						<h2>天元新闻播报</h2><p>底端有成员列表</p>
-					</header>
-					<p>向下滚动以观看天元所有新闻</p>
-					<footer>
-						<a href="#one" class="button style2 down">Next</a>
-					</footer>
-				</div>
-			</section>
+	<main id="main-content">
+		<section class="news-hero" aria-labelledby="hero-title">
+			<img class="pixel-art" src="../images/banner.webp" width="1600" height="1050" alt="天元镇夜间全景" fetchpriority="high">
+			<div class="hero-cover" aria-hidden="true"></div>
+			<div class="page-shell hero-content">
+				<p class="kicker">TYANSEC BULLETIN / TOWN RECORD</p>
+				<h1 id="hero-title">天元新闻播报</h1>
+				<p>底端有成员列表</p>
+				<a class="scroll-cue" href="#news">向下滚动以观看天元所有新闻 <span aria-hidden="true">↓</span></a>
+			</div>
+		</section>
 
-		<!-- One -->
-			<section id="one" class="main style2 right fullscreen">
-				<div class="content box style2">
-					<header>
-						<h2>天元赛猪场落成</h2><p>2021年2月26日更新</p>
-					</header>
-					<p>全牛腩第一个的赛猪场 在天元工业区西面海面 由玩家“啪叔” darculax 担任主设计师 在2021年2月完工 并且在完工当天进行了一次线上比赛 获胜者是我们的吉祥物 元元yuanOvO</p>
-				</div>
-				<a href="#two" class="button style2 down anchored">Next</a>
-			</section>
+		<section id="news" class="news-feed" aria-labelledby="news-title">
+			<div class="page-shell">
+				<header class="section-heading">
+					<div><p class="kicker">LATEST REPORTS</p><h2 id="news-title">城镇动态</h2></div>
+					<p>来自天元镇的建设记录。</p>
+				</header>
 
-		<!-- Two -->
-			<section id="two" class="main style2 left dark fullscreen">
-				<div class="content box style2">
-					<header>
-						<h2>新工业区正在打造</h2><p>2021年2月27日更新</p>
-					</header>
-					<p>天元新工业区正在打造 主体建设者为123666 和 jins 细节建造为darculax </p>
-				</div>
-				<a href="#work" class="button style2 down anchored">Next</a>
-			</section>
+				<article class="report">
+					<figure><img class="pixel-art" src="images/one.webp" width="1400" height="735" alt="天元工业区西面海面的赛猪场" loading="lazy" decoding="async"><figcaption>REPORT / 001</figcaption></figure>
+					<div class="report-copy">
+						<time datetime="2021-02-26">2021年2月26日更新</time>
+						<h3>天元赛猪场落成</h3>
+						<p>全牛腩第一个的赛猪场 在天元工业区西面海面 由玩家“啪叔” darculax 担任主设计师 在2021年2月完工 并且在完工当天进行了一次线上比赛 获胜者是我们的吉祥物 元元yuanOvO</p>
+					</div>
+				</article>
 
-		<!-- Work -->
-			<section id="work" class="main style3 primary">
-				<div class="content">
-					<header>
-						<h2>天元成员列表</h2>
-						<p>截至<strong>2021年2月27日</strong>为止 天元镇一共有<strong> 7位成员</strong></p>
-					</header>
+				<article class="report report-reverse">
+					<figure><img class="pixel-art" src="images/two.webp" width="1400" height="735" alt="正在建设的新工业区" loading="lazy" decoding="async"><figcaption>REPORT / 002</figcaption></figure>
+					<div class="report-copy">
+						<time datetime="2021-02-27">2021年2月27日更新</time>
+						<h3>新工业区正在打造</h3>
+						<p>天元新工业区正在打造 主体建设者为123666 和 jins 细节建造为darculax</p>
+					</div>
+				</article>
+			</div>
+		</section>
 
-					<!-- Gallery  -->
-						<div class="gallery">
-							<article class="from-left">
-								<a href="images/fulls/07.jpg" class="image fit"><img src="images/thumbs/07.jpg" title="The Anonymous Red" alt="" /><strong>MSA_Sasuke</strong></a>
-							</article>
-							<article class="from-left">
-								<a href="images/fulls/01.jpg" class="image fit"><img src="images/thumbs/01.jpg" title="The Anonymous Red" alt="" /><strong>yuanOvO</strong></a>
-							</article>
-							<article class="from-right">
-								<a href="images/fulls/02.jpg" class="image fit"><img src="images/thumbs/02.jpg" title="Airchitecture II" alt="" /><strong>123666</strong></a>
-							</article>
-							<article class="from-left">
-								<a href="images/fulls/03.jpg" class="image fit"><img src="images/thumbs/03.jpg" title="Air Lounge" alt="" /><strong>jins</strong></a>
-							</article>
-							<article class="from-right">
-								<a href="images/fulls/04.jpg" class="image fit"><img src="images/thumbs/04.jpg" title="Carry on" alt="" /><strong>x_wang</strong></a>
-							</article>
-							<article class="from-left">
-								<a href="images/fulls/05.jpg" class="image fit"><img src="images/thumbs/05.jpg" title="The sparkling shell" alt="" /><strong>joethedon</strong></a>
-							</article>
-							<article class="from-right">
-								<a href="images/fulls/06.jpg" class="image fit"><img src="images/thumbs/06.jpg" title="Bent IX" alt="" /><strong>darculax</strong></a>
-							</article>
-						</div>
+		<section id="members" class="members" aria-labelledby="members-title">
+			<div class="page-shell">
+				<header class="section-heading members-heading">
+					<div><p class="kicker">TOWN ROSTER / 2021.02.27</p><h2 id="members-title">天元成员列表</h2></div>
+					<p>截至<strong>2021年2月27日</strong>为止 天元镇一共有<strong> 7位成员</strong></p>
+				</header>
+				<ul class="member-grid">
+					<li><a href="images/thumbs/07.webp"><img class="pixel-art" src="images/thumbs/07.webp" width="720" height="405" alt="MSA_Sasuke 的 Minecraft 角色" loading="lazy" decoding="async"><span><b>01</b><strong>MSA_Sasuke</strong></span></a></li>
+					<li><a href="images/fulls/01.jpg"><img class="pixel-art" src="images/thumbs/01.webp" width="720" height="405" alt="yuanOvO 的 Minecraft 角色" loading="lazy" decoding="async"><span><b>02</b><strong>yuanOvO</strong></span></a></li>
+					<li><a href="images/fulls/02.jpg"><img class="pixel-art" src="images/thumbs/02.webp" width="720" height="405" alt="123666 的 Minecraft 角色" loading="lazy" decoding="async"><span><b>03</b><strong>123666</strong></span></a></li>
+					<li><a href="images/fulls/03.jpg"><img class="pixel-art" src="images/thumbs/03.webp" width="720" height="405" alt="jins 的 Minecraft 角色" loading="lazy" decoding="async"><span><b>04</b><strong>jins</strong></span></a></li>
+					<li><a href="images/fulls/04.jpg"><img class="pixel-art" src="images/thumbs/04.webp" width="720" height="405" alt="x_wang 的 Minecraft 角色" loading="lazy" decoding="async"><span><b>05</b><strong>x_wang</strong></span></a></li>
+					<li><a href="images/fulls/05.jpg"><img class="pixel-art" src="images/thumbs/05.webp" width="720" height="405" alt="joethedon 的 Minecraft 角色" loading="lazy" decoding="async"><span><b>06</b><strong>joethedon</strong></span></a></li>
+					<li><a href="images/fulls/06.jpg"><img class="pixel-art" src="images/thumbs/06.webp" width="720" height="405" alt="darculax 的 Minecraft 角色" loading="lazy" decoding="async"><span><b>07</b><strong>darculax</strong></span></a></li>
+				</ul>
+			</div>
+		</section>
+	</main>
 
-				</div>
-			</section>
-
-		<!-- Footer -->
-		<footer id="footer">
-			<ul class="icons">
-				<li><a href="https://www.facebook.com/kclau103/" class="icon brands alt fa-facebook-f"><span class="label"></span></a></li>
-				<li><a href="https://www.instagram.com/chung.lkc" class="icon brands alt fa-instagram"><span class="label"></span></a></li>
-				<li><a href="https://github.com/Sasuke1003/" class="icon brands alt fa-github"><span class="label"></span></a></li>
-				<li><a href="kcbrokeer@gmail.com" class="icon solid alt fa-envelope"><span class="label"></span></a></li>
-			</ul>
-			<ul class="copyright">
-				<li>Copyright &copy; 2020 -
-					<script>document.write(new Date().getFullYear())</script> 天元镇 TyanSec. All rights reserved.
-				</li>
-				<li> Theme by: <a href="https://html5up.net/">HTML5 UP</a></li>
-				<li> 由<a href="https://www.github.com/Sasuke1003">MSA_Sasuke / kenlau_kc</a> 强力驱动！</li>
-			</ul>
-		</footer>
-
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.poptrox.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
-
-	</body>
+	<footer class="site-footer">
+		<div class="page-shell footer-inner">
+			<div class="social-links" aria-label="社交链接">
+				<a href="https://www.facebook.com/kclau103/" aria-label="Facebook">FB</a>
+				<a href="https://www.instagram.com/chung.lkc" aria-label="Instagram">IG</a>
+				<a href="https://github.com/Sasuke1003/" aria-label="GitHub">GH</a>
+				<a href="mailto:kcbrokeer@gmail.com" aria-label="发送邮件">MAIL</a>
+			</div>
+			<p>Copyright &copy; 2020 - <script>document.write(new Date().getFullYear())</script> 天元镇 TyanSec. All rights reserved.</p>
+			<p>Theme by: <a href="https://html5up.net/">HTML5 UP</a> · 由<a href="https://www.github.com/Sasuke1003">MSA_Sasuke / kenlau_kc</a> 强力驱动！</p>
+		</div>
+	</footer>
+</body>
 </html>

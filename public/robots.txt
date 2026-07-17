@@ -6,4 +6,4 @@ User-agent: *
 Allow: /
 
 # 站点地图
-Sitemap: https://newnancity.com/sitemap.xml
+Sitemap: https://newnan.city/sitemap.xml

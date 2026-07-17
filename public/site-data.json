@@ -2,8 +2,10 @@
   "nav": {
     "brand": "牛腩小镇",
     "links": [
-      { "label": "牛腩百科", "icon": "📖", "url": "https://www.wolai.com/newnan/mLB6aqsvwTLxu3DCboQt7b" },
+      { "label": "牛腩百科", "icon": "📖", "url": "https://wiki.newnan.city/" },
+      { "label": "小镇名册", "icon": "🏘️", "url": "https://www.wolai.com/newnan/j2R7FhzBbEfk8p9bRvnmwE" },
       { "label": "皮肤站",   "icon": "🎨", "url": "https://skin.newnan.city" },
+      { "label": "NewNan ID", "icon": "🔑", "url": "https://id.newnan.city/" },
       { "label": "牛腩地图", "icon": "🧭", "url": "#map" },
       { "label": "牛腩B站", "icon": "📺", "url": "https://space.bilibili.com/528956334" },
       { "label": "牛腩法典", "icon": "📜", "url": "https://www.wolai.com/newnan/777czodMK18Zv6hdy2b8jm" },
@@ -16,13 +18,259 @@
     "badge": "公益 · 自由 · 友善 · 有序",
     "titleWelcome": "欢迎来到",
     "titleName": "牛腩小镇",
-    "subtitle": "自 2020 年起，与数千名玩家共同书写的 Minecraft 公益服务器传奇",
+    "subtitle": "自 2020 年起，数千名玩家在同一张地图里盖房、修路，也把这里慢慢变成了家",
     "stats": [
       { "id": "years", "unit": "年", "description": "稳定运营" },
-      { "value": 3021, "unit": "名", "description": "注册玩家" },
+      { "value": 3234, "unit": "名", "description": "注册玩家" },
       { "id": "days", "unit": "天", "description": "持续建设" }
     ],
-    "slides": []
+    "slides": [
+      "/pic/NSrank_KXChengqu.webp"
+    ]
+  },
+
+  "portal": {
+    "gateways": [
+      {
+        "id": "world",
+        "eyebrow": "WORLD",
+        "label": "世界",
+        "description": "去看城镇、坐铁路，或者打开地图挑一个没去过的方向。",
+        "href": "#/world",
+        "icon": "🧭",
+        "image": "/towns/kayshatown/images/kayshatownpictures/photo.webp"
+      },
+      {
+        "id": "community",
+        "eyebrow": "COMMUNITY",
+        "label": "社区",
+        "description": "看看大家最近在忙什么，也遇见玩家自己写下的故事。",
+        "href": "#/community",
+        "icon": "📰",
+        "image": "/pic/2025-2026_Lunar_GroupPhoto.webp"
+      },
+      {
+        "id": "archive",
+        "eyebrow": "ARCHIVE",
+        "label": "档案",
+        "description": "翻翻六年的老照片、热闹往事和那些只有我们懂的回忆。",
+        "href": "#/archive",
+        "icon": "📚",
+        "image": "/pic/sttot_8old2020.3.webp"
+      },
+      {
+        "id": "join",
+        "eyebrow": "JOIN",
+        "label": "加入",
+        "description": "准备好背包，从认识彼此开始，一步步来到牛腩小镇。",
+        "href": "#/join",
+        "icon": "⛏️",
+        "image": "/pic/NSrank_KXChengqu.webp"
+      }
+    ],
+    "feed": [
+      {
+        "id": "tyansec-news",
+        "category": "news",
+        "eyebrow": "城镇新闻",
+        "title": "天元镇里的新鲜事",
+        "summary": "机器在转，街区也在长。去天元新闻看看这个工业小镇最近记录下了什么。",
+        "image": "/towns/tyansec/news/images/one.webp",
+        "href": "/towns/tyansec/news/",
+        "meta": "天元镇 · 城镇自己写的新闻",
+        "actionLabel": "去读这期新闻"
+      },
+      {
+        "id": "taohuayuan-town",
+        "category": "town",
+        "eyebrow": "今日城镇",
+        "title": "沿着 4 号线，去桃花源看看",
+        "summary": "离主城不远的中式城镇，有自己的法典、街巷，也有一群认真生活在这里的人。",
+        "image": "/towns/taohuayuan/images/bigpicture.webp",
+        "href": "#/world/towns/taohuayuan",
+        "meta": "桃花源 · 中式建筑 · 地铁可达",
+        "actionLabel": "去桃花源逛逛"
+      },
+      {
+        "id": "newyear-group",
+        "category": "activity",
+        "eyebrow": "大家在一起",
+        "title": "新年当然要拍一张全家福",
+        "summary": "有人负责站位，有人负责乱跑，还有人直到快门按下才赶到。好在最后大家都在画面里。",
+        "image": "/pic/2025-2026_Lunar_GroupPhoto.webp",
+        "href": "#/archive",
+        "meta": "2026 农历新年 · 社区合影",
+        "actionLabel": "看看大家的合影"
+      },
+      {
+        "id": "first-shelter",
+        "category": "memory",
+        "eyebrow": "从前的今天",
+        "title": "一切从这间开荒避难所开始",
+        "summary": "2020 年的第一批方块很朴素，却成了后来所有城镇、铁路与故事共同的起点。",
+        "image": "/pic/sttot_shelter2020.webp",
+        "href": "#/archive",
+        "meta": "2020.02 · 最初的开荒记忆",
+        "actionLabel": "翻开六年史书"
+      },
+      {
+        "id": "kaysha-spring",
+        "category": "scenery",
+        "eyebrow": "路过一处风景",
+        "title": "今晚去凯夏山顶泡温泉",
+        "summary": "走出城区再往山上爬一段，灯火、泉水和远处的屋顶会一起出现在眼前。",
+        "image": "/pic/stwuzhou_kayshaspring.webp",
+        "href": "#/archive",
+        "meta": "凯夏镇 · 山顶温泉",
+        "actionLabel": "继续看小镇风光"
+      },
+      {
+        "id": "rail-world",
+        "category": "town",
+        "eyebrow": "下一站",
+        "title": "坐上铁路，牛腩比想象中更大",
+        "summary": "主城、城镇和远方聚落被一条条线路连在一起。挑一个方向，看看列车会把你带到哪里。",
+        "image": "/pic/NSrank_KXChengqu.webp",
+        "href": "#/world",
+        "meta": "轨道交通 · 城镇 · 实时地图",
+        "actionLabel": "打开世界目录"
+      }
+    ],
+    "spotlight": {
+      "eyebrow": "WORLD SPOTLIGHT",
+      "title": "凯夏镇",
+      "summary": "西北平原上历史悠久的中世纪城镇，道路、公共建筑与交通网络共同保存着牛腩早期的城镇记忆。",
+      "image": "/towns/kayshatown/images/kayshatownpictures/photo.webp",
+      "href": "#/world/towns/kaysha",
+      "meta": "中世纪 · 历史城镇 · 地铁可达"
+    },
+    "updates": [
+      {
+        "date": "2026-07-17",
+        "category": "town",
+        "title": "凯夏镇档案完成整理",
+        "summary": "新的实景画廊和城镇介绍现已可以浏览。",
+        "href": "#/world/towns/kaysha"
+      },
+      {
+        "date": "2026-07-17",
+        "category": "community",
+        "title": "天元新闻与商品站恢复入口",
+        "summary": "城镇动态和特色商品重新纳入官网发布链路。",
+        "href": "/towns/tyansec/news/"
+      },
+      {
+        "date": "2026-07-17",
+        "category": "archive",
+        "title": "六年档案更新至 2026",
+        "summary": "历史事件与珍贵影像已整理到最新年份。",
+        "href": "#/archive"
+      }
+    ],
+    "ecosystem": [
+      {
+        "id": "towns",
+        "title": "小镇名册",
+        "description": "城镇与聚落都在这里持续更新。",
+        "href": "https://www.wolai.com/newnan/j2R7FhzBbEfk8p9bRvnmwE",
+        "icon": "🏘️"
+      },
+      {
+        "id": "wiki",
+        "title": "牛腩百科",
+        "description": "查规则、玩法、交通和说不完的小镇故事。",
+        "href": "https://wiki.newnan.city/",
+        "icon": "📖"
+      },
+      {
+        "id": "skin",
+        "title": "皮肤与账号",
+        "description": "注册账号，给自己的角色换上喜欢的样子。",
+        "href": "https://skin.newnan.city/",
+        "icon": "🎨"
+      },
+      {
+        "id": "id",
+        "title": "NewNan ID",
+        "description": "带着同一个牛腩身份，走进更多社区应用。",
+        "href": "https://id.newnan.city/",
+        "icon": "🔑"
+      }
+    ],
+    "towns": [
+      {
+        "slug": "kaysha",
+        "name": "凯夏镇",
+        "subtitle": "西北平原的中世纪古镇",
+        "summary": "牛腩最早的县城级城镇之一。道路、建筑、设施与居所共同留下了持续至今的城镇记忆。",
+        "cover": "/towns/kayshatown/images/kayshatownpictures/photo.webp",
+        "siteUrl": "/towns/kayshatown/",
+        "tags": ["中世纪", "历史城镇", "地铁可达"],
+        "facts": [
+          { "label": "城镇风格", "value": "中世纪建筑" },
+          { "label": "交通", "value": "镇中心设有地铁" },
+          { "label": "重点", "value": "公共建筑与道路" }
+        ]
+      },
+      {
+        "slug": "taohuayuan",
+        "name": "桃花源",
+        "subtitle": "主城以西的中式城镇",
+        "summary": "距离主城较近、以中式建筑为主要风格的城镇，拥有自己的发展历史、城镇法典与社区记忆。",
+        "cover": "/towns/taohuayuan/images/bigpicture.webp",
+        "siteUrl": "/towns/taohuayuan/",
+        "tags": ["中式建筑", "城镇法典", "主城近郊"],
+        "facts": [
+          { "label": "城镇风格", "value": "中式建筑" },
+          { "label": "交通", "value": "地铁 4 号线桃花源站" },
+          { "label": "重点", "value": "自治与社区历史" }
+        ]
+      },
+      {
+        "slug": "tyansec",
+        "name": "天元镇",
+        "subtitle": "工业与建筑并行发展的城镇",
+        "summary": "拥有完善机器体系、工业区和成员建筑区，并延伸出自己的新闻与商品页面。",
+        "cover": "/towns/tyansec/images/banner.webp",
+        "siteUrl": "/towns/tyansec/",
+        "tags": ["工业城镇", "自动化", "城镇媒体"],
+        "facts": [
+          { "label": "城镇方向", "value": "工业与建筑" },
+          { "label": "特色", "value": "自动化机器体系" },
+          { "label": "扩展", "value": "新闻与商品站" }
+        ]
+      }
+    ],
+    "community": {
+      "intro": "新闻、视频、玩家作品和聊天的地方都在这里。无论刚来还是住了很多年，总能找到熟悉的人。",
+      "links": [
+        {
+          "title": "天元新闻",
+          "description": "由城镇维护的新闻与影像页面。",
+          "href": "/towns/tyansec/news/",
+          "icon": "📰",
+          "kind": "official"
+        },
+        {
+          "title": "牛腩 B 站",
+          "description": "观看活动记录、城镇影像与社区视频。",
+          "href": "https://space.bilibili.com/528956334",
+          "icon": "📺",
+          "kind": "external"
+        },
+        {
+          "title": "QQ 频道",
+          "description": "进入牛腩小镇的公共社区频道。",
+          "href": "https://pd.qq.com/s/haenk7dq2",
+          "icon": "💬",
+          "kind": "external"
+        }
+      ],
+      "creator": {
+        "title": "玩家作品正在集合",
+        "description": "有人写攻略，有人拍视频，也有人给自己的城镇做了一整座小站。第一批作品入口正在和作者们一起整理，之后来这里就能遇见。"
+      }
+    }
   },
 
   "showcase": {
@@ -39,7 +287,7 @@
       { "icon": "📜", "title": "恰当的法规", "desc": "牛腩法典，秩序与自由的平衡" },
       { "icon": "🧩", "title": "有趣的插件", "desc": "CS老博腐竹+NS/冰火/佐助技术大拿自研团队" },
       { "icon": "💖", "title": "友善的氛围", "desc": "老玩家帮助新玩家，温暖如家" },
-      { "icon": "🛡️", "title": "敬业的管理", "desc": "准入审核与行业SOTA集群运维，安全稳定" },
+      { "icon": "🛡️", "title": "一直有人守夜", "desc": "从服务器维护到新人答疑，总有人把小镇照看得稳稳当当" },
       { "icon": "⛏️", "title": "原版生存", "desc": "纯净生存体验，从一无所有到万家灯火" },
       { "icon": "🎨", "title": "自由创造", "desc": "创造区、小木斧、创造模式应有尽有" },
       { "icon": "🏘️", "title": "城镇经营", "desc": "建立城镇、发展经济、构建你的理想城" },
@@ -326,7 +574,7 @@
       { "num": "⑥", "title": "加入大群", "desc": "通过测试后加入玩家大群，认识小伙伴", "link": null },
       { "num": "⑦", "title": "开始冒险！", "desc": "连接服务器，踏上属于你的牛腩之旅✨", "link": null }
     ],
-    "notice": "服务器地址将在你通过入服测试后由管理员提供，以保障服务器安全。",
+    "notice": "服务器地址会在入服小测通过后，由管理员亲手递给你。先认识彼此，再一起出发。",
     "ctaPrimary": { "label": "▶ 查看入服指南", "url": "https://www.wolai.com/newnan/26gvpMzTrsoyjtb6L6cQW6" },
     "ctaSecondary": { "label": "加入 QQ 频道", "url": "https://pd.qq.com/s/haenk7dq2" }
   },
@@ -334,8 +582,10 @@
   "footer": {
     "tagline": "有你，才叫牛腩",
     "quickLinks": [
-      { "label": "牛腩百科", "url": "https://www.wolai.com/newnan/mLB6aqsvwTLxu3DCboQt7b" },
-      { "label": "皮肤站", "url": "https://skin.newnan.city" }
+      { "label": "小镇名册", "url": "https://www.wolai.com/newnan/j2R7FhzBbEfk8p9bRvnmwE" },
+      { "label": "牛腩百科", "url": "https://wiki.newnan.city/" },
+      { "label": "皮肤站", "url": "https://skin.newnan.city" },
+      { "label": "NewNan ID", "url": "https://id.newnan.city/" }
     ],
     "socialLinks": [
       { "label": "GitHub", "url": "https://github.com/NewNanCity" },
