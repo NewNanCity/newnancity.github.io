@@ -1,0 +1,1799 @@
+{
+  "summary": {
+    "imageCount": 85,
+    "preservedCount": 69,
+    "optimizedCount": 16,
+    "sourceBytes": 14229524,
+    "outputBytes": 7071310,
+    "savedBytes": 7158214,
+    "savingPercent": 50.3,
+    "cleanedSourceCopies": 85
+  },
+  "images": [
+    {
+      "sourceFile": "2025-2026_Lunar_GroupPhoto.webp",
+      "outputFile": "2025-2026_Lunar_GroupPhoto-35d56eef.webp",
+      "action": "optimized",
+      "role": "gallery",
+      "contentClass": "detailed",
+      "sourceFormat": "webp",
+      "sourceSize": 1752782,
+      "outputSize": 427556,
+      "sourceDimensions": {
+        "width": 6144,
+        "height": 3240
+      },
+      "outputDimensions": {
+        "width": 1920,
+        "height": 1012
+      },
+      "quality": 90,
+      "softBytes": 494592,
+      "hardBytes": 765440
+    },
+    {
+      "sourceFile": "history_1.webp",
+      "outputFile": "history_1-b48a3b03.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 10808,
+      "outputSize": 10808,
+      "sourceDimensions": {
+        "width": 512,
+        "height": 320
+      },
+      "outputDimensions": {
+        "width": 512,
+        "height": 320
+      },
+      "quality": null,
+      "softBytes": 307200,
+      "hardBytes": 491520
+    },
+    {
+      "sourceFile": "history_10.webp",
+      "outputFile": "history_10-c101c866.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 10148,
+      "outputSize": 10148,
+      "sourceDimensions": {
+        "width": 512,
+        "height": 271
+      },
+      "outputDimensions": {
+        "width": 512,
+        "height": 271
+      },
+      "quality": null,
+      "softBytes": 307200,
+      "hardBytes": 491520
+    },
+    {
+      "sourceFile": "history_11.webp",
+      "outputFile": "history_11-60919010.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 19294,
+      "outputSize": 19294,
+      "sourceDimensions": {
+        "width": 512,
+        "height": 219
+      },
+      "outputDimensions": {
+        "width": 512,
+        "height": 219
+      },
+      "quality": null,
+      "softBytes": 307200,
+      "hardBytes": 491520
+    },
+    {
+      "sourceFile": "history_12.webp",
+      "outputFile": "history_12-6e902e4f.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "detailed",
+      "sourceFormat": "webp",
+      "sourceSize": 14762,
+      "outputSize": 14762,
+      "sourceDimensions": {
+        "width": 512,
+        "height": 325
+      },
+      "outputDimensions": {
+        "width": 512,
+        "height": 325
+      },
+      "quality": null,
+      "softBytes": 353280,
+      "hardBytes": 565248
+    },
+    {
+      "sourceFile": "history_13.webp",
+      "outputFile": "history_13-5e5d9085.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 18078,
+      "outputSize": 18078,
+      "sourceDimensions": {
+        "width": 512,
+        "height": 332
+      },
+      "outputDimensions": {
+        "width": 512,
+        "height": 332
+      },
+      "quality": null,
+      "softBytes": 307200,
+      "hardBytes": 491520
+    },
+    {
+      "sourceFile": "history_14.webp",
+      "outputFile": "history_14-4f8ed6f4.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 27854,
+      "outputSize": 27854,
+      "sourceDimensions": {
+        "width": 512,
+        "height": 329
+      },
+      "outputDimensions": {
+        "width": 512,
+        "height": 329
+      },
+      "quality": null,
+      "softBytes": 307200,
+      "hardBytes": 491520
+    },
+    {
+      "sourceFile": "history_15.webp",
+      "outputFile": "history_15-347af792.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "detailed",
+      "sourceFormat": "webp",
+      "sourceSize": 21898,
+      "outputSize": 21898,
+      "sourceDimensions": {
+        "width": 768,
+        "height": 262
+      },
+      "outputDimensions": {
+        "width": 768,
+        "height": 262
+      },
+      "quality": null,
+      "softBytes": 353280,
+      "hardBytes": 565248
+    },
+    {
+      "sourceFile": "history_16.webp",
+      "outputFile": "history_16-7390e315.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 5562,
+      "outputSize": 5562,
+      "sourceDimensions": {
+        "width": 750,
+        "height": 162
+      },
+      "outputDimensions": {
+        "width": 750,
+        "height": 162
+      },
+      "quality": null,
+      "softBytes": 307200,
+      "hardBytes": 491520
+    },
+    {
+      "sourceFile": "history_17.webp",
+      "outputFile": "history_17-2f618661.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "detailed",
+      "sourceFormat": "webp",
+      "sourceSize": 27390,
+      "outputSize": 27390,
+      "sourceDimensions": {
+        "width": 512,
+        "height": 288
+      },
+      "outputDimensions": {
+        "width": 512,
+        "height": 288
+      },
+      "quality": null,
+      "softBytes": 353280,
+      "hardBytes": 565248
+    },
+    {
+      "sourceFile": "history_18.webp",
+      "outputFile": "history_18-3e679a58.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "detailed",
+      "sourceFormat": "webp",
+      "sourceSize": 30536,
+      "outputSize": 30536,
+      "sourceDimensions": {
+        "width": 512,
+        "height": 288
+      },
+      "outputDimensions": {
+        "width": 512,
+        "height": 288
+      },
+      "quality": null,
+      "softBytes": 353280,
+      "hardBytes": 565248
+    },
+    {
+      "sourceFile": "history_19.webp",
+      "outputFile": "history_19-3fb6436d.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "graphic",
+      "sourceFormat": "webp",
+      "sourceSize": 3196,
+      "outputSize": 3196,
+      "sourceDimensions": {
+        "width": 182,
+        "height": 184
+      },
+      "outputDimensions": {
+        "width": 182,
+        "height": 184
+      },
+      "quality": null,
+      "softBytes": 384000,
+      "hardBytes": 614400
+    },
+    {
+      "sourceFile": "history_2.webp",
+      "outputFile": "history_2-4341dd06.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 17576,
+      "outputSize": 17576,
+      "sourceDimensions": {
+        "width": 310,
+        "height": 481
+      },
+      "outputDimensions": {
+        "width": 310,
+        "height": 481
+      },
+      "quality": null,
+      "softBytes": 307200,
+      "hardBytes": 491520
+    },
+    {
+      "sourceFile": "history_20.webp",
+      "outputFile": "history_20-07a3407b.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 37470,
+      "outputSize": 37470,
+      "sourceDimensions": {
+        "width": 442,
+        "height": 329
+      },
+      "outputDimensions": {
+        "width": 442,
+        "height": 329
+      },
+      "quality": null,
+      "softBytes": 307200,
+      "hardBytes": 491520
+    },
+    {
+      "sourceFile": "history_21.webp",
+      "outputFile": "history_21-9be5a2d5.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 29142,
+      "outputSize": 29142,
+      "sourceDimensions": {
+        "width": 768,
+        "height": 480
+      },
+      "outputDimensions": {
+        "width": 768,
+        "height": 480
+      },
+      "quality": null,
+      "softBytes": 307200,
+      "hardBytes": 491520
+    },
+    {
+      "sourceFile": "history_22.webp",
+      "outputFile": "history_22-857af2ef.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 31434,
+      "outputSize": 31434,
+      "sourceDimensions": {
+        "width": 421,
+        "height": 430
+      },
+      "outputDimensions": {
+        "width": 421,
+        "height": 430
+      },
+      "quality": null,
+      "softBytes": 307200,
+      "hardBytes": 491520
+    },
+    {
+      "sourceFile": "history_23.webp",
+      "outputFile": "history_23-d26f6b82.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 19138,
+      "outputSize": 19138,
+      "sourceDimensions": {
+        "width": 463,
+        "height": 570
+      },
+      "outputDimensions": {
+        "width": 463,
+        "height": 570
+      },
+      "quality": null,
+      "softBytes": 307200,
+      "hardBytes": 491520
+    },
+    {
+      "sourceFile": "history_24.webp",
+      "outputFile": "history_24-b11e664a.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "detailed",
+      "sourceFormat": "webp",
+      "sourceSize": 44138,
+      "outputSize": 44138,
+      "sourceDimensions": {
+        "width": 750,
+        "height": 437
+      },
+      "outputDimensions": {
+        "width": 750,
+        "height": 437
+      },
+      "quality": null,
+      "softBytes": 353280,
+      "hardBytes": 565248
+    },
+    {
+      "sourceFile": "history_25.webp",
+      "outputFile": "history_25-9c98e566.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 42808,
+      "outputSize": 42808,
+      "sourceDimensions": {
+        "width": 750,
+        "height": 469
+      },
+      "outputDimensions": {
+        "width": 750,
+        "height": 469
+      },
+      "quality": null,
+      "softBytes": 307200,
+      "hardBytes": 491520
+    },
+    {
+      "sourceFile": "history_26.webp",
+      "outputFile": "history_26-76473da0.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 68260,
+      "outputSize": 68260,
+      "sourceDimensions": {
+        "width": 750,
+        "height": 440
+      },
+      "outputDimensions": {
+        "width": 750,
+        "height": 440
+      },
+      "quality": null,
+      "softBytes": 307200,
+      "hardBytes": 491520
+    },
+    {
+      "sourceFile": "history_27.webp",
+      "outputFile": "history_27-edfe2159.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 18306,
+      "outputSize": 18306,
+      "sourceDimensions": {
+        "width": 344,
+        "height": 220
+      },
+      "outputDimensions": {
+        "width": 344,
+        "height": 220
+      },
+      "quality": null,
+      "softBytes": 307200,
+      "hardBytes": 491520
+    },
+    {
+      "sourceFile": "history_28.webp",
+      "outputFile": "history_28-c4e60196.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 45298,
+      "outputSize": 45298,
+      "sourceDimensions": {
+        "width": 750,
+        "height": 642
+      },
+      "outputDimensions": {
+        "width": 750,
+        "height": 642
+      },
+      "quality": null,
+      "softBytes": 307200,
+      "hardBytes": 491520
+    },
+    {
+      "sourceFile": "history_29.webp",
+      "outputFile": "history_29-22334ecc.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "detailed",
+      "sourceFormat": "webp",
+      "sourceSize": 63524,
+      "outputSize": 63524,
+      "sourceDimensions": {
+        "width": 750,
+        "height": 401
+      },
+      "outputDimensions": {
+        "width": 750,
+        "height": 401
+      },
+      "quality": null,
+      "softBytes": 353280,
+      "hardBytes": 565248
+    },
+    {
+      "sourceFile": "history_3.webp",
+      "outputFile": "history_3-b2035597.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 20316,
+      "outputSize": 20316,
+      "sourceDimensions": {
+        "width": 512,
+        "height": 267
+      },
+      "outputDimensions": {
+        "width": 512,
+        "height": 267
+      },
+      "quality": null,
+      "softBytes": 307200,
+      "hardBytes": 491520
+    },
+    {
+      "sourceFile": "history_30.webp",
+      "outputFile": "history_30-25e5e690.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 45386,
+      "outputSize": 45386,
+      "sourceDimensions": {
+        "width": 750,
+        "height": 535
+      },
+      "outputDimensions": {
+        "width": 750,
+        "height": 535
+      },
+      "quality": null,
+      "softBytes": 307200,
+      "hardBytes": 491520
+    },
+    {
+      "sourceFile": "history_31.webp",
+      "outputFile": "history_31-47cfcbee.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "graphic",
+      "sourceFormat": "webp",
+      "sourceSize": 30520,
+      "outputSize": 30520,
+      "sourceDimensions": {
+        "width": 750,
+        "height": 333
+      },
+      "outputDimensions": {
+        "width": 750,
+        "height": 333
+      },
+      "quality": null,
+      "softBytes": 384000,
+      "hardBytes": 614400
+    },
+    {
+      "sourceFile": "history_32.webp",
+      "outputFile": "history_32-11edf212.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 11932,
+      "outputSize": 11932,
+      "sourceDimensions": {
+        "width": 512,
+        "height": 320
+      },
+      "outputDimensions": {
+        "width": 512,
+        "height": 320
+      },
+      "quality": null,
+      "softBytes": 307200,
+      "hardBytes": 491520
+    },
+    {
+      "sourceFile": "history_33.webp",
+      "outputFile": "history_33-f11d8b59.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "graphic",
+      "sourceFormat": "webp",
+      "sourceSize": 41884,
+      "outputSize": 41884,
+      "sourceDimensions": {
+        "width": 750,
+        "height": 560
+      },
+      "outputDimensions": {
+        "width": 750,
+        "height": 560
+      },
+      "quality": null,
+      "softBytes": 384000,
+      "hardBytes": 614400
+    },
+    {
+      "sourceFile": "history_34.webp",
+      "outputFile": "history_34-cce458d6.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 19406,
+      "outputSize": 19406,
+      "sourceDimensions": {
+        "width": 228,
+        "height": 325
+      },
+      "outputDimensions": {
+        "width": 228,
+        "height": 325
+      },
+      "quality": null,
+      "softBytes": 307200,
+      "hardBytes": 491520
+    },
+    {
+      "sourceFile": "history_35.webp",
+      "outputFile": "history_35-9c30a319.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 59252,
+      "outputSize": 59252,
+      "sourceDimensions": {
+        "width": 654,
+        "height": 1024
+      },
+      "outputDimensions": {
+        "width": 654,
+        "height": 1024
+      },
+      "quality": null,
+      "softBytes": 307200,
+      "hardBytes": 491520
+    },
+    {
+      "sourceFile": "history_36.webp",
+      "outputFile": "history_36-6138a1a6.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 22506,
+      "outputSize": 22506,
+      "sourceDimensions": {
+        "width": 535,
+        "height": 266
+      },
+      "outputDimensions": {
+        "width": 535,
+        "height": 266
+      },
+      "quality": null,
+      "softBytes": 307200,
+      "hardBytes": 491520
+    },
+    {
+      "sourceFile": "history_37.webp",
+      "outputFile": "history_37-afc43d04.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "graphic",
+      "sourceFormat": "webp",
+      "sourceSize": 9530,
+      "outputSize": 9530,
+      "sourceDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "outputDimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "quality": null,
+      "softBytes": 384000,
+      "hardBytes": 614400
+    },
+    {
+      "sourceFile": "history_38.webp",
+      "outputFile": "history_38-51d405b7.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "graphic",
+      "sourceFormat": "webp",
+      "sourceSize": 23978,
+      "outputSize": 23978,
+      "sourceDimensions": {
+        "width": 750,
+        "height": 489
+      },
+      "outputDimensions": {
+        "width": 750,
+        "height": 489
+      },
+      "quality": null,
+      "softBytes": 384000,
+      "hardBytes": 614400
+    },
+    {
+      "sourceFile": "history_39.webp",
+      "outputFile": "history_39-653136ae.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 30544,
+      "outputSize": 30544,
+      "sourceDimensions": {
+        "width": 750,
+        "height": 423
+      },
+      "outputDimensions": {
+        "width": 750,
+        "height": 423
+      },
+      "quality": null,
+      "softBytes": 307200,
+      "hardBytes": 491520
+    },
+    {
+      "sourceFile": "history_4.webp",
+      "outputFile": "history_4-e517338e.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "graphic",
+      "sourceFormat": "webp",
+      "sourceSize": 2326,
+      "outputSize": 2326,
+      "sourceDimensions": {
+        "width": 512,
+        "height": 54
+      },
+      "outputDimensions": {
+        "width": 512,
+        "height": 54
+      },
+      "quality": null,
+      "softBytes": 384000,
+      "hardBytes": 614400
+    },
+    {
+      "sourceFile": "history_40.webp",
+      "outputFile": "history_40-5d162c92.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 69768,
+      "outputSize": 69768,
+      "sourceDimensions": {
+        "width": 689,
+        "height": 1080
+      },
+      "outputDimensions": {
+        "width": 689,
+        "height": 1080
+      },
+      "quality": null,
+      "softBytes": 307200,
+      "hardBytes": 491520
+    },
+    {
+      "sourceFile": "history_41.webp",
+      "outputFile": "history_41-9efb1943.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "detailed",
+      "sourceFormat": "webp",
+      "sourceSize": 96560,
+      "outputSize": 96560,
+      "sourceDimensions": {
+        "width": 1280,
+        "height": 705
+      },
+      "outputDimensions": {
+        "width": 1280,
+        "height": 705
+      },
+      "quality": null,
+      "softBytes": 353280,
+      "hardBytes": 565248
+    },
+    {
+      "sourceFile": "history_42.webp",
+      "outputFile": "history_42-611175ce.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 8828,
+      "outputSize": 8828,
+      "sourceDimensions": {
+        "width": 350,
+        "height": 119
+      },
+      "outputDimensions": {
+        "width": 350,
+        "height": 119
+      },
+      "quality": null,
+      "softBytes": 307200,
+      "hardBytes": 491520
+    },
+    {
+      "sourceFile": "history_43.webp",
+      "outputFile": "history_43-beac8252.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 67650,
+      "outputSize": 67650,
+      "sourceDimensions": {
+        "width": 768,
+        "height": 655
+      },
+      "outputDimensions": {
+        "width": 768,
+        "height": 655
+      },
+      "quality": null,
+      "softBytes": 307200,
+      "hardBytes": 491520
+    },
+    {
+      "sourceFile": "history_44.webp",
+      "outputFile": "history_44-f37a79a9.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 14934,
+      "outputSize": 14934,
+      "sourceDimensions": {
+        "width": 469,
+        "height": 299
+      },
+      "outputDimensions": {
+        "width": 469,
+        "height": 299
+      },
+      "quality": null,
+      "softBytes": 307200,
+      "hardBytes": 491520
+    },
+    {
+      "sourceFile": "history_45.webp",
+      "outputFile": "history_45-aefaf83a.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "detailed",
+      "sourceFormat": "webp",
+      "sourceSize": 30476,
+      "outputSize": 30476,
+      "sourceDimensions": {
+        "width": 395,
+        "height": 321
+      },
+      "outputDimensions": {
+        "width": 395,
+        "height": 321
+      },
+      "quality": null,
+      "softBytes": 353280,
+      "hardBytes": 565248
+    },
+    {
+      "sourceFile": "history_46.webp",
+      "outputFile": "history_46-c092340a.webp",
+      "action": "optimized",
+      "role": "archive",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 434130,
+      "outputSize": 171044,
+      "sourceDimensions": {
+        "width": 2250,
+        "height": 4134
+      },
+      "outputDimensions": {
+        "width": 871,
+        "height": 1600
+      },
+      "quality": 86,
+      "softBytes": 307200,
+      "hardBytes": 491520
+    },
+    {
+      "sourceFile": "history_47.webp",
+      "outputFile": "history_47-ccf77b47.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "detailed",
+      "sourceFormat": "webp",
+      "sourceSize": 57222,
+      "outputSize": 57222,
+      "sourceDimensions": {
+        "width": 1304,
+        "height": 888
+      },
+      "outputDimensions": {
+        "width": 1304,
+        "height": 888
+      },
+      "quality": null,
+      "softBytes": 353280,
+      "hardBytes": 565248
+    },
+    {
+      "sourceFile": "history_48.webp",
+      "outputFile": "history_48-b7e23a5a.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 76678,
+      "outputSize": 76678,
+      "sourceDimensions": {
+        "width": 1102,
+        "height": 801
+      },
+      "outputDimensions": {
+        "width": 1102,
+        "height": 801
+      },
+      "quality": null,
+      "softBytes": 307200,
+      "hardBytes": 491520
+    },
+    {
+      "sourceFile": "history_49.webp",
+      "outputFile": "history_49-8e4c7a5b.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 18218,
+      "outputSize": 18218,
+      "sourceDimensions": {
+        "width": 518,
+        "height": 291
+      },
+      "outputDimensions": {
+        "width": 518,
+        "height": 291
+      },
+      "quality": null,
+      "softBytes": 307200,
+      "hardBytes": 491520
+    },
+    {
+      "sourceFile": "history_5.webp",
+      "outputFile": "history_5-e14daa9a.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "detailed",
+      "sourceFormat": "webp",
+      "sourceSize": 23526,
+      "outputSize": 23526,
+      "sourceDimensions": {
+        "width": 512,
+        "height": 333
+      },
+      "outputDimensions": {
+        "width": 512,
+        "height": 333
+      },
+      "quality": null,
+      "softBytes": 353280,
+      "hardBytes": 565248
+    },
+    {
+      "sourceFile": "history_50.webp",
+      "outputFile": "history_50-8ca6c228.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 171092,
+      "outputSize": 171092,
+      "sourceDimensions": {
+        "width": 1920,
+        "height": 1027
+      },
+      "outputDimensions": {
+        "width": 1920,
+        "height": 1027
+      },
+      "quality": null,
+      "softBytes": 307200,
+      "hardBytes": 491520
+    },
+    {
+      "sourceFile": "history_51.webp",
+      "outputFile": "history_51-8736433e.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "detailed",
+      "sourceFormat": "webp",
+      "sourceSize": 349086,
+      "outputSize": 349086,
+      "sourceDimensions": {
+        "width": 1920,
+        "height": 1001
+      },
+      "outputDimensions": {
+        "width": 1920,
+        "height": 1001
+      },
+      "quality": null,
+      "softBytes": 353280,
+      "hardBytes": 565248
+    },
+    {
+      "sourceFile": "history_52.webp",
+      "outputFile": "history_52-b9011159.webp",
+      "action": "optimized",
+      "role": "archive",
+      "contentClass": "graphic",
+      "sourceFormat": "webp",
+      "sourceSize": 1002190,
+      "outputSize": 120298,
+      "sourceDimensions": {
+        "width": 12475,
+        "height": 7825
+      },
+      "outputDimensions": {
+        "width": 1600,
+        "height": 1004
+      },
+      "quality": 92,
+      "softBytes": 384000,
+      "hardBytes": 614400
+    },
+    {
+      "sourceFile": "history_53.webp",
+      "outputFile": "history_53-12b83703.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 33986,
+      "outputSize": 33986,
+      "sourceDimensions": {
+        "width": 1080,
+        "height": 646
+      },
+      "outputDimensions": {
+        "width": 1080,
+        "height": 646
+      },
+      "quality": null,
+      "softBytes": 307200,
+      "hardBytes": 491520
+    },
+    {
+      "sourceFile": "history_54.webp",
+      "outputFile": "history_54-6ebed1bf.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 19112,
+      "outputSize": 19112,
+      "sourceDimensions": {
+        "width": 512,
+        "height": 263
+      },
+      "outputDimensions": {
+        "width": 512,
+        "height": 263
+      },
+      "quality": null,
+      "softBytes": 307200,
+      "hardBytes": 491520
+    },
+    {
+      "sourceFile": "history_55.webp",
+      "outputFile": "history_55-24a53102.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "graphic",
+      "sourceFormat": "webp",
+      "sourceSize": 25054,
+      "outputSize": 25054,
+      "sourceDimensions": {
+        "width": 1129,
+        "height": 253
+      },
+      "outputDimensions": {
+        "width": 1129,
+        "height": 253
+      },
+      "quality": null,
+      "softBytes": 384000,
+      "hardBytes": 614400
+    },
+    {
+      "sourceFile": "history_56.webp",
+      "outputFile": "history_56-b6318ecb.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 20404,
+      "outputSize": 20404,
+      "sourceDimensions": {
+        "width": 385,
+        "height": 188
+      },
+      "outputDimensions": {
+        "width": 385,
+        "height": 188
+      },
+      "quality": null,
+      "softBytes": 307200,
+      "hardBytes": 491520
+    },
+    {
+      "sourceFile": "history_57.webp",
+      "outputFile": "history_57-68657bb9.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 9234,
+      "outputSize": 9234,
+      "sourceDimensions": {
+        "width": 768,
+        "height": 480
+      },
+      "outputDimensions": {
+        "width": 768,
+        "height": 480
+      },
+      "quality": null,
+      "softBytes": 307200,
+      "hardBytes": 491520
+    },
+    {
+      "sourceFile": "history_58.webp",
+      "outputFile": "history_58-f066fc92.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "graphic",
+      "sourceFormat": "webp",
+      "sourceSize": 2110,
+      "outputSize": 2110,
+      "sourceDimensions": {
+        "width": 149,
+        "height": 150
+      },
+      "outputDimensions": {
+        "width": 149,
+        "height": 150
+      },
+      "quality": null,
+      "softBytes": 384000,
+      "hardBytes": 614400
+    },
+    {
+      "sourceFile": "history_59.webp",
+      "outputFile": "history_59-f6e004db.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 17734,
+      "outputSize": 17734,
+      "sourceDimensions": {
+        "width": 512,
+        "height": 320
+      },
+      "outputDimensions": {
+        "width": 512,
+        "height": 320
+      },
+      "quality": null,
+      "softBytes": 307200,
+      "hardBytes": 491520
+    },
+    {
+      "sourceFile": "history_6.webp",
+      "outputFile": "history_6-09f1397d.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "graphic",
+      "sourceFormat": "webp",
+      "sourceSize": 5000,
+      "outputSize": 5000,
+      "sourceDimensions": {
+        "width": 512,
+        "height": 277
+      },
+      "outputDimensions": {
+        "width": 512,
+        "height": 277
+      },
+      "quality": null,
+      "softBytes": 384000,
+      "hardBytes": 614400
+    },
+    {
+      "sourceFile": "history_7.webp",
+      "outputFile": "history_7-3afc2864.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 7902,
+      "outputSize": 7902,
+      "sourceDimensions": {
+        "width": 458,
+        "height": 137
+      },
+      "outputDimensions": {
+        "width": 458,
+        "height": 137
+      },
+      "quality": null,
+      "softBytes": 307200,
+      "hardBytes": 491520
+    },
+    {
+      "sourceFile": "history_8.webp",
+      "outputFile": "history_8-044a22fb.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "detailed",
+      "sourceFormat": "webp",
+      "sourceSize": 8448,
+      "outputSize": 8448,
+      "sourceDimensions": {
+        "width": 512,
+        "height": 56
+      },
+      "outputDimensions": {
+        "width": 512,
+        "height": 56
+      },
+      "quality": null,
+      "softBytes": 353280,
+      "hardBytes": 565248
+    },
+    {
+      "sourceFile": "history_9.webp",
+      "outputFile": "history_9-7cae1499.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 4056,
+      "outputSize": 4056,
+      "sourceDimensions": {
+        "width": 512,
+        "height": 271
+      },
+      "outputDimensions": {
+        "width": 512,
+        "height": 271
+      },
+      "quality": null,
+      "softBytes": 307200,
+      "hardBytes": 491520
+    },
+    {
+      "sourceFile": "Moin_newyear2026.webp",
+      "outputFile": "Moin_newyear2026-fc4cc9ba.webp",
+      "action": "optimized",
+      "role": "archive",
+      "contentClass": "detailed",
+      "sourceFormat": "jpeg",
+      "sourceSize": 371612,
+      "outputSize": 208930,
+      "sourceDimensions": {
+        "width": 1920,
+        "height": 1080
+      },
+      "outputDimensions": {
+        "width": 1600,
+        "height": 900
+      },
+      "quality": 90,
+      "softBytes": 353280,
+      "hardBytes": 565248
+    },
+    {
+      "sourceFile": "NSrank_24-25NewYear.webp",
+      "outputFile": "NSrank_24-25NewYear-283a248c.webp",
+      "action": "preserved",
+      "role": "gallery",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 176444,
+      "outputSize": 176444,
+      "sourceDimensions": {
+        "width": 1600,
+        "height": 855
+      },
+      "outputDimensions": {
+        "width": 1600,
+        "height": 855
+      },
+      "quality": null,
+      "softBytes": 430080,
+      "hardBytes": 665600
+    },
+    {
+      "sourceFile": "NSrank_chengfengawa.webp",
+      "outputFile": "NSrank_chengfengawa-9e77c416.webp",
+      "action": "optimized",
+      "role": "archive",
+      "contentClass": "standard",
+      "sourceFormat": "png",
+      "sourceSize": 279068,
+      "outputSize": 37870,
+      "sourceDimensions": {
+        "width": 960,
+        "height": 540
+      },
+      "outputDimensions": {
+        "width": 960,
+        "height": 540
+      },
+      "quality": 86,
+      "softBytes": 307200,
+      "hardBytes": 491520
+    },
+    {
+      "sourceFile": "NSrank_Erid_Eden.webp",
+      "outputFile": "NSrank_Erid_Eden-a7a57059.webp",
+      "action": "preserved",
+      "role": "gallery",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 139274,
+      "outputSize": 139274,
+      "sourceDimensions": {
+        "width": 1920,
+        "height": 1080
+      },
+      "outputDimensions": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": null,
+      "softBytes": 430080,
+      "hardBytes": 665600
+    },
+    {
+      "sourceFile": "NSrank_Helios.webp",
+      "outputFile": "NSrank_Helios-1399c3c6.webp",
+      "action": "preserved",
+      "role": "gallery",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 189750,
+      "outputSize": 189750,
+      "sourceDimensions": {
+        "width": 1920,
+        "height": 1080
+      },
+      "outputDimensions": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": null,
+      "softBytes": 430080,
+      "hardBytes": 665600
+    },
+    {
+      "sourceFile": "NSrank_KXChengqu.webp",
+      "outputFile": "NSrank_KXChengqu-164b961e.webp",
+      "action": "optimized",
+      "role": "gallery",
+      "contentClass": "detailed",
+      "sourceFormat": "webp",
+      "sourceSize": 683464,
+      "outputSize": 415802,
+      "sourceDimensions": {
+        "width": 2560,
+        "height": 1369
+      },
+      "outputDimensions": {
+        "width": 1920,
+        "height": 1027
+      },
+      "quality": 90,
+      "softBytes": 494592,
+      "hardBytes": 765440
+    },
+    {
+      "sourceFile": "NSrank_KXMaiye.webp",
+      "outputFile": "NSrank_KXMaiye-c8929bf3.webp",
+      "action": "preserved",
+      "role": "gallery",
+      "contentClass": "detailed",
+      "sourceFormat": "webp",
+      "sourceSize": 211030,
+      "outputSize": 211030,
+      "sourceDimensions": {
+        "width": 1920,
+        "height": 1080
+      },
+      "outputDimensions": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": null,
+      "softBytes": 494592,
+      "hardBytes": 765440
+    },
+    {
+      "sourceFile": "NSrank_Motherland.webp",
+      "outputFile": "NSrank_Motherland-acc1e0a4.webp",
+      "action": "preserved",
+      "role": "gallery",
+      "contentClass": "detailed",
+      "sourceFormat": "webp",
+      "sourceSize": 92414,
+      "outputSize": 92414,
+      "sourceDimensions": {
+        "width": 1920,
+        "height": 1080
+      },
+      "outputDimensions": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": null,
+      "softBytes": 494592,
+      "hardBytes": 765440
+    },
+    {
+      "sourceFile": "NSrank_SmileTwins.webp",
+      "outputFile": "NSrank_SmileTwins-e2af0286.webp",
+      "action": "optimized",
+      "role": "archive",
+      "contentClass": "detailed",
+      "sourceFormat": "webp",
+      "sourceSize": 267202,
+      "outputSize": 157316,
+      "sourceDimensions": {
+        "width": 2560,
+        "height": 1369
+      },
+      "outputDimensions": {
+        "width": 1600,
+        "height": 856
+      },
+      "quality": 90,
+      "softBytes": 353280,
+      "hardBytes": 565248
+    },
+    {
+      "sourceFile": "NSrank_THYzhongqiu.webp",
+      "outputFile": "NSrank_THYzhongqiu-769c37f5.webp",
+      "action": "preserved",
+      "role": "gallery",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 174768,
+      "outputSize": 174768,
+      "sourceDimensions": {
+        "width": 1920,
+        "height": 1017
+      },
+      "outputDimensions": {
+        "width": 1920,
+        "height": 1017
+      },
+      "quality": null,
+      "softBytes": 430080,
+      "hardBytes": 665600
+    },
+    {
+      "sourceFile": "sttot_8old2020.3.webp",
+      "outputFile": "sttot_8old2020.3-8761c70c.webp",
+      "action": "optimized",
+      "role": "gallery",
+      "contentClass": "detailed",
+      "sourceFormat": "webp",
+      "sourceSize": 311444,
+      "outputSize": 275226,
+      "sourceDimensions": {
+        "width": 3360,
+        "height": 1899
+      },
+      "outputDimensions": {
+        "width": 1920,
+        "height": 1085
+      },
+      "quality": 90,
+      "softBytes": 494592,
+      "hardBytes": 765440
+    },
+    {
+      "sourceFile": "sttot_hmclbg2020.webp",
+      "outputFile": "sttot_hmclbg2020-f52c661a.webp",
+      "action": "preserved",
+      "role": "gallery",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 16290,
+      "outputSize": 16290,
+      "sourceDimensions": {
+        "width": 1024,
+        "height": 440
+      },
+      "outputDimensions": {
+        "width": 1024,
+        "height": 440
+      },
+      "quality": null,
+      "softBytes": 430080,
+      "hardBytes": 665600
+    },
+    {
+      "sourceFile": "sttot_hy2020.4.webp",
+      "outputFile": "sttot_hy2020.4-da6003d3.webp",
+      "action": "preserved",
+      "role": "gallery",
+      "contentClass": "detailed",
+      "sourceFormat": "webp",
+      "sourceSize": 178828,
+      "outputSize": 178828,
+      "sourceDimensions": {
+        "width": 1920,
+        "height": 1080
+      },
+      "outputDimensions": {
+        "width": 1920,
+        "height": 1080
+      },
+      "quality": null,
+      "softBytes": 494592,
+      "hardBytes": 765440
+    },
+    {
+      "sourceFile": "sttot_newyear2022.webp",
+      "outputFile": "sttot_newyear2022-f292a764.webp",
+      "action": "preserved",
+      "role": "gallery",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 85040,
+      "outputSize": 85040,
+      "sourceDimensions": {
+        "width": 1920,
+        "height": 1027
+      },
+      "outputDimensions": {
+        "width": 1920,
+        "height": 1027
+      },
+      "quality": null,
+      "softBytes": 430080,
+      "hardBytes": 665600
+    },
+    {
+      "sourceFile": "sttot_shelter2020.webp",
+      "outputFile": "sttot_shelter2020-e9e1c314.webp",
+      "action": "preserved",
+      "role": "gallery",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 51782,
+      "outputSize": 51782,
+      "sourceDimensions": {
+        "width": 1024,
+        "height": 542
+      },
+      "outputDimensions": {
+        "width": 1024,
+        "height": 542
+      },
+      "quality": null,
+      "softBytes": 430080,
+      "hardBytes": 665600
+    },
+    {
+      "sourceFile": "stwuzhou_2000day.webp",
+      "outputFile": "stwuzhou_2000day-a9bd07db.webp",
+      "action": "optimized",
+      "role": "gallery",
+      "contentClass": "detailed",
+      "sourceFormat": "png",
+      "sourceSize": 956005,
+      "outputSize": 279688,
+      "sourceDimensions": {
+        "width": 2048,
+        "height": 1080
+      },
+      "outputDimensions": {
+        "width": 1920,
+        "height": 1013
+      },
+      "quality": 90,
+      "softBytes": 494592,
+      "hardBytes": 765440
+    },
+    {
+      "sourceFile": "stwuzhou_anniv1.webp",
+      "outputFile": "stwuzhou_anniv1-90eab9ef.webp",
+      "action": "optimized",
+      "role": "gallery",
+      "contentClass": "detailed",
+      "sourceFormat": "png",
+      "sourceSize": 192765,
+      "outputSize": 45260,
+      "sourceDimensions": {
+        "width": 395,
+        "height": 321
+      },
+      "outputDimensions": {
+        "width": 395,
+        "height": 321
+      },
+      "quality": 90,
+      "softBytes": 494592,
+      "hardBytes": 765440
+    },
+    {
+      "sourceFile": "stwuzhou_anniv3.webp",
+      "outputFile": "stwuzhou_anniv3-b4f0b988.webp",
+      "action": "optimized",
+      "role": "gallery",
+      "contentClass": "detailed",
+      "sourceFormat": "png",
+      "sourceSize": 563168,
+      "outputSize": 271628,
+      "sourceDimensions": {
+        "width": 1305,
+        "height": 718
+      },
+      "outputDimensions": {
+        "width": 1305,
+        "height": 718
+      },
+      "quality": 90,
+      "softBytes": 494592,
+      "hardBytes": 765440
+    },
+    {
+      "sourceFile": "stwuzhou_anniv4.webp",
+      "outputFile": "stwuzhou_anniv4-8f154481.webp",
+      "action": "optimized",
+      "role": "gallery",
+      "contentClass": "detailed",
+      "sourceFormat": "png",
+      "sourceSize": 865111,
+      "outputSize": 153594,
+      "sourceDimensions": {
+        "width": 988,
+        "height": 562
+      },
+      "outputDimensions": {
+        "width": 988,
+        "height": 562
+      },
+      "quality": 90,
+      "softBytes": 494592,
+      "hardBytes": 765440
+    },
+    {
+      "sourceFile": "stwuzhou_jiangqiu.webp",
+      "outputFile": "stwuzhou_jiangqiu-36e9ee95.webp",
+      "action": "optimized",
+      "role": "gallery",
+      "contentClass": "graphic",
+      "sourceFormat": "png",
+      "sourceSize": 809771,
+      "outputSize": 470622,
+      "sourceDimensions": {
+        "width": 960,
+        "height": 556
+      },
+      "outputDimensions": {
+        "width": 960,
+        "height": 556
+      },
+      "quality": 92,
+      "softBytes": 537600,
+      "hardBytes": 832000
+    },
+    {
+      "sourceFile": "stwuzhou_kayshaspring.webp",
+      "outputFile": "stwuzhou_kayshaspring-9595ebe4.webp",
+      "action": "optimized",
+      "role": "gallery",
+      "contentClass": "standard",
+      "sourceFormat": "png",
+      "sourceSize": 951253,
+      "outputSize": 178986,
+      "sourceDimensions": {
+        "width": 960,
+        "height": 556
+      },
+      "outputDimensions": {
+        "width": 960,
+        "height": 556
+      },
+      "quality": 88,
+      "softBytes": 430080,
+      "hardBytes": 665600
+    },
+    {
+      "sourceFile": "stwuzhou_lfc.webp",
+      "outputFile": "stwuzhou_lfc-864ff70c.webp",
+      "action": "optimized",
+      "role": "gallery",
+      "contentClass": "standard",
+      "sourceFormat": "png",
+      "sourceSize": 571631,
+      "outputSize": 80026,
+      "sourceDimensions": {
+        "width": 960,
+        "height": 556
+      },
+      "outputDimensions": {
+        "width": 960,
+        "height": 556
+      },
+      "quality": 88,
+      "softBytes": 430080,
+      "hardBytes": 665600
+    },
+    {
+      "sourceFile": "stwuzhou_newyear2025.webp",
+      "outputFile": "stwuzhou_newyear2025-78b40d84.webp",
+      "action": "optimized",
+      "role": "gallery",
+      "contentClass": "standard",
+      "sourceFormat": "png",
+      "sourceSize": 528964,
+      "outputSize": 88500,
+      "sourceDimensions": {
+        "width": 1024,
+        "height": 540
+      },
+      "outputDimensions": {
+        "width": 1024,
+        "height": 540
+      },
+      "quality": 88,
+      "softBytes": 430080,
+      "hardBytes": 665600
+    },
+    {
+      "sourceFile": "zh_mc_xsyhzy2025.webp",
+      "outputFile": "zh_mc_xsyhzy2025-0942a9b8.webp",
+      "action": "preserved",
+      "role": "archive",
+      "contentClass": "standard",
+      "sourceFormat": "webp",
+      "sourceSize": 109314,
+      "outputSize": 109314,
+      "sourceDimensions": {
+        "width": 1920,
+        "height": 991
+      },
+      "outputDimensions": {
+        "width": 1920,
+        "height": 991
+      },
+      "quality": null,
+      "softBytes": 307200,
+      "hardBytes": 491520
+    },
+    {
+      "sourceFile": "zh_mc_zq2025.webp",
+      "outputFile": "zh_mc_zq2025-1110e444.webp",
+      "action": "preserved",
+      "role": "gallery",
+      "contentClass": "detailed",
+      "sourceFormat": "webp",
+      "sourceSize": 202752,
+      "outputSize": 202752,
+      "sourceDimensions": {
+        "width": 1920,
+        "height": 991
+      },
+      "outputDimensions": {
+        "width": 1920,
+        "height": 991
+      },
+      "quality": null,
+      "softBytes": 494592,
+      "hardBytes": 765440
+    }
+  ]
+}

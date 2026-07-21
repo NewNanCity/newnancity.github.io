@@ -1,0 +1,846 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="牛腩小镇 0 至 7 星城镇评级标准、升星条件与城镇特权。">
+  <link rel="canonical" href="https://newnan.city/towns/town-rate.html">
+  <title>牛腩小镇 · 城镇评级</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #202a2c;
+      --ink-soft: #536062;
+      --paper: #f3f1eb;
+      --surface: #fffefb;
+      --line: #cfd2cc;
+      --line-strong: #9ca5a2;
+      --accent: #9f4e18;
+      --focus: #2f7e8c;
+      font-family: "Noto Sans SC", "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+      font-synthesis: none;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    button,
+    a {
+      font: inherit;
+    }
+
+    button:focus-visible,
+    a:focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 3px;
+    }
+
+    .skip-link {
+      position: fixed;
+      top: 8px;
+      left: 8px;
+      z-index: 100;
+      padding: 8px 12px;
+      background: var(--surface);
+      color: var(--ink);
+      transform: translateY(-160%);
+    }
+
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+
+    .page-header {
+      position: relative;
+      overflow: hidden;
+      background: var(--ink);
+      color: #f7f6f1;
+      border-bottom: 8px solid var(--accent);
+    }
+
+    .page-header::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 88px;
+      height: 88px;
+      background: #2f7e8c;
+      box-shadow: -88px 0 0 #d1a93b, 0 -88px 0 #793f6b;
+      opacity: 0.82;
+    }
+
+    .header-inner,
+    .page-layout {
+      width: min(1240px, calc(100% - 48px));
+      margin: 0 auto;
+    }
+
+    .header-inner {
+      position: relative;
+      z-index: 1;
+      padding: 58px 0 48px;
+    }
+
+    .kicker,
+    .revision,
+    .section-kicker,
+    .tier-section h3,
+    .nav-title {
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .kicker {
+      margin: 0;
+      color: #e3aa72;
+    }
+
+    h1 {
+      max-width: 780px;
+      margin: 10px 0 0;
+      font-size: 46px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .revision {
+      margin: 12px 0 0;
+      color: #b8c8c7;
+    }
+
+    .intro {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 38px;
+      max-width: 1020px;
+      margin-top: 38px;
+    }
+
+    .intro-block {
+      padding-left: 18px;
+      border-left: 3px solid #677677;
+    }
+
+    .intro-block:first-child {
+      border-left-color: #d1a93b;
+    }
+
+    .intro h2 {
+      margin: 0 0 8px;
+      color: #f3bd86;
+      font-size: 14px;
+    }
+
+    .intro p {
+      margin: 0;
+      color: #d2d8d5;
+      font-size: 13px;
+    }
+
+    .intro strong {
+      color: #ffffff;
+    }
+
+    .page-layout {
+      display: grid;
+      grid-template-columns: 210px minmax(0, 1fr);
+      gap: 30px;
+      align-items: start;
+      padding: 42px 0 72px;
+    }
+
+    .tier-aside {
+      position: sticky;
+      top: 20px;
+    }
+
+    .nav-title {
+      margin: 0 0 10px;
+      color: var(--ink-soft);
+    }
+
+    .tier-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .tier-nav button {
+      min-height: 44px;
+      display: grid;
+      grid-template-columns: 38px minmax(0, 1fr);
+      align-items: center;
+      width: 100%;
+      padding: 6px 10px;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      background: transparent;
+      color: var(--ink-soft);
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .tier-nav button:hover {
+      background: #e5e5de;
+      color: var(--ink);
+    }
+
+    .tier-nav button[aria-current="true"] {
+      border-color: var(--line-strong);
+      background: var(--surface);
+      color: var(--ink);
+      box-shadow: inset 4px 0 0 var(--nav-color);
+    }
+
+    .nav-star {
+      color: var(--nav-color);
+      font-family: Georgia, serif;
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .nav-name {
+      overflow: hidden;
+      font-size: 12px;
+      font-weight: 700;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .rate-column {
+      min-width: 0;
+    }
+
+    .list-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 2px solid var(--ink);
+    }
+
+    .section-kicker {
+      margin: 0;
+      color: var(--accent);
+    }
+
+    .list-heading h2 {
+      margin: 4px 0 0;
+      font-size: 27px;
+      line-height: 1.3;
+    }
+
+    .level-range {
+      margin: 0;
+      color: var(--ink-soft);
+      font-family: Georgia, serif;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .tier-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .tier-card {
+      --tier-color: #737b7d;
+      scroll-margin-top: 20px;
+      overflow: hidden;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-left: 6px solid var(--tier-color);
+      border-radius: 6px;
+    }
+
+    .tier0 { --tier-color: #666e70; }
+    .tier1 { --tier-color: #8b624a; }
+    .tier2 { --tier-color: #3f734d; }
+    .tier3 { --tier-color: #347b96; }
+    .tier4 { --tier-color: #793f6b; }
+    .tier5 { --tier-color: #bd4a45; }
+    .tier6 { --tier-color: #9f4e18; }
+    .tier7 { --tier-color: #825f08; }
+
+    .tier-head {
+      display: grid;
+      grid-template-columns: 94px minmax(0, 1fr);
+      align-items: center;
+      min-height: 84px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .tier-rank {
+      align-self: stretch;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      background: var(--tier-color);
+      color: #ffffff;
+    }
+
+    .tier-rank strong {
+      font-family: Georgia, serif;
+      font-size: 30px;
+      line-height: 1;
+    }
+
+    .tier-rank span {
+      margin-top: 3px;
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .tier-name {
+      padding: 15px 22px;
+    }
+
+    .tier-name p {
+      margin: 0;
+      color: var(--tier-color);
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .tier-name h2 {
+      margin: 2px 0 0;
+      font-size: 24px;
+      line-height: 1.3;
+      overflow-wrap: anywhere;
+    }
+
+    .tier-sections {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr 1fr;
+    }
+
+    .tier-section {
+      min-width: 0;
+      padding: 22px;
+      border-right: 1px solid var(--line);
+    }
+
+    .tier-section:last-child {
+      border-right: 0;
+    }
+
+    .tier-section h3 {
+      margin: 0 0 11px;
+      padding-bottom: 7px;
+      border-bottom: 2px solid #e8e4da;
+      color: var(--tier-color);
+    }
+
+    .tier-section ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .tier-section li {
+      margin: 0 0 7px;
+      color: #3e4a4b;
+      font-size: 13px;
+    }
+
+    .tier-section li:last-child {
+      margin-bottom: 0;
+    }
+
+    .empty {
+      margin: 0;
+      color: #7f8888;
+      font-size: 13px;
+    }
+
+    .tier-summary {
+      margin: 0;
+      padding: 10px 22px;
+      background: #eceae3;
+      border-top: 1px solid var(--line);
+      color: var(--ink-soft);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .notes {
+      margin-top: 28px;
+      padding: 22px 24px;
+      background: #e5e0d3;
+      border: 1px solid #ccc5b5;
+      border-left: 6px solid var(--accent);
+      border-radius: 4px;
+    }
+
+    .notes h2 {
+      margin: 0 0 8px;
+      font-size: 16px;
+    }
+
+    .notes ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .notes li {
+      margin-top: 4px;
+      color: var(--ink-soft);
+      font-size: 13px;
+    }
+
+    .page-footer {
+      padding: 26px 24px;
+      background: var(--ink);
+      color: #aeb9b8;
+      font-size: 11px;
+      text-align: center;
+    }
+
+    @media (max-width: 980px) {
+      .tier-sections {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .tier-section:first-child {
+        grid-column: 1 / -1;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+    }
+
+    @media (max-width: 780px) {
+      .header-inner,
+      .page-layout {
+        width: min(100% - 32px, 1240px);
+      }
+
+      .header-inner {
+        padding: 44px 0 38px;
+      }
+
+      h1 {
+        font-size: 34px;
+      }
+
+      .intro {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        margin-top: 30px;
+      }
+
+      .page-layout {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 20px;
+        padding-top: 0;
+      }
+
+      .tier-aside {
+        position: sticky;
+        top: 0;
+        z-index: 30;
+        width: auto;
+        margin-left: -16px;
+        margin-right: -16px;
+        padding: 10px 16px;
+        background: var(--paper);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .nav-title {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+      }
+
+      .tier-nav {
+        min-width: 0;
+        width: 100%;
+        flex-direction: row;
+        gap: 5px;
+        overflow-x: auto;
+        scrollbar-width: thin;
+      }
+
+      .tier-nav button {
+        min-width: 54px;
+        width: 54px;
+        grid-template-columns: 1fr;
+        padding: 4px;
+        text-align: center;
+      }
+
+      .tier-nav button[aria-current="true"] {
+        box-shadow: inset 0 -4px 0 var(--nav-color);
+      }
+
+      .nav-name {
+        display: none;
+      }
+
+      .tier-card {
+        scroll-margin-top: 80px;
+      }
+
+      .page-header::after {
+        width: 56px;
+        height: 56px;
+        box-shadow: -56px 0 0 #d1a93b, 0 -56px 0 #793f6b;
+      }
+    }
+
+    @media (max-width: 580px) {
+      .list-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .list-heading h2 {
+        font-size: 24px;
+      }
+
+      .tier-head {
+        grid-template-columns: 74px minmax(0, 1fr);
+        min-height: 76px;
+      }
+
+      .tier-rank strong {
+        font-size: 25px;
+      }
+
+      .tier-name {
+        padding: 12px 16px;
+      }
+
+      .tier-name h2 {
+        font-size: 20px;
+      }
+
+      .tier-sections {
+        grid-template-columns: 1fr;
+      }
+
+      .tier-section,
+      .tier-section:first-child {
+        grid-column: auto;
+        padding: 18px;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .tier-section:last-child {
+        border-bottom: 0;
+      }
+
+      .tier-summary {
+        padding: 10px 18px;
+      }
+    }
+
+    @media print {
+      .tier-aside,
+      .page-footer {
+        display: none;
+      }
+
+      .page-layout {
+        display: block;
+        width: 100%;
+      }
+
+      .tier-card {
+        break-inside: avoid;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到等级标准</a>
+
+  <header class="page-header">
+    <div class="header-inner">
+      <p class="kicker">NewNan City / Town Standard</p>
+      <h1>牛腩小镇 · 城镇评级</h1>
+      <p class="revision">2026.2 修订 · 0–7 星等级与权益对照</p>
+
+      <div class="intro">
+        <section class="intro-block" aria-labelledby="about-title">
+          <h2 id="about-title">评级依据</h2>
+          <p>城镇等级制度是基于玩家群体在“牛腩小镇”的建设贡献，由管理组（包含 OP、镇长及资深认可玩家组成的最高委员会）进行的综合评定。评级旨在鼓励原创与美学，核心维度包括：<strong>建筑原创性、美观度、城镇规划、布局缜密性及资源产出</strong>。</p>
+        </section>
+        <section class="intro-block" aria-labelledby="review-title">
+          <h2 id="review-title">审核机制</h2>
+          <p><strong>公平性：</strong>评级采用管理组全员独立评分制，结合“哈哈版”评分计算表进行最终推导，确保结果客观公平。<strong>独立性：</strong>建筑法与城镇法互不隶属，管理组在处理建筑事务时，严禁将个人主观感观带入城镇等级评定。</p>
+        </section>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-layout" id="main">
+    <aside class="tier-aside">
+      <p class="nav-title" id="tier-nav-title">等级索引</p>
+      <nav class="tier-nav" id="tierNav" aria-labelledby="tier-nav-title"></nav>
+    </aside>
+
+    <div class="rate-column">
+      <header class="list-heading">
+        <div>
+          <p class="section-kicker">评级标准</p>
+          <h2>等级标准与对应权益</h2>
+        </div>
+        <p class="level-range">LEVEL 0 → LEVEL 7</p>
+      </header>
+
+      <section class="tier-list" id="tierList" aria-label="城镇评级等级列表"></section>
+
+      <section class="notes" aria-labelledby="notes-title">
+        <h2 id="notes-title">补充说明</h2>
+        <ul>
+          <li>不以工业为判断原则，避免大家产生工业竞赛</li>
+          <li>考虑到部分人员会社恐，但也有不错的能力，因此举办活动可以视为加分项而不是主动项</li>
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <footer class="page-footer">NewNan City · 城镇评级制度</footer>
+
+  <script>
+    const tiers = [
+      {
+        star: 0, name: "聚落", tierClass: "tier0",
+        desc: ["在大群，游戏公屏等渠道内发起聚落声明", "拥有一定规模的建筑群（只要不是单个建筑就行应该）"],
+        conditions: [], privileges: []
+      },
+      {
+        star: 1, name: "微型城镇", tierClass: "tier1",
+        desc: ["刚从聚落升级上的城镇", "有自己的仓库", "市政厅", "简单的城市道路网", "配合几个合适的建筑", "有简单的建筑规划"],
+        conditions: ["有1~3个活跃玩家，扩大规模的建筑，有长期规划，同时保证用多少地开多少地，不大规模平地且弃之不用。"],
+        privileges: ["城镇前缀，官网添加城镇", "刷怪区", "+1 城镇自制特殊物品"]
+      },
+      {
+        star: 2, name: "小镇", tierClass: "tier2",
+        desc: ["逐渐成规模的城镇单位", "有较大的建筑群以及配合的交通网", "已有建筑可结合地形进行建设", "加分项（可获得基金会建筑补贴以及快速升星）：在建筑上面减少非原创建筑的使用，可以自主设计建筑", "有完善的发展规划。"],
+        conditions: ["至少有1~3个活跃玩家，完善城镇的烂尾楼建筑，不美观区域。", "并且有足够的自给自足能力（指可以不通过基金会拨款），城镇旗帜。有自己的城镇法则"],
+        privileges: ["+1 空置域（空置域无特殊情况最大12x12区块，有需求请申请）", "可在主城开设大型商店/银行/，可建造大使馆"]
+      },
+      {
+        star: 3, name: "中型城镇", tierClass: "tier3",
+        desc: ["到此应该已经是一个在单独区域比较完善的城镇了，同时也是继续发展的分界线。", "有够大的城镇仓库并且有一定的仓储（建筑方块，材料等）", "城镇应在单独一个区域规划内完成完整建设", "保持整体风格和谐统一。", "加分项（可获得基金会建筑补贴以及快速升星）：城镇内自主建设的建筑多于非原创建筑。"],
+        conditions: ["至少有1~3个活跃玩家，发展新的建筑集群（举例：我建设了一个海滨城市，在这以后又准备去创建一个雪地城市建筑群。当然，也可以继续完善当前建筑群）。", "与其他城镇达成良好的外交关系（我们认为继续发展为大型城镇，将不可避免的与其他城镇产生接触，因此需要城镇负责人妥善处理这一块）。", "拥有继续发展的城镇规划图&文件。"],
+        privileges: ["+5 系统商店收购箱，+5 系统商店出售箱", "牛腩建筑基金会绿色审批通道（大型建筑群规划更容易通过）", "+1 空置域（空置域无特殊情况最大12x12区块，有需求请申请）", "+1 特殊物品制作"]
+      },
+      {
+        star: 4, name: "大型城镇·一阶段", tierClass: "tier4",
+        desc: ["拥有不少于一个完善以及一个相对完善的城镇建筑群（可自主分区）", "或者是一个大型&小型但极度美观的建筑群", "拥有独立自主设计建筑的能力/拥有将建筑群整合到和谐自然的能力", "拥有完善的仓储以及对应的后勤人员", "与其他城镇保持友好关系", "拥有完整的镇内道路，保障玩家自主寻路。"],
+        conditions: ["至少有1~3个活跃玩家，保持两个建筑群美观，规模，完成度。", "城镇资金充足，新人初入城镇的装备/材料保障。", "有独立自主设计建筑群的能力，完善旧的烂尾楼，不美观区域等。"],
+        privileges: ["+5 系统商店收购箱，+5 系统商店出售箱，+2 系统商店兑换村民", "轮换主城传送门", "城镇实际负责人可以参与管理组事务（并不是管理员，但是可以参与讨论以及作为管理候选，由实际人自主抉择）", "+1 空置域（空置域无特殊情况最大12x12区块，有需求请申请）"]
+      },
+      {
+        star: 5, name: "大型城镇·完全体", tierClass: "tier5",
+        desc: ["拥有两个完善的建筑群 or 一个大型 or 一个极度美观的小型建筑群", "拥有独立自主设计建筑群的能力", "拥有丰富的城镇资产", "拥有完整的后期团队/人员", "完善的城市道路网", "完善的城镇细节美化"],
+        conditions: ["至少有1~3个活跃玩家，牛腩是建筑服务器，因此最终目标还是建筑。", "继续发展新的建筑规划，提交管理组审核查看。有一个在建且相对完善的建筑群or继续扩大本建筑群。", "处理镇内各处不美观设施，完善道路交通网（如果城镇地块不够，且无法扩张，可以向管理组申请新的区域进行建造。）"],
+        privileges: ["+5 系统商店收购箱，+5 系统商店出售箱，+2 系统商店兑换村民", "主城传送门", "基金会定期拨款"]
+      },
+      {
+        star: 6, name: "特大城镇", tierClass: "tier6",
+        desc: ["天下无敌城镇，非常牛逼。", "城镇的一半以上建筑为原创且具备一定的美学水准，参考现实相关建筑的结构、比例创作，建筑师要能够灵活运用建筑手法建造完善且美观的结构（如中式建筑的斗拱、飞檐，欧式建筑的拱券结构等）；", "有基本的城乡规划意识，划分居住区、仓储区、观景区等分区。规划简明，自成系统。"],
+        conditions: ["至少有1~3个活跃玩家，至少三个建筑群 or 完善的大型建筑群，足够美观的中型建筑群。", "完整的建筑规划图。", "城镇内部的成员培训。"],
+        privileges: ["+5 系统商店收购箱，+5 系统商店出售箱，+2 系统商店兑换村民", "6星城镇按成员活跃程度，采用打卡制记录活跃时间，每星期从牛腩基金会领取建筑津贴", "+1 特殊物品制作"]
+      },
+      {
+        star: 7, name: "超级城镇", tierClass: "tier7",
+        desc: ["天外来敌城镇，牛得没边了。", "城镇的绝大多数建筑为原创且具备较高的美学水准。结构完备不繁杂，手法精妙，建筑、道路、河流、湖泊、树木等细节打磨上能到达到生存模式条件下的最高水平；", "城乡规划水平极高，各种建筑元素安排合理，逻辑自洽，有一定趣味性，适当安排小彩蛋、小巧思，让玩家能逛又能玩。", "完善的超大型建筑群", "完善的一切"],
+        conditions: [],
+        privileges: ["直接系统和村民商店搬你家", "7星城镇直接获得牛腩基金会账户的使用权，但不得滥用权利，随意丢弃、挥霍基金会物资", "仍然采用打卡制，活跃度达不到要求的权限会被暂时收回"]
+      }
+    ];
+
+    const tierColors = ["#666e70", "#8b624a", "#3f734d", "#347b96", "#793f6b", "#bd4a45", "#9f4e18", "#825f08"];
+    const tierList = document.getElementById("tierList");
+    const tierNav = document.getElementById("tierNav");
+
+    function createSection(title, values, emptyText) {
+      const section = document.createElement("section");
+      section.className = "tier-section";
+
+      const heading = document.createElement("h3");
+      heading.textContent = title;
+      section.appendChild(heading);
+
+      if (values.length === 0) {
+        const empty = document.createElement("p");
+        empty.className = "empty";
+        empty.textContent = emptyText;
+        section.appendChild(empty);
+        return section;
+      }
+
+      const list = document.createElement("ul");
+      values.forEach(function (value) {
+        const item = document.createElement("li");
+        item.textContent = value;
+        list.appendChild(item);
+      });
+      section.appendChild(list);
+      return section;
+    }
+
+    function cumulativeSummary(index) {
+      let totalAcquire = 0;
+      let totalSell = 0;
+      let totalVillager = 0;
+      let totalVoid = 0;
+      let totalSpecial = 0;
+
+      for (let tierIndex = 0; tierIndex <= index; tierIndex += 1) {
+        tiers[tierIndex].privileges.forEach(function (privilege) {
+          const acquire = privilege.match(/\+(\d+)\s*系统商店收购箱/);
+          const sell = privilege.match(/\+(\d+)\s*系统商店出售箱/);
+          const villager = privilege.match(/\+(\d+)\s*系统商店兑换村民/);
+          const voidDomain = privilege.match(/\+(\d+)\s*空置域/);
+          const special = privilege.match(/\+(\d+)\s*(?:城镇自制特殊物品|特殊物品制作)/);
+          if (acquire) totalAcquire += Number.parseInt(acquire[1], 10);
+          if (sell) totalSell += Number.parseInt(sell[1], 10);
+          if (villager) totalVillager += Number.parseInt(villager[1], 10);
+          if (voidDomain) totalVoid += Number.parseInt(voidDomain[1], 10);
+          if (special) totalSpecial += Number.parseInt(special[1], 10);
+        });
+      }
+
+      const parts = [];
+      if (totalAcquire > 0) parts.push(totalAcquire + " 收购箱");
+      if (totalSell > 0) parts.push(totalSell + " 出售箱");
+      if (totalVillager > 0) parts.push(totalVillager + " 兑换村民");
+      if (totalVoid > 0) parts.push(totalVoid + " 空置域");
+      if (totalSpecial > 0) parts.push(totalSpecial + " 特殊物品");
+      return parts.join(" / ");
+    }
+
+    function renderTier(tier, index) {
+      const article = document.createElement("article");
+      article.className = "tier-card " + tier.tierClass;
+      article.id = "tier-" + index;
+
+      const header = document.createElement("header");
+      header.className = "tier-head";
+
+      const rank = document.createElement("div");
+      rank.className = "tier-rank";
+      const rankNumber = document.createElement("strong");
+      rankNumber.textContent = String(tier.star);
+      const rankLabel = document.createElement("span");
+      rankLabel.textContent = tier.star === 0 ? "聚落" : "星等级";
+      rank.append(rankNumber, rankLabel);
+
+      const name = document.createElement("div");
+      name.className = "tier-name";
+      const level = document.createElement("p");
+      level.textContent = "LEVEL " + tier.star;
+      const heading = document.createElement("h2");
+      heading.textContent = tier.name;
+      name.append(level, heading);
+      header.append(rank, name);
+
+      const sections = document.createElement("div");
+      sections.className = "tier-sections";
+      sections.append(
+        createSection("说明", tier.desc, "暂无说明"),
+        createSection("升星条件", tier.conditions, tier.star === 7 ? "已达最高等级" : "此为入门等级，无升星条件"),
+        createSection("特权", tier.privileges, "暂无特权")
+      );
+
+      article.append(header, sections);
+      const summary = cumulativeSummary(index);
+      if (summary) {
+        const footer = document.createElement("p");
+        footer.className = "tier-summary";
+        footer.textContent = "累计：" + summary;
+        article.appendChild(footer);
+      }
+      tierList.appendChild(article);
+    }
+
+    function setActiveTier(index) {
+      tierNav.querySelectorAll("button").forEach(function (button, buttonIndex) {
+        button.setAttribute("aria-current", buttonIndex === index ? "true" : "false");
+      });
+    }
+
+    function renderNav(tier, index) {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.style.setProperty("--nav-color", tierColors[index]);
+      button.setAttribute("aria-controls", "tier-" + index);
+      button.setAttribute("aria-label", tier.star + " 星 " + tier.name);
+      button.setAttribute("aria-current", index === 0 ? "true" : "false");
+
+      const star = document.createElement("span");
+      star.className = "nav-star";
+      star.textContent = String(tier.star) + "★";
+      const name = document.createElement("span");
+      name.className = "nav-name";
+      name.textContent = tier.name;
+      button.append(star, name);
+
+      button.addEventListener("click", function () {
+        document.getElementById("tier-" + index).scrollIntoView({ block: "start", behavior: "smooth" });
+        setActiveTier(index);
+      });
+      tierNav.appendChild(button);
+    }
+
+    tiers.forEach(function (tier, index) {
+      renderNav(tier, index);
+      renderTier(tier, index);
+    });
+
+    let activeFrame = 0;
+
+    function syncActiveTier() {
+      const anchor = window.innerWidth <= 780 ? 100 : 160;
+      let activeIndex = 0;
+      tierList.querySelectorAll(".tier-card").forEach(function (card, index) {
+        if (card.getBoundingClientRect().top <= anchor) activeIndex = index;
+      });
+      setActiveTier(activeIndex);
+      activeFrame = 0;
+    }
+
+    function scheduleActiveTierSync() {
+      if (activeFrame) window.cancelAnimationFrame(activeFrame);
+      activeFrame = window.requestAnimationFrame(syncActiveTier);
+    }
+
+    window.addEventListener("scroll", scheduleActiveTierSync, { passive: true });
+    window.addEventListener("resize", scheduleActiveTierSync);
+  </script>
+</body>
+</html>
