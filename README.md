@@ -38,7 +38,7 @@ docs/releases/unreleased/ 未发布变更事实源
 - `portal.feed` 是内容目录，`homeFeedIds` 只决定首页展示顺序；审核通过的城镇或玩家页面通过 `sourceRef` 接入，不允许任意同源脚本执行。
 - `public/pic/` 是只读源目录；优化图片、哈希文件名与改写后的 JSON 只生成到 `dist/`。
 - 图片按页面用途和内容复杂度分层，已合规的真实 WebP 才会原样保留；具体策略见 [图片管线](docs/image-pipeline.md)。
-- `towns/` 可以保留原图与旧模板作为源资料，但生产构建只发布 HTML 实际可达的依赖；缺失本地引用会直接让构建失败。
+- `towns/` 可以保留原图与旧模板作为源资料，但生产构建只发布 HTML 或 `site-data.json` 实际可达的依赖；任一事实源缺失本地引用都会直接让构建失败。
 - Minecraft 场景图保留 `image-rendering: pixelated`，这是视觉语言的一部分。
 - HTTP gzip 只压缩 HTML、CSS、JS、JSON 等文本响应，不替代 JPEG、PNG、WebP 的图片编码。
 

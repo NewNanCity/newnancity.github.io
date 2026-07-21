@@ -17,7 +17,7 @@
 ```text
 TypeScript 检查
   -> Vite 主站构建
-  -> 城镇站可达依赖发布
+  -> 城镇 HTML 与主站内容数据的可达依赖发布
   -> 主站图片分层优化与引用改写
   -> site-data.json 精简和 gzip 产物
 ```

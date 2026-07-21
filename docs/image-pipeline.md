@@ -54,12 +54,12 @@ Hero 和 Gallery 引用属于 `gallery`，其余图片属于 `archive`。
 
 `towns/` 中的页面由各站依据用途生成 WebP：场景图保留细节，角色或透明图采用更高质量或无损模式，小图在重编码无收益时保留 JPEG。
 
-源图和旧模板可以留在仓库用于追溯，但不会因此进入生产包。`scripts/copy-static-sites.js` 从所有 HTML 入口出发，递归收集本地 HTML、CSS、JavaScript、图片和字体引用：
+源图和旧模板可以留在仓库用于追溯，但不会因此进入生产包。`scripts/copy-static-sites.js` 同时把所有 HTML 入口和 `public/site-data.json` 中的 `/towns/` 路径作为发布根，递归收集本地 HTML、CSS、JavaScript、图片和字体引用。主站城镇名片所用图片即使不再出现在城镇正文中，也不会被误删：
 
 - 未引用的原图、Sass、模板 ZIP、旧字体与脚本不发布。
-- 任一本地页面或资产引用缺失、通过符号链接越界时构建失败。
+- HTML 或 `site-data.json` 的任一本地页面、资产引用缺失，或引用通过符号链接越界时构建失败。
 - 可达栅格图必须能解码，扩展名与真实格式一致，并满足内容类别对应的尺寸和硬预算。
-- HTML 内实际引用 WebP，不依赖 `<picture>` 的大体积源图回退来掩盖发布包膨胀。
+- HTML 优先直接引用 WebP；功能性图片采用无损 WebP，原始 PNG 只作仓库源图时不进入发布包。
 
 ## 验证
 

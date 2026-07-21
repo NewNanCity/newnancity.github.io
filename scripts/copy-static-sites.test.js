@@ -52,6 +52,59 @@ test('should publish only files reachable from town HTML entries', () => {
   }
 })
 
+test('should publish town assets referenced only by site data', () => {
+  const rootDir = makeRoot()
+
+  try {
+    write(rootDir, 'towns/sample/index.html', '<h1>Sample</h1>')
+    write(rootDir, 'towns/sample/images/portal.webp', 'portal-image')
+    write(
+      rootDir,
+      'public/site-data.json',
+      JSON.stringify({
+        portal: {
+          town: {
+            href: '/towns/sample/',
+            cover: '/towns/sample/images/portal.webp',
+          },
+        },
+      }),
+    )
+
+    const result = copyStaticSites(rootDir)
+
+    assert.equal(result.fileCount, 2)
+    assert.equal(
+      fs.existsSync(
+        path.join(rootDir, 'dist', 'towns', 'sample', 'images', 'portal.webp'),
+      ),
+      true,
+    )
+  } finally {
+    fs.rmSync(rootDir, { recursive: true, force: true })
+  }
+})
+
+test('should fail when site data references a missing town asset', () => {
+  const rootDir = makeRoot()
+
+  try {
+    write(rootDir, 'towns/sample/index.html', '<h1>Sample</h1>')
+    write(
+      rootDir,
+      'public/site-data.json',
+      JSON.stringify({ cover: '/towns/sample/images/missing.webp' }),
+    )
+
+    assert.throws(
+      () => copyStaticSites(rootDir),
+      /public\/site-data\.json -> \/towns\/sample\/images\/missing\.webp/,
+    )
+  } finally {
+    fs.rmSync(rootDir, { recursive: true, force: true })
+  }
+})
+
 test('should fail when a local page or asset reference is missing', () => {
   const rootDir = makeRoot()
 

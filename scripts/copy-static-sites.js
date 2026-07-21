@@ -123,7 +123,7 @@ function resolveReference(sourceRoot, fromFile, rawReference) {
   return resolved
 }
 
-export function collectStaticSiteFiles(sourceRoot) {
+export function collectStaticSiteFiles(sourceRoot, additionalEntries = []) {
   const entryFiles = []
   const pendingDirectories = [sourceRoot]
 
@@ -142,6 +142,25 @@ export function collectStaticSiteFiles(sourceRoot) {
   const files = new Set(entryFiles)
   const queue = [...entryFiles]
   const missing = []
+
+  for (const { from, reference } of additionalEntries) {
+    const referencedFile = resolveReference(
+      sourceRoot,
+      path.join(sourceRoot, from),
+      reference,
+    )
+    if (!referencedFile) continue
+
+    if (!fs.existsSync(referencedFile) || !fs.statSync(referencedFile).isFile()) {
+      missing.push({ from, reference })
+      continue
+    }
+
+    if (!files.has(referencedFile)) {
+      files.add(referencedFile)
+      queue.push(referencedFile)
+    }
+  }
 
   while (queue.length > 0) {
     const currentFile = queue.shift()
@@ -175,6 +194,48 @@ export function collectStaticSiteFiles(sourceRoot) {
   }
 
   return files
+}
+
+function collectTownReferences(value) {
+  const references = new Set()
+  const pending = [value]
+
+  while (pending.length > 0) {
+    const current = pending.pop()
+    if (typeof current === 'string') {
+      if (current.startsWith('/towns/')) references.add(current)
+      continue
+    }
+    if (Array.isArray(current)) {
+      pending.push(...current)
+      continue
+    }
+    if (current && typeof current === 'object') {
+      pending.push(...Object.values(current))
+    }
+  }
+
+  return [...references].map((reference) => ({
+    from: 'public/site-data.json',
+    reference,
+  }))
+}
+
+function getSiteDataTownEntries(rootDir) {
+  const siteDataPath = path.join(rootDir, 'public', 'site-data.json')
+  if (!fs.existsSync(siteDataPath)) return []
+
+  let siteData
+  try {
+    siteData = JSON.parse(fs.readFileSync(siteDataPath, 'utf8'))
+  } catch (error) {
+    throw new Error(
+      `无法解析主站内容数据 ${siteDataPath}: ` +
+        (error instanceof Error ? error.message : String(error)),
+    )
+  }
+
+  return collectTownReferences(siteData)
 }
 
 export async function validateStaticSiteImages(files) {
@@ -256,7 +317,7 @@ export function copyStaticSites(rootDir = defaultRootDir) {
     throw new Error(`城镇静态站目录不存在: ${source}`)
   }
 
-  const files = collectStaticSiteFiles(source)
+  const files = collectStaticSiteFiles(source, getSiteDataTownEntries(rootDir))
   assertSafeDestination(rootDir, destination)
   fs.rmSync(destination, { recursive: true, force: true })
 
