@@ -28,6 +28,7 @@ Node.js 22+，pnpm 10.4.1。完整构建顺序和线上核验见 `docs/CDN-DEPLO
 - 主站只从 `public/site-data.json` 取内容；保持字段向后兼容。
 - 图片按用途、复杂度、质量下限和软/硬预算处理；源文件只读，详见 `docs/image-pipeline.md`。
 - `towns/` 生产构建只复制 HTML 与 `site-data.json` 可达依赖；缺失本地引用直接失败。
+- 独立城镇站在各自目录 README 中记录内容事实源、图片策略、交互降级与验收方式。
 - Minecraft 场景保留 `image-rendering: pixelated`。
 - 地图在桌面与移动端都通过主站 `#/map` 内嵌 iframe；不修改外部地图服务。
 

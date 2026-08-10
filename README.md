@@ -55,6 +55,7 @@ docs/releases/unreleased/ 未发布变更事实源
 - `/towns/CharmingSpring/`：云梦泽
 - `/towns/Fctinue/`：未央
 - `/towns/kayshatown/`：凯夏镇
+- `/towns/moscow/`：莫斯科
 - `/towns/taohuayuan/`：桃花源
 - `/towns/tyansec/`：天元镇
 - `/towns/chenchun/`：晨春（页面筹备中）
