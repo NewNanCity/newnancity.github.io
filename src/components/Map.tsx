@@ -1,6 +1,6 @@
 import './Map.css';
 
-const MAP_URL = 'https://map1.newnan.city:10402';
+const MAP_URL = 'https://dynmap1.newnan.city:30443';
 
 export default function Map() {
   return (
